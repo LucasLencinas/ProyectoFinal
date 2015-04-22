@@ -18,6 +18,7 @@ public class Usuarios {
 	@GET 
   @Produces("application/json")
   public Response index(){
+		System.out.println("Me piden los usuarios");
 		Setup.setup();
 		String usuariosJson = new Gson().toJson(Setup.getUsuarios());
     return Response.ok(usuariosJson,MediaType.APPLICATION_JSON).build();
