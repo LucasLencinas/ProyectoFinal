@@ -3,14 +3,18 @@ function getMyUser(){
 	$.ajax({
         type: "GET",
         dataType: "json",
-        url: "truequeLibre/usuarios",
+        url: "rampas/usuarios",
         success: function (data) {
         	var items = "";
         	if(data[0] == null){
-        		$('#espacioNombreUsuario').html("Error!! No esta ese usuario");
+        		$('#espacioNombreUsuario').html("Error, no hay Usuarios");
         	}
         	else{
-        		$('#espacioNombreUsuario').html(data[0]);
+        		var usuarios="";
+	        	data.forEach( function(usuario){
+	        		usuarios += usuario.nombre + "<br/>";
+	        	});
+        		$('#espacioNombreUsuario').append(usuarios);
         	}
         }
     });
