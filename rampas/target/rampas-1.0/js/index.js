@@ -12,7 +12,7 @@ function getMyUser(){
         	else{
         		var usuarios="";
 	        	data.forEach( function(usuario){
-	        		usuarios += usuario.nombre + "<br/>";
+	        		usuarios += usuario.nombre + ", " + usuario.id + "<br/>";
 	        	});
         		$('#espacioNombreUsuario').append(usuarios);
         	}

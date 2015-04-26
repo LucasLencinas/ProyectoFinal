@@ -41,8 +41,18 @@
 		</dependency>
 
 		<dependency>
+ 			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-grizzly2-http</artifactId>
+ 		</dependency>
+ 		
+		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-client</artifactId>
 		</dependency>
 		
         <dependency>
@@ -85,6 +95,13 @@
 		  <artifactId>restfb</artifactId>
 		  <version>1.10.0</version>
 		</dependency>
+		
+		<dependency>
+	      <groupId>com.googlecode.objectify</groupId>
+	      <artifactId>objectify</artifactId>
+	      <version>5.0.3</version>
+	    </dependency>
+	    
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
