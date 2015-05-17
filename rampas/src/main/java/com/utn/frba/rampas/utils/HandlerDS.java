@@ -6,16 +6,24 @@ import java.util.ArrayList;
 
 import com.googlecode.objectify.NotFoundException;
 import com.utn.frba.rampas.domain.Usuario;
-
+import com.utn.frba.rampas.domain.Interseccion;
 
 public class HandlerDS {
 	
 	/*Falta hacer un chequeo de error por si no lo guarda*/
 	public static long guardarUsuario(Usuario usuario){
-		System.out.print("Guardar Usuario : " +usuario.toString());
+		System.out.print("Guardar Usuario: " + usuario.getNombre());
 		ofy().save().entity(usuario).now().getId();
-		System.out.println("  OK"); 	
+		System.out.println(" OK"); 	
 		return usuario.getId();
+	}
+	
+	/*Falta hacer un chequeo de error por si no lo guarda*/
+	public static long guardarInterseccion(Interseccion interseccion){
+		System.out.print("Guardar Interseccion: " + interseccion.getCalle1() + " y " + interseccion.getCalle2());
+		ofy().save().entity(interseccion).now().getId();
+		System.out.println(" OK"); 	
+		return interseccion.getId();
 	}
 	
 	public static ArrayList<Usuario> getUsuarios(){
@@ -24,7 +32,8 @@ public class HandlerDS {
 		try {
 			usuariosDS = ofy().load().type(Usuario.class).list();
 		} catch(NotFoundException ex){
-			System.out.println("Item no encontrado!!!!");
+			System.out.println("No hay ningun usuario cargado!");
+			/*System.out.println("Item no encontrado!!!!");*/
 		}
 		
 		for (Usuario usuario : usuariosDS) 
@@ -32,8 +41,22 @@ public class HandlerDS {
 		return usuariosResult;
 	}
 	
-/*Todo lo que esta aca abajo son ejemplos de lo que hice en TACS para guardar, obtener y modificar cosas en el DataStore*/	
+	public static ArrayList<Interseccion> getIntersecciones(){
+		ArrayList<Interseccion> interseccionesResult = new ArrayList<Interseccion>();
+		Iterable<Interseccion> interseccionesDS = new ArrayList<Interseccion>() ;
+		try {
+			interseccionesDS = ofy().load().type(Interseccion.class).list();
+		} catch(NotFoundException ex){
+			System.out.println("No hay ninguna interseccion cargada!");
+			/*System.out.println("Item no encontrado!!!!");*/
+		}
+		
+		for (Interseccion interseccion : interseccionesDS) 
+			interseccionesResult.add(interseccion);
+		return interseccionesResult;
+	}
 	
+/*Todo lo que esta aca abajo son ejemplos de lo que hice en TACS para guardar, obtener y modificar cosas en el DataStore*/	
 	
 /*	
 	public static ListaDeItems items(){
@@ -143,7 +166,7 @@ public class HandlerDS {
 	public static ListaDeTrueques findPendingTruequesByUser(Usuario usuario){
 	ListaDeTrueques truequesBuscados = new ListaDeTrueques();
 	Iterable<Trueque> trueques = ofy().load().type(Trueque.class);
-	//		Negrada para saber donde rompe. FIXME		//
+	//		Negrada para saber donde rompe
 	if(trueques == null){
 		int a = 5/0;
 	}
