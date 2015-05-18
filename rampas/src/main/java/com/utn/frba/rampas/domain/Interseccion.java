@@ -20,6 +20,8 @@ public class Interseccion implements Serializable {
 	@Expose private boolean buenEstado;
 	@Expose private boolean todosCrucesAccesibles;
 	
+	public Interseccion(){	} /*Es necesario este constructor para que funcione el GSON*/
+	
 	public long getId() {
 		return id;
 	}

@@ -17,7 +17,7 @@ public class Usuario implements Serializable {
 		setNombre(unNombre);		
 	}
 */
-//	public Usuario(){	} /*Es necesario este constructor para que funcione el GSON*/
+	public Usuario(){	} /*Es necesario este constructor para que funcione el GSON*/
 	
 	public Usuario(long unId, String unNombre) {
 		setNombre(unNombre);		
