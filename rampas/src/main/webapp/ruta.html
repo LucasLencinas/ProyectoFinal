@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Calcular Ruta</title>
+	<link rel="stylesheet" href="ruta.css">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+	<script src="ruta.js"></script>
+  </head>
+  
+  <body>
+	Desde: <input class="autocomplete" id="inputDesde" placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
+	</br>
+	Hasta: <input class="autocomplete" id="inputHasta" placeholder="Enter your address" onFocus="geolocate()" type="text"></input>	
+	<button onclick="calcularRutas()">Calcular Rutas</button> 
+	<div id="checkboxes"></div>
+    <div id="map-canvas"></div>
+  </body>
+  
+  <script>
+  window.onload = function() {
+  //calcularRutas();
+};
+  </script>
+</html>
