@@ -12,7 +12,7 @@ function getUsuarios(){
         	else{
         		var usuarios="";
 	        	data.forEach( function(usuario){
-	        		usuarios += usuario.nombre + ", " + usuario.id + "<br/>";
+	        		usuarios += usuario.id + ", " + usuario.nombre + " " + usuario.apellido + ", " + usuario.mail + ", " + usuario.contraseña + "<br/>";
 	        	});
         		$('#espacioNombreUsuario').append(usuarios);
         	}
@@ -34,7 +34,7 @@ function getIntersecciones(){
         	else{
         		var intersecciones="";
 	        	data.forEach( function(interseccion){
-	        		intersecciones += interseccion.calle1 + " y " + interseccion.calle2 + "<br/>";
+	        		intersecciones += interseccion.latitud + ";" + interseccion.longitud + "<br/>";
 	        	});
         		$('#espacioNombreInterseccion').append(intersecciones);
         	}

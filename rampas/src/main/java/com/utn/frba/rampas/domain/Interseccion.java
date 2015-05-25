@@ -5,22 +5,42 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@SuppressWarnings("serial")
 public class Interseccion implements Serializable {
 	
 	@Expose @Id private long id;
-	@Expose private String calle1;
-	@Expose private String calle2;	
-	/* El par de coordenadas usado por GoogleMaps es (latitud;longitud)*/
-	@Expose private double latitud; 
-	@Expose private double longitud; 
+	/* El par de coordenadas usado por GoogleMaps es (latitud;longitud) */
+	@Expose @Index private double latitud; 
+	@Expose @Index private double longitud; 
+	@Expose private boolean tieneInformacion;
 	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;
 	@Expose private boolean todosCrucesAccesibles;
 	
-	public Interseccion(){	} /*Es necesario este constructor para que funcione el GSON*/
+	/* Es necesario este constructor para que funcione el GSON */
+	public Interseccion () { }
+	
+	public Interseccion(long unId, double latitud, double longitud) {
+		setId(unId);
+		setLatitud(latitud);
+		setLongitud(longitud);
+		setTieneInformacion(false);
+		setTieneRampas(false);
+		setBuenEstado(false);
+		setTodosCrucesAccesibles(false);				
+	}
+	
+	public Interseccion(long unId, double latitud, double longitud, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles) {
+		setId(unId);
+		setLatitud(latitud);
+		setLongitud(longitud);
+		setTieneInformacion(true);
+		setTieneRampas(tieneRampas);
+		setBuenEstado(buenEstado);
+		setTodosCrucesAccesibles(todosCrucesAccesibles);			
+	}
 	
 	public long getId() {
 		return id;
@@ -28,22 +48,6 @@ public class Interseccion implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-	
-	public String getCalle1() {
-		return calle1;
-	}
-
-	public void setCalle1(String calle1) {
-		this.calle1 = calle1;
-	}
-	
-	public String getCalle2() {
-		return calle2;
-	}
-	
-	public void setCalle2(String calle2) {
-		this.calle2 = calle2;
 	}
 	
 	public double getLatitud() {
@@ -62,6 +66,14 @@ public class Interseccion implements Serializable {
 		this.longitud = longitud;
 	}	
 
+	public boolean getTieneInformacion() {
+		return tieneRampas;
+	}
+	
+	public void setTieneInformacion(boolean tieneRampas) {
+		this.tieneRampas = tieneRampas;
+	}	
+	
 	public boolean getTieneRampas() {
 		return tieneRampas;
 	}
@@ -86,16 +98,5 @@ public class Interseccion implements Serializable {
 		this.todosCrucesAccesibles = todosCrucesAccesibles;
 	}
 	
-	public Interseccion(long unId, String calle1, String calle2, double latitud, double longitud, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles) {
-		setId(unId);
-		setCalle1(calle1);		
-		setCalle2(calle2);
-		setLatitud(latitud);
-		setLongitud(longitud);
-		setTieneRampas(tieneRampas);
-		setBuenEstado(buenEstado);
-		setTodosCrucesAccesibles(todosCrucesAccesibles);
-	}
-
 }
 

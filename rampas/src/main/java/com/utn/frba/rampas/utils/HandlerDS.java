@@ -1,59 +1,149 @@
 package com.utn.frba.rampas.utils;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.googlecode.objectify.NotFoundException;
 
 import java.util.ArrayList;
 
-import com.googlecode.objectify.NotFoundException;
-import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.domain.Interseccion;
+import com.utn.frba.rampas.domain.Sesion;
+import com.utn.frba.rampas.domain.Ubicacion;
+import com.utn.frba.rampas.domain.Usuario;
 
 public class HandlerDS {
 	
-	/*Falta hacer un chequeo de error por si no lo guarda*/
+	/* Usuario */
+	
+	public static Usuario loadUsuario(Sesion unaSesion) {
+		Usuario unUsuario;
+		System.out.print("Cargar Usuario: ");
+		String estado = "OK";
+		try {
+			unUsuario = ofy().load().type(Usuario.class).filter("mail",unaSesion.getMail()).filter("contraseña",unaSesion.getContraseña()).first().now();
+		} 
+		catch(NotFoundException ex) {
+			estado = "No existe";
+			System.out.println(estado);
+			return null;
+		}
+		System.out.println(estado);
+		return unUsuario;
+	}	
+	
+	public static boolean saveUsuario(Usuario unUsuario) {
+		System.out.print("Guardar Usuario: ");
+		String estado = "OK";
+		try {
+			ofy().save().entity(unUsuario).now();
+		}
+		catch(Exception ex) {
+			estado = "Error";
+			System.out.println(estado); 	
+			return false;
+		}
+		System.out.println(estado); 	
+		return true;
+	}
+	
+	public static boolean deleteUsuario(Usuario unUsuario) {
+		System.out.print("Borrar Usuario: ");
+		String estado = "OK";
+		try {
+			ofy().delete().entity(unUsuario).now();
+		}
+		catch(Exception ex) {
+			estado = "Error";
+			System.out.println(estado); 	
+			return false;
+		}
+		System.out.println(estado); 	
+		return true;
+	}
+/*	
 	public static long guardarUsuario(Usuario usuario){
 		System.out.print("Guardar Usuario: " + usuario.getNombre());
 		ofy().save().entity(usuario).now().getId();
 		System.out.println(" OK"); 	
 		return usuario.getId();
 	}
-	
-	/*Falta hacer un chequeo de error por si no lo guarda*/
-	public static long guardarInterseccion(Interseccion interseccion){
-		System.out.print("Guardar Interseccion: " + interseccion.getCalle1() + " y " + interseccion.getCalle2());
-		ofy().save().entity(interseccion).now().getId();
-		System.out.println(" OK"); 	
-		return interseccion.getId();
-	}
-	
-	public static ArrayList<Usuario> getUsuarios(){
-		ArrayList<Usuario> usuariosResult = new ArrayList<Usuario>();
+*/	
+	public static ArrayList<Usuario> getUsuarios() {
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 		Iterable<Usuario> usuariosDS = new ArrayList<Usuario>() ;
 		try {
 			usuariosDS = ofy().load().type(Usuario.class).list();
-		} catch(NotFoundException ex){
-			System.out.println("No hay ningun usuario cargado!");
-			/*System.out.println("Item no encontrado!!!!");*/
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ningun usuario cargado");
+			return null;
 		}
 		
-		for (Usuario usuario : usuariosDS) 
-			usuariosResult.add(usuario);
-		return usuariosResult;
+		for (Usuario unUsuario:usuariosDS) 
+			usuarios.add(unUsuario);
+		return usuarios;
 	}
 	
-	public static ArrayList<Interseccion> getIntersecciones(){
-		ArrayList<Interseccion> interseccionesResult = new ArrayList<Interseccion>();
+	/* Interseccion */
+	
+	public static Interseccion loadInterseccion(Ubicacion unaUbicacion) {
+		Interseccion unaInterseccion;
+		System.out.print("Cargar Interseccion: ");
+		String estado = "OK";
+		try {
+			unaInterseccion = ofy().load().type(Interseccion.class).filter("latitud",unaUbicacion.getLatitud()).filter("longitud",unaUbicacion.getLongitud()).first().now();
+		} 
+		catch(NotFoundException ex) {
+			estado = "No existe";
+			System.out.println(estado);
+			return null;
+		}
+		System.out.println(estado);
+		return unaInterseccion;
+	}	
+	
+	public static boolean saveInterseccion(Interseccion unaInterseccion) {
+		System.out.print("Guardar Interseccion: ");
+		String estado = "OK";
+		try {
+			ofy().save().entity(unaInterseccion).now();
+		}
+		catch(Exception ex) {
+			estado = "Error";
+			System.out.println(estado); 	
+			return false;
+		}
+		System.out.println(estado); 	
+		return true;
+	}
+	
+	public static boolean deleteInterseccion(Interseccion unaInterseccion) {
+		System.out.print("Borrar Interseccion: ");
+		String estado = "OK";
+		try {
+			ofy().delete().entity(unaInterseccion).now();
+		}
+		catch(Exception ex) {
+			estado = "Error";
+			System.out.println(estado); 	
+			return false;
+		}
+		System.out.println(estado); 	
+		return true;
+	}
+	
+	public static ArrayList<Interseccion> getIntersecciones() {
+		ArrayList<Interseccion> intersecciones = new ArrayList<Interseccion>();
 		Iterable<Interseccion> interseccionesDS = new ArrayList<Interseccion>() ;
 		try {
 			interseccionesDS = ofy().load().type(Interseccion.class).list();
-		} catch(NotFoundException ex){
-			System.out.println("No hay ninguna interseccion cargada!");
-			/*System.out.println("Item no encontrado!!!!");*/
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna interseccion cargada");
+			return null;
 		}
-		
-		for (Interseccion interseccion : interseccionesDS) 
-			interseccionesResult.add(interseccion);
-		return interseccionesResult;
+		for (Interseccion unaInterseccion:interseccionesDS) 
+			intersecciones.add(unaInterseccion);
+		return intersecciones;
 	}
 	
 /*Todo lo que esta aca abajo son ejemplos de lo que hice en TACS para guardar, obtener y modificar cosas en el DataStore*/	
