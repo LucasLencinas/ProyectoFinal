@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
+@SuppressWarnings("serial")
 @Entity
 public class Usuario implements Serializable {
 	
@@ -34,6 +35,11 @@ public class Usuario implements Serializable {
 		setFacebook(facebook);		
 		setUsuarioPropio(false);
 	}
+	
+	
+	
+	
+	/*Getters and Setters*/
 	
 	public long getId() {
 		return id;

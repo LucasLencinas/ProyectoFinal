@@ -1,17 +1,25 @@
 package com.utn.frba.rampas.utils;
 
+import java.net.URI;
 import java.util.ArrayList;
 
-import com.googlecode.objectify.ObjectifyService;
+import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
-import com.utn.frba.rampas.domain.Interseccion;
+import com.googlecode.objectify.ObjectifyService;
+import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.domain.Usuario;
 
 public class Setup {
 
+  public static final String RESOURCES_PATH = "/src/main/resources/com/utn/frba/rampas/";
+  public static final String BASE_URI = "http://localhost:8080/masrampas/";
 	private static boolean isSet =false;
 	static ArrayList<Usuario> usuarios;
-	static ArrayList<Interseccion> intersecciones;
+	static ArrayList<Rampa> rampas;
 	
 	public static void setup() {
 		if(isSet == false) {
@@ -29,32 +37,54 @@ public class Setup {
 				HandlerDS.saveUsuario(usuario);
 			}
 
-	    	ObjectifyService.register(Interseccion.class);
+	    	ObjectifyService.register(Rampa.class);
 				
-	    	intersecciones = new ArrayList<Interseccion>();
+	    	rampas = new ArrayList<Rampa>();
 			//Medrano y Cordoba
-			intersecciones.add(new Interseccion(1,-34.59777071095415,-58.42014310000002,true,true,true));
+			rampas.add(new Rampa(1,-34.59777071095415,-58.42014310000002,true,true,true));
 			//Medrano y Tucuman
-			intersecciones.add(new Interseccion(2,-34.59816741095431,-58.42018889999997,true,false,true));
+			rampas.add(new Rampa(2,-34.59816741095431,-58.42018889999997,true,false,true));
 			//Medrano y Lavalle
-			intersecciones.add(new Interseccion(3,-34.59896381095469,-58.420347900000024,false,false,false));
+			rampas.add(new Rampa(3,-34.59896381095469,-58.420347900000024,false,false,false));
 			//Medrano y Rocamora
-			intersecciones.add(new Interseccion(4,-34.59950261095487,-58.420448299999975,true,true,true));
+			rampas.add(new Rampa(4,-34.59950261095487,-58.420448299999975,true,true,true));
 			//Medrano y Rauch
-			intersecciones.add(new Interseccion(5,-34.60001371095508,-58.42052460000002));
+			rampas.add(new Rampa(5,-34.60001371095508,-58.42052460000002));
 			//Medrano y Guardia Vieja
-			intersecciones.add(new Interseccion(6,-34.600685110955375,-58.42059330000001));
+			rampas.add(new Rampa(6,-34.600685110955375,-58.42059330000001));
 			//Medrano y Humahuaca
-			intersecciones.add(new Interseccion(7,-34.60191351095585,-58.4207993));
+			rampas.add(new Rampa(7,-34.60191351095585,-58.4207993));
 			//Medrano y Corrientes
-			intersecciones.add(new Interseccion(8,-34.60316471095638,-58.420967099999984));
+			rampas.add(new Rampa(8,-34.60316471095638,-58.420967099999984));
 				
-			for(Interseccion unaInterseccion: intersecciones){
-				HandlerDS.saveInterseccion(unaInterseccion);
+			for(Rampa unaRampa: rampas){
+				HandlerDS.saveRampa(unaRampa);
 			}
 			
 			isSet = true;
 		}
 	}
+	
+	
+  /*--------------For testing--------------*/
+	public static void setupTest() {
+		//Solo agrego las clases al Objectify y otras boludeces. No me sirve el otro setup porque 
+		//no puedo obtener los objetos que se guardan para compararlos al sacarlos de la base de datos 
+  	ObjectifyService.register(Rampa.class);
+  	ObjectifyService.register(Usuario.class);
+  	Setup.isSet = true;
+	}
+	
+  /*--------------For testing--------------*/
+	public static HttpServer startServer() {
+   		//Los recursos los va a buscar a este paquete
+       final ResourceConfig rc = new ResourceConfig().packages("com.utn.frba.rampas.endpoints");
+       HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+       HttpHandler handlerStatico = new StaticHttpHandler(System.getProperty("user.dir") + RESOURCES_PATH + "/client/");
+       System.out.println(System.getProperty("user.dir"));
+       httpServer.getServerConfiguration().addHttpHandler(handlerStatico, "/");
+ 
+       return httpServer;
+     }
 	
 }

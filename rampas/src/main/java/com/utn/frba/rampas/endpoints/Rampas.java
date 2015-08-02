@@ -13,26 +13,24 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
-import com.utn.frba.rampas.domain.Interseccion;
-import com.utn.frba.rampas.domain.Ubicacion;
-
+import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
 
-@Path("/Intersecciones")
-public class Intersecciones {
+@Path("/Rampas")
+public class Rampas {
 	
 	@GET 
 	@Produces("application/json")
 	public Response index() {
 		Setup.setup();
-		System.out.println("Me piden las intersecciones");
-		ArrayList<Interseccion> intersecciones = HandlerDS.getIntersecciones();
-		if (intersecciones == null) {
+		System.out.println("Me piden las rampas");
+		ArrayList<Rampa> rampas = HandlerDS.getRampas();
+		if (rampas == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
-			return Response.ok(new Gson().toJson(intersecciones),MediaType.APPLICATION_JSON).build();		
+			return Response.ok(new Gson().toJson(rampas),MediaType.APPLICATION_JSON).build();		
 		}
 /*		
 		String intersecciones_json = new Gson().toJson(HandlerDS.getIntersecciones());
@@ -41,14 +39,14 @@ public class Intersecciones {
 	}
 
 	@GET
-	@Path("/Interseccion")
+	@Path("/Rampa")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response loadInterseccion(String ubicacion_json) {
-		Interseccion unaInterseccion;
+	public Response loadRampa(String ubicacion_json) {
+		Rampa unaInterseccion;
 		Gson parser = new Gson();
-		Ubicacion unaUbicacion = parser.fromJson(ubicacion_json,Ubicacion.class);
-		unaInterseccion = HandlerDS.loadInterseccion(unaUbicacion);
+		Rampa unaUbicacion = parser.fromJson(ubicacion_json,Rampa.class);
+		unaInterseccion = HandlerDS.loadRampa(unaUbicacion);
 		if (unaInterseccion == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
@@ -58,13 +56,13 @@ public class Intersecciones {
 	}
 	
 	@POST
-	@Path("/Interseccion")
+	@Path("/Rampa")
 	@Consumes("application/json")
-	public Response saveInterseccion(String interseccion_json) {
+	public Response saveRampa(String interseccion_json) {
 		Gson parser = new Gson();
-		Interseccion unaInterseccion = parser.fromJson(interseccion_json,Interseccion.class);
-		boolean agregoInterseccionBien = HandlerDS.saveInterseccion(unaInterseccion);
-		if (agregoInterseccionBien) {
+		Rampa unaRampa = parser.fromJson(interseccion_json,Rampa.class);
+		boolean agregoRampaBien = HandlerDS.saveRampa(unaRampa);
+		if (agregoRampaBien) {
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
@@ -73,13 +71,13 @@ public class Intersecciones {
 	}
 	
 	@DELETE
-	@Path("/Interseccion")
+	@Path("/Rampa")
 	@Consumes("application/json")
-	public Response deleteInterseccion(String interseccion_json) {
+	public Response deleteRampa(String rampa_json) {
 		Gson parser = new Gson();
-		Interseccion unaInterseccion = parser.fromJson(interseccion_json,Interseccion.class);
-		boolean borroInterseccionBien = HandlerDS.deleteInterseccion(unaInterseccion);
-		if (borroInterseccionBien) {
+		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
+		boolean borroRampaBien = HandlerDS.deleteRampa(unaRampa);
+		if (borroRampaBien) {
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
