@@ -65,6 +65,10 @@ function mostrarCrucesDeBarrioElegido(){
 	});
 	poligonoBarrioElegido.setMap(map);
 
+	new google.maps.Polyline({
+		path:coordenadasBarrioElegido
+		}).setMap(map);
+
 	$.each(barrios[barrioElegido].calles, function(indice, calle){
 			var unMarcador = crearMarcador(new google.maps.LatLng( parseFloat(calle.coordenadas[0]), parseFloat(calle.coordenadas[1])));
 			unMarcador.setMap(map);

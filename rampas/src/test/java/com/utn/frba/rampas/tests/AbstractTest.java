@@ -35,7 +35,7 @@ public abstract class AbstractTest {
 	  	HandlerDS.saveUsuario(miUsuario);
 	  	HandlerDS.saveUsuario(usuarioAmigo);
 	  	
-	  	HandlerDS.saveRampa(rampa1);
+	  	HandlerDS.saveRampa(medranoYcordoba);
 	  	**/
 	}
 
