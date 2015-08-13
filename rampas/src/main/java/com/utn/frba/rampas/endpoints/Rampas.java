@@ -24,7 +24,7 @@ public class Rampas {
 	@Produces("application/json")
 	public Response index() {
 		Setup.setup();
-		System.out.println("Me piden las rampas");
+		System.out.println("Obtener Rampas");
 		ArrayList<Rampa> rampas = HandlerDS.getRampas();
 		if (rampas == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
@@ -32,35 +32,30 @@ public class Rampas {
 		else {
 			return Response.ok(new Gson().toJson(rampas),MediaType.APPLICATION_JSON).build();		
 		}
-/*		
-		String intersecciones_json = new Gson().toJson(HandlerDS.getIntersecciones());
-		return Response.ok(intersecciones_json,MediaType.APPLICATION_JSON).build();
-*/	
 	}
 
 	@GET
 	@Path("/Rampa")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response loadRampa(String ubicacion_json) {
-		Rampa unaInterseccion;
+	public Response loadRampa(String rampa_json) {
 		Gson parser = new Gson();
-		Rampa unaUbicacion = parser.fromJson(ubicacion_json,Rampa.class);
-		unaInterseccion = HandlerDS.loadRampa(unaUbicacion);
-		if (unaInterseccion == null) {
+		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
+		unaRampa = HandlerDS.getRampaByLatitudLongitud(unaRampa.getLatitud(),unaRampa.getLongitud());
+		if (unaRampa == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
-			return Response.ok(new Gson().toJson(unaInterseccion),MediaType.APPLICATION_JSON).build();		
+			return Response.ok(new Gson().toJson(unaRampa),MediaType.APPLICATION_JSON).build();		
 		}
 	}
 	
 	@POST
 	@Path("/Rampa")
 	@Consumes("application/json")
-	public Response saveRampa(String interseccion_json) {
+	public Response saveRampa(String rampa_json) {
 		Gson parser = new Gson();
-		Rampa unaRampa = parser.fromJson(interseccion_json,Rampa.class);
+		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
 		boolean agregoRampaBien = HandlerDS.saveRampa(unaRampa);
 		if (agregoRampaBien) {
 			return Response.status(Response.Status.OK).build();

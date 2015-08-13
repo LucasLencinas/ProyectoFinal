@@ -1,10 +1,12 @@
 package com.utn.frba.rampas.utils;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import com.googlecode.objectify.NotFoundException;
 
 import java.util.ArrayList;
 
+import com.utn.frba.rampas.domain.BarrioBD;
 import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.domain.Sesion;
 import com.utn.frba.rampas.domain.Usuario;
@@ -77,77 +79,260 @@ public class HandlerDS {
 	
 	/** TODO Rampa:Cambie de nombre todo lo que decia interseccion por rampa, preguntarle a los chicos**/
 	
-	public static Rampa loadRampa(Rampa unaRampa) {
-		Rampa unaInterseccion;
-		System.out.print("Cargar Rampa: ");
-		String estado = "OK";
-		try {
-			unaInterseccion = ofy().load().type(Rampa.class).filter("lat",unaRampa.getLat()).filter("lng",unaRampa.getLng()).first().now();
-		} 
-		catch(NotFoundException ex) {
-			estado = "No existe";
-			System.out.println(estado);
-			return null;
-		}
-		System.out.println(estado);
-		return unaInterseccion;
-	}	
+//	public static Rampa loadRampa(Rampa unaRampa) {
+//		Rampa unaRampa;
+//		System.out.print("Cargar Rampa: ");
+//		String estado = "OK";
+//		try {
+//			unaRampa = ofy().load().type(Rampa.class).filter("latitud",unaRampa.getLatitud()).filter("longitud",unaRampa.getLongitud()).first().now();
+//		} 
+//		catch(NotFoundException ex) {
+//			estado = "No existe";
+//			System.out.println(estado);
+//			return null;
+//		}
+//		System.out.println(estado);
+//		return unaRampa;
+//	}	
 	
 	public static boolean saveRampa(Rampa unaRampa) {
 		System.out.print("Guardar Rampa: ");
-		String estado = "OK";
 		try {
 			ofy().save().entity(unaRampa).now();
 		}
 		catch(Exception ex) {
-			estado = "Error";
-			System.out.println(estado); 	
+			System.out.println("Error"); 	
 			return false;
 		}
-		System.out.println(estado); 	
+		System.out.println("OK"); 	
 		return true;
 	}
 	
 	public static boolean deleteRampa(Rampa unaRampa) {
 		System.out.print("Borrar Rampa: ");
-		String estado = "OK";
 		try {
 			ofy().delete().entity(unaRampa).now();
 		}
 		catch(Exception ex) {
-			estado = "Error";
-			System.out.println(estado); 	
+			System.out.println("Error"); 	
 			return false;
 		}
-		System.out.println(estado); 	
+		System.out.println("OK"); 	
 		return true;
 	}
 	
 	public static ArrayList<Rampa> getRampas() {
+		System.out.print("Buscar Rampas: ");
 		ArrayList<Rampa> rampas = new ArrayList<Rampa>();
 		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
 		try {
 			rampasDS = ofy().load().type(Rampa.class).list();
 		} 
 		catch(NotFoundException ex) {
-			System.out.println("No hay ninguna interseccion cargada");
+			System.out.println("No hay ninguna rampa cargada");
 			return null;
 		}
-		for (Rampa unaRampa:rampasDS) 
+		for (Rampa unaRampa:rampasDS) {
 			rampas.add(unaRampa);
+			System.out.print(unaRampa.getId() + " ");	
+		}
+		System.out.println(" ");
 		return rampas;
 	}
 
-	public static Rampa findRampaById(long id) {
-		Rampa rampa;
-		try{
-		  rampa = ofy().load().type(Rampa.class).id(id).now();
-		} catch (NullPointerException e){
-		  rampa = null;
+	public static Rampa getRampaById(long id) {
+		System.out.print("Buscar Rampa por Id: ");
+		Rampa unaRampa;
+		try {
+		  unaRampa = ofy().load().type(Rampa.class).id(id).now();
+		} 
+		catch (NullPointerException e){
+			System.out.println("No existe");
+			return null;
 		}
-		return rampa;
+		System.out.println("OK");
+		return unaRampa;
 	}
-		
+
+	public static Rampa getRampaByLatitudLongitud(double latitud,double longitud) {
+		System.out.print("Buscar Rampa por Latitud-Longitud: ");
+		Rampa unaRampa;
+		try {
+			unaRampa = ofy().load().type(Rampa.class).filter("latitud",latitud).filter("longitud",longitud).first().now();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No existe");
+			return null;
+		}
+		System.out.println("OK");
+		return unaRampa;
+	}
+
+	public static ArrayList<Rampa> getRampasRojas() {
+		System.out.print("Buscar Rampas rojas: ");
+		ArrayList<Rampa> rampasRojas = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna Rampa cargada");
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) 
+			if (unaRampa.esRoja()) {
+				rampasRojas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		System.out.println(" ");
+		return rampasRojas;
+	}	
+	
+	public static ArrayList<Rampa> getRampasNaranjas() {
+		System.out.print("Buscar Rampas naranjas: ");
+		ArrayList<Rampa> rampasNaranjas = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna Rampa cargada");
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) 
+			if (unaRampa.esNaranja()) {	
+				rampasNaranjas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		System.out.println(" ");
+		return rampasNaranjas;
+	}	
+	
+	public static ArrayList<Rampa> getRampasAmarillas() {
+		System.out.print("Buscar Rampas amarillas: ");
+		ArrayList<Rampa> rampasAmarillas = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna Rampa cargada");
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) 
+			if (unaRampa.esAmarilla()) {
+				rampasAmarillas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		System.out.println(" ");
+		return rampasAmarillas;
+	}	
+	
+	public static ArrayList<Rampa> getRampasVerdes() {
+		System.out.print("Buscar Rampas verdes: ");
+		ArrayList<Rampa> rampasVerdes = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna Rampa cargada");
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) 
+			if (unaRampa.esVerde()) {
+				rampasVerdes.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		System.out.println(" ");
+		return rampasVerdes;
+	}
+
+	public static ArrayList<Rampa> getRampasByBarrio(String barrio) {
+		System.out.print("Buscar Rampas por Barrio: ");
+		ArrayList<Rampa> rampasBarrio = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).filter("barrio",barrio).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ninguna Rampa cargada");
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) {
+			rampasBarrio.add(unaRampa);
+			System.out.print(unaRampa.getId() + " ");		
+		}
+		System.out.println(" ");
+		return rampasBarrio;
+	}
+
+	public static boolean saveBarrio(BarrioBD unBarrio) {
+		System.out.print("Guardar Barrio: ");
+		try {
+			ofy().save().entity(unBarrio).now();
+		}
+		catch(Exception ex) {
+			System.out.println("Error"); 	
+			return false;
+		}
+		System.out.println("OK"); 	
+		return true;
+	}
+	
+	public static boolean deleteBarrio(BarrioBD unBarrio) {
+		System.out.print("Borrar Barrio: ");
+		try {
+			ofy().delete().entity(unBarrio).now();
+		}
+		catch(Exception ex) {
+			System.out.println("Error"); 	
+			return false;
+		}
+		System.out.println("OK"); 	
+		return true;
+	}
+	
+	public static ArrayList<BarrioBD> getBarrios() {
+		System.out.print("Buscar Barrios: ");
+		ArrayList<BarrioBD> barrios = new ArrayList<BarrioBD>();
+		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
+		try {
+			barriosDS = ofy().load().type(BarrioBD.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ningun Barrio cargado");
+			return null;
+		}
+		for (BarrioBD unBarrio:barriosDS) {
+			barrios.add(unBarrio);
+			System.out.print(unBarrio.getId() + " ");	
+		}
+		System.out.println(" ");
+		return barrios;
+	}	
+	
+	public static String getBarrioByRampa(Rampa unaRampa) {
+		System.out.print("Buscar Barrio por Rampa: ");
+		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
+		try {
+			barriosDS = ofy().load().type(BarrioBD.class).list();
+		} 
+		catch(NotFoundException ex) {
+			System.out.println("No hay ningun Barrio cargado");
+			return null;
+		}
+		for (BarrioBD unBarrio:barriosDS) {
+			if (unBarrio.contiene(unaRampa)) {
+				System.out.print(unBarrio.getNombre());	
+				return unBarrio.getNombre();
+			}
+		}
+		System.out.println("No existe ningun barrio cargado que contenga esa Rampa");
+		return null;
+	}		
+	
+}	
 	
 /*Todo lo que esta aca abajo son ejemplos de lo que hice en TACS para guardar, obtener y modificar cosas en el DataStore*/	
 	
@@ -332,4 +517,4 @@ public class HandlerDS {
 		return id + 1;
 	}
 	*/
-}
+

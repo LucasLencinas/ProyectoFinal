@@ -3,13 +3,11 @@ package com.utn.frba.rampas.tests;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
-import com.utn.frba.rampas.utils.HandlerDS;
+
 import com.utn.frba.rampas.utils.Setup;
 import com.utn.frba.rampas.domain.ListadoIntersecciones;
 

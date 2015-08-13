@@ -7,37 +7,33 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-@SuppressWarnings("serial")
 @Entity
 public class Rampa implements Serializable {
 	
 	@Expose @Id private long id;
-	/* El par de coordenadas usado por GoogleMaps es (lat;lng) */
-	@Expose @Index private double lat; 
-	@Expose @Index private double lng; 
-	@Expose private boolean esInterseccion;
+	/* El par de coordenadas usado por GoogleMaps es (latitud;longitud) */
+	@Expose @Index private double latitud; 
+	@Expose @Index private double longitud;
+	@Expose private String barrio;
+	@Expose private boolean tieneInformacion;
+	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;
 	@Expose private boolean todosCrucesAccesibles;
+	@Expose private boolean reportada;
 	
 	/* Es necesario este constructor para que funcione el GSON */
 	public Rampa () { }
 	
-	public Rampa(long unId, double latitud, double longitud) {
+	public Rampa(long unId, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
 		setId(unId);
-		setLat(latitud);
-		setLng(longitud);
-		setEsInterseccion(false);
-		setBuenEstado(false);
-		setTodosCrucesAccesibles(false);				
-	}
-	
-	public Rampa(long unId, double latitud, double longitud, boolean esInterseccion, boolean buenEstado, boolean todosCrucesAccesibles) {
-		setId(unId);
-		setLat(latitud);
-		setLng(longitud);
-		setEsInterseccion(esInterseccion);
+		setLatitud(latitud);
+		setLongitud(longitud);
+		setBarrio(barrio);
+		setTieneInformacion(tieneInformacion);
+		setTieneRampas(tieneRampas);
 		setBuenEstado(buenEstado);
-		setTodosCrucesAccesibles(todosCrucesAccesibles);			
+		setTodosCrucesAccesibles(todosCrucesAccesibles);
+		setReportada(reportada);
 	}
 	
 	public long getId() {
@@ -48,31 +44,46 @@ public class Rampa implements Serializable {
 		this.id = id;
 	}
 	
-	public double getLat() {
-		return lat;
+	public double getLatitud() {
+		return latitud;
 	}
 	
-	public void setLat(double latitud) {
-		this.lat = latitud;
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
 	}
 
-	public double getLng() {
-		return lng;
+	public double getLongitud() {
+		return longitud;
 	}
 	
-	public void setLng(double longitud) {
-		this.lng = longitud;
+	public void setLongitud(double longitud) {
+		this.longitud = longitud;
 	}	
 
-	
-	public boolean getEsInterseccion() {
-		return esInterseccion;
+	public String getBarrio() {
+		return barrio;
 	}
 	
-	public void setEsInterseccion(boolean esInterseccion) {
-		this.esInterseccion = esInterseccion;
+	public void setBarrio(String barrio) {
+		this.barrio = barrio;
+	}
+	
+	public boolean getTieneInformacion() {
+		return tieneInformacion;
+	}
+	
+	public void setTieneInformacion(boolean tieneInformacion) {
+		this.tieneInformacion = tieneInformacion;
 	}
 
+	public boolean getTieneRampas() {
+		return tieneRampas;
+	}
+	
+	public void setTieneRampas(boolean tieneRampas) {
+		this.tieneRampas = tieneRampas;
+	}
+	
 	public boolean getBuenEstado() {
 		return buenEstado;
 	}
@@ -87,6 +98,57 @@ public class Rampa implements Serializable {
 	
 	public void setTodosCrucesAccesibles(boolean todosCrucesAccesibles) {
 		this.todosCrucesAccesibles = todosCrucesAccesibles;
+	}
+
+	public boolean getReportada() {
+		return reportada;
+	}
+	
+	public void setReportada(boolean reportada) {
+		this.reportada = reportada;
+	}	
+	
+	public boolean esRoja() {
+		if ((getTieneInformacion() && getTieneRampas() && !getTodosCrucesAccesibles() && !getBuenEstado() && !getReportada()) ||
+			(getTieneInformacion() && !getTieneRampas()) ||
+			!getTieneInformacion() || 
+			 getReportada()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean esNaranja() {
+		if (getTieneInformacion() &&
+			getTieneRampas() &&
+			getTodosCrucesAccesibles() &&
+		   !getBuenEstado() &&
+		   !getReportada()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean esAmarilla() {
+		if (getTieneInformacion() &&
+			getTieneRampas() &&
+		   !getTodosCrucesAccesibles() &&
+			getBuenEstado() &&
+		   !getReportada()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean esVerde() {
+		if (getTieneInformacion() &&
+			getTieneRampas() &&
+			getTodosCrucesAccesibles() &&
+			getBuenEstado() &&
+		   !getReportada()) {
+			return true;
+		}
+		return false;
 	}
 	
 }
