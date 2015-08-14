@@ -14,6 +14,10 @@ public class BarrioBD implements Serializable {
 //	nombre: "Almagro"
 // 	limites: "[[[[-58.47242,-34.5661],[-58.47296,-34.56642],[-58.47299,-34.56644],[-58.47242,-34.5661]]]]"
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Expose @Id private long id;
 	@Expose private String nombre;
 	@Expose private String limites;	
@@ -54,10 +58,12 @@ public class BarrioBD implements Serializable {
 	public ArrayList<Double> getCoordenadas() {
 		ArrayList<Double> limitesDouble = new ArrayList<Double>();
 		String limitesSinCorchetes = getLimites().substring(4,getLimites().length()-4);
-		String[] limitesComoArray = limitesSinCorchetes.split("],[");
+		String[] limitesComoArray = limitesSinCorchetes.split("\\],\\[");
+		String[] aux;
 		for (int i = 0; i < limitesComoArray.length; i++) {
-			if (i % 2 == 1)
-				limitesDouble.add(Double.parseDouble(limitesComoArray[i]));
+			aux = limitesComoArray[i].split(",");
+			limitesDouble.add(Double.parseDouble(aux[0]));
+			limitesDouble.add(Double.parseDouble(aux[1]));
 		}
 		return limitesDouble;
 	}
@@ -66,7 +72,7 @@ public class BarrioBD implements Serializable {
 		ArrayList<Double> coordenadas = new ArrayList<Double>();
 		coordenadas = getCoordenadas();
 		ArrayList<Point> puntos = new ArrayList<Point>();
-		for (int i = 0; i < coordenadas.size(); i = 2) {
+		for (int i = 0; i < coordenadas.size(); i += 2) {
 			puntos.add(new Point(coordenadas.get(i),coordenadas.get(i+1)));
 		}
 		Polygon poligono = Polygon.Builder().addVertexes(puntos).build();

@@ -42,12 +42,12 @@ function initialize() {
   map.fitBounds(defaultBounds);
 
 //cargarMarcadoresDeEjemplos(calles);  
-probarDistancia();
+//probarDistancia();
   
   
 }//Fin initialize
 
-
+/*
 function probarDistancia(){
 
 	var unaCalle = coordenadasDesdeString(calles[15000].st_astext);
@@ -67,7 +67,7 @@ function probarDistancia(){
 		}
     }
 }
-
+*/
 
 function coordenadasDesdeString(stringCalle){
 	var coordenadas = [];
@@ -242,14 +242,16 @@ function habilitarBotonDeRuta(idRuta){
 
 function marcadoresCercanos(unaPolilinea){
 	var cercanos = [];
-	for(var i = 0; i < calles.length; i++) {
-		var coordenadaCalle = coordenadasDesdeString(calles[i].st_astext);
-		for(var j = 0; j < coordenadaCalle.length; j++){
-			if(google.maps.geometry.poly.isLocationOnEdge(coordenadaCalle[j], unaPolilinea, 0.0005)){
-				cercanos.push(crearMarcador(coordenadaCalle[j]));	
+	var latlng;
+
+	$.each(barrios, function(index,barrio){
+		$.each(barrio.calles, function(indice,calle){
+			latlng = new google.maps.LatLng(calle.coordenadas[0],calle.coordenadas[1]);
+			if(google.maps.geometry.poly.isLocationOnEdge(latlng, unaPolilinea, 0.00016)){
+				cercanos.push(crearMarcador(latlng));	
 			}
-		}
-    }
+		});
+	});
 	return cercanos;
 }
 

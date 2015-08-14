@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title> Senitag Rampas</title>
+		<link rel="shortcut icon" type="image/x-icon" href="imagen/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/estilos.css">
+		<link rel="stylesheet" href="css/popup.css" />
+<!--    -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="utf-8"/>
+<script  type="text/javascript" src="javascript/popup.js"> </script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+var map;
+function initialize() {
+  var mapOptions = {
+    zoom: 12,
+    center: new google.maps.LatLng(-34.607743, -58.449767)
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+} 
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<!--    -->
+		    
+	</head>
+	<body>
+		<header>
+			<div id="subheader">
+				<div class="barra_menu">
+					<div class="senitag no_seleccion">
+						<a href="#" ><img src="imagen/logo.png"/></span> </a>
+						<p>Senitag</p>
+					</div>
+					<div class="xbotones" >
+						<ul>
+							<li><a id="sesion" href="#" >Sesión</a>
+								<ul>
+									<li><a href="#" onclick="showdlgboxIniciarMail()">Loguear</a></li>
+									<li><a href="#" onclick="showdlgboxRegistro()">Registrar</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+					<div class="detalle">
+						<form>
+							<input type="text" placeholder="Desde:" ></input>
+							<input type="text" placeholder="Hasta:"></input>
+							<input type="submit" value="Consultar"></input>	
+						</form>
+						<textarea ></textarea>
+					</div>	
+			
+			</div>	
+		</header>
+
+		<div class="mapa_google">
+			<div  id="map-canvas"></div>
+		</div>
+<!--POP UP-->
+<div id="white-background"></div>
+<div id="dlgboxRegistro" class="dlgbox dlgboxRegistro no_seleccion">
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistro');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Registro</p></div>
+    <div class="dlg-footerRegistro">
+        <button class="email" onclick="showdlgboxRegistroMail()">E-Mail</button>
+        <button class="facebook" onclick="cerrarTodo()"><img src="imagen/logoFacebook.jpg"/><p align="center">Facebook</p></button>
+    </div>
+</div>
+<div id="dlgboxRegistroMail" class="dlgbox dlgboxRegistroMail no_seleccion" >
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistroMail');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Registro</p></div>
+    <div class="dlg-body dlg-bodyRegistroMail">
+		<form class="etiqueta">
+			<label>Nombre:</label>
+			<label>Apellido:</label>
+			<label>Email:</label>
+			<label>Contraseña:</label>
+			<label>Confirmar<br>Contraseña:</label>			
+		</form>
+		<form>
+			<input type="text" placeholder="Nombre" ></input>
+			<input type="text" placeholder="Apellido" ></input>
+			<input type="text" placeholder="Email" ></input>
+			<input type="text" placeholder="Contraseña" ></input>
+			<input type="text" placeholder="Contraseña" ></input>			
+		</form>
+	</div>
+    <div class="dlg-footer">
+        <button id="option1" onclick="cerrarTodo()">Registrar</button>
+        <button id="option2" onclick="cerrarTodo()">Cancelar</button>
+    </div>
+</div>
+<div id="dlgboxIniciarMail" class="dlgbox dlgboxIniciarMail no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxIniciarMail');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Iniciar Sesion</p></div>
+    <div class="dlg-bodyIniciarMail">
+		<form class="etiqueta">
+			<label>Email:</label>
+			<label>Contraseña:</label>	
+		</form>
+		<form>
+			<input id="nombre" type="text" placeholder="Email" ></input>
+			<input type="text" placeholder="Contraseña" ></input>		
+		</form>
+	</div>
+    <div class="dlg-footer dlg-footerIniciarMail">
+        <button id="option1" onclick="cerrarTodoM()">Iniciar</button>
+        <button id="option2" onclick="cerrarTodo()">Cancelar</button>
+    </div>
+</div>
+
+	</body>
+</html>

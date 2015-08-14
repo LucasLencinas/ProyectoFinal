@@ -276,6 +276,7 @@ public class HandlerDS {
 			System.out.println("Error"); 	
 			return false;
 		}
+		ofy().load().type(BarrioBD.class).filter("barrio",unBarrio.getNombre());
 		System.out.println("OK"); 	
 		return true;
 	}

@@ -8,13 +8,11 @@ var checkpointsRuta;
 var polilineas= [];
 var intersecciones;
 var cordobaAl3950 = new google.maps.LatLng(-34.609226, -58.374925); 
-var crucesTotales;	//[({punto: LatLng, barrio: ""})]
 var crucesBarrioElegido = [];
 var ultimoMarcador;
 var barrioElegido;
 function initialize() {
-	
-	
+
 	geocoder = new google.maps.Geocoder();
     var mapOptions = {
 		zoom: 14,
@@ -31,11 +29,19 @@ function initialize() {
 	map.fitBounds(defaultBounds);
   
   
-  
 	llenarSelectOptions();
 	barrioElegido = $("#selectBarrios").prop("selectedIndex");
 	mostrarCrucesDeBarrioElegido();
   
+	google.maps.event.addListener(map, 'click', function(event) {
+	var mark = crearMarcador(event.latLng);
+    mark.setMap(map);
+    console.log(event.latLng.toString());
+	agregarRightClickListener(mark);
+    crucesBarrioElegido.push(mark);
+    ultimoMarcador = mark;
+  });
+
 }//Fin initialize
 
 function llenarSelectOptions(){
@@ -52,8 +58,7 @@ function llenarSelectOptions(){
 function mostrarCrucesDeBarrioElegido(){
 	var unCruce;
 	var unMarcador;
-	crucesTotales = crucesBA(); 
-	
+	barrioElegido = $("#selectBarrios").prop("selectedIndex");
 	var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barrios[barrioElegido].poligono.coordinates);
 
 	var poligonoBarrioElegido= new google.maps.Polygon({
@@ -61,28 +66,32 @@ function mostrarCrucesDeBarrioElegido(){
 	});
 	poligonoBarrioElegido.setMap(map);
 
-	for(var i =0; i < crucesTotales.length ; i++){
-		unCruce = crucesTotales[i];
-		
-		if (google.maps.geometry.poly.containsLocation(unCruce.punto, poligonoBarrioElegido)) {
-			var unMarcador = crearMarcador(unCruce.punto);
+	new google.maps.Polyline({
+		path:coordenadasBarrioElegido
+		}).setMap(map);
+	
+	$.each(barrios[barrioElegido].calles, function(indice, calle){
+			var unMarcador = crearMarcador(new google.maps.LatLng( parseFloat(calle.coordenadas[0]), parseFloat(calle.coordenadas[1])));
 			unMarcador.setMap(map);
 			crucesBarrioElegido.push(unMarcador);
-		    google.maps.event.addListener(unMarcador, 'rightclick', function(event) {
+			agregarRightClickListener(unMarcador);
+		});			
+	crucesBarrioElegido = sacarRepetidosBarrio(crucesBarrioElegido);
+	poligonoBarrioElegido.setMap(null);
+}
+
+function agregarRightClickListener(marker){
+	google.maps.event.addListener(marker, 'rightclick', function(event) {
 				this.setMap(null);
 				sacarDeCruceDeBarrio(this);
 				ultimoMarcador = this;
 				console.log(this.getPosition().toString());
 			});
-		}
-	}
-	crucesBarrioElegido = sacarRepetidosBarrio(crucesBarrioElegido);
-	poligonoBarrioElegido.setMap(null);
 }
 
 function sacarRepetidosBarrio(marcadoresBarrio){
 	for (var i = 0; i < marcadoresBarrio.length; i++){
-		for (var j = i; j < marcadoresBarrio.length; j++){
+		for (var j = i+1; j < marcadoresBarrio.length; j++){
 			if(marcadoresBarrio[i].getPosition().equals(marcadoresBarrio[j].getPosition())){
 				marcadoresBarrio[j].setMap(null);
 				marcadoresBarrio.splice(j,1);
@@ -90,21 +99,8 @@ function sacarRepetidosBarrio(marcadoresBarrio){
 		}
 	}
 	return marcadoresBarrio;
-
 }
 
-
-function crucesBA(){
-	var crucesBA = [];
-	for(var i = 0; i < calles.length; i++) {
-		coordenadaCalle = coordenadasDesdeStringDeCalles(calles[i].st_astext);
-		for(var j = 0; j < coordenadaCalle.length; j++){
-			
-			crucesBA.push({punto: coordenadaCalle[j], barrio: ""}); 
-		}
-    }
-	return crucesBA;
-}
 
 function coordenadasDesdeStringDeCalles(stringCalle){
 	var coordenadas = [];
@@ -171,7 +167,7 @@ cruces = [
 	}
 	
 	var stringArray = "[" + stringPtos + "]";
-	$("#resultado").html(stringArray);
+	$("#resultado").val(stringArray);
 	console.log(stringArray);
 }
 

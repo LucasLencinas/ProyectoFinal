@@ -91,6 +91,7 @@ public class Setup {
 		//no puedo obtener los objetos que se guardan para compararlos al sacarlos de la base de datos 
 		ObjectifyService.register(Rampa.class);
 		ObjectifyService.register(Usuario.class);
+		ObjectifyService.register(BarrioBD.class);
 		Setup.isSet = true;
 	}
 	

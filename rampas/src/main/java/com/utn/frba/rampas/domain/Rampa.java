@@ -14,7 +14,7 @@ public class Rampa implements Serializable {
 	/* El par de coordenadas usado por GoogleMaps es (latitud;longitud) */
 	@Expose @Index private double latitud; 
 	@Expose @Index private double longitud;
-	@Expose private String barrio;
+	@Expose @Index private String barrio;
 	@Expose private boolean tieneInformacion;
 	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;

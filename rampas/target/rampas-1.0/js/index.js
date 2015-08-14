@@ -34,7 +34,7 @@ function getIntersecciones(){
         	else{
         		var intersecciones="";
 	        	data.forEach( function(interseccion){
-	        		intersecciones += interseccion.latitud + " y " + interseccion.longitud + "<br/>";
+	        		intersecciones += interseccion.latitud + ";" + interseccion.longitud + "<br/>";
 	        	});
         		$('#espacioNombreInterseccion').append(intersecciones);
         	}

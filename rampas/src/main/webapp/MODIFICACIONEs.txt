@@ -1,0 +1,21 @@
+-Funciona
+-No tiene refactor ni nada.
+-En el js de barrios, cada barrio tiene sus propias calles.
+-Todavia no agarra las calles del js de barrios. TODO!!
+-Falta agregar un par de rampas para probar el calculo de las rutas.
+-
+-
+-
+-
+-
+
+Con ese numero(imagen 1), no se me muestra puntos que tendria que estar.
+      if(google.maps.geometry.poly.isLocationOnEdge(latlng, unaPolilinea, 0.00015))
+
+
+Con ese numero(imagen 2), se me muestran punto que estan a una cuadra de distancia
+      if(google.maps.geometry.poly.isLocationOnEdge(latlng, unaPolilinea, 0.00018)){
+      if(google.maps.geometry.poly.isLocationOnEdge(latlng, unaPolilinea, 0.00017)){
+
+Ahi parece que funciona(imagen 3 y 4) pero igual no es seguro.
+      if(google.maps.geometry.poly.isLocationOnEdge(latlng, unaPolilinea, 0.00016)){
