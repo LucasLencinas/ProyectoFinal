@@ -1,5 +1,7 @@
 package com.utn.frba.rampas.domain;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 
 public class Poligono {
@@ -15,8 +17,14 @@ public class Poligono {
 @Expose private String coordinates ;
 
 public Poligono(){
-	
 }
 
+public String getType(){
+	return type;
+}
+
+public String getCoordinates(){
+	return coordinates;
+}
 
 }

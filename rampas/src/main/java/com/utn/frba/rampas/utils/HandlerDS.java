@@ -273,7 +273,7 @@ public class HandlerDS {
 			ofy().save().entity(unBarrio).now();
 		}
 		catch(Exception ex) {
-			System.out.println("Error"); 	
+			System.out.println("Error: " + ex.getMessage()); 	
 			return false;
 		}
 		ofy().load().type(BarrioBD.class).filter("barrio",unBarrio.getNombre());

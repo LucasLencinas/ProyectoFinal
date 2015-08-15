@@ -7,9 +7,13 @@ import java.io.IOException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
-
+import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
+import com.utn.frba.rampas.domain.Barrio;
+import com.utn.frba.rampas.domain.BarrioBD;
 import com.utn.frba.rampas.domain.ListadoIntersecciones;
+import com.utn.frba.rampas.domain.Punto;
+import com.utn.frba.rampas.domain.Rampa;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,21 +40,35 @@ public class CargarRampasTest {
 	
 	@Test
 	public void cargarArchivoConRampasTest(){
+		int id = 0;
 	  Gson gson = new Gson();  
 	  ListadoIntersecciones listado = new ListadoIntersecciones();
 	  try {  
 	    
-		   System.out.println("Reading JSON from a file");  
-		   System.out.println("----------------------------");  
+	  	Barrio barrio;
+	  	BarrioBD barrioBD;
+	  	Punto punto;
+	  	Rampa rampa;
+		  System.out.println("Reading JSON from a file");  
+		  System.out.println("----------------------------");  
 		     
-		   BufferedReader br = new BufferedReader(new FileReader("D:\\workspace\\rampas\\rampas\\src\\main\\webapp\\mapa0308\\barriosParaJava.js"));  
+		  BufferedReader br = new BufferedReader(new FileReader("D:\\workspace\\rampas\\rampas\\src\\main\\webapp\\barriosParaJava.js"));  
 		     
-		    //convert the json string back to object  
-		   listado = gson.fromJson(br, ListadoIntersecciones.class);  
-		     
-		   System.out.println("Nombre del primer Barrio: "+listado.getBarrios().get(0).getNombre());  
-		   System.out.println("El valor de la primera coordenada del 5to barrio deberia ser -34.5729116200995: "+listado.getBarrios().get(4).getCalles().get(0).getCoordenadas().get(0));
+		  //convert the json string back to object  
+		  listado = gson.fromJson(br, ListadoIntersecciones.class);  
 		   
+		  for (int i = 0; i < 2/*listado.getBarrios().size()*/ ; i++) {
+		  	barrio = listado.getBarrios().get(i);
+		  	barrioBD = new BarrioBD(i+1, barrio.getNombre(), barrio.getPoligono().getCoordinates());
+		  	HandlerDS.saveBarrio(barrioBD);
+		  	for(int j = 0; j < barrio.getCalles().size(); j++){
+		  		punto = barrio.getCalles().get(j);
+		  		rampa = new Rampa(++id, punto.getCoordenadas().get(0), 
+		  				punto.getCoordenadas().get(1), barrio.getNombre(), punto.getTieneInformacion(), 
+		  				punto.getTieneRampa(), punto.getBuenEstado(), punto.getCrucesAccesibles(), punto.getReportada());
+		  		HandlerDS.saveRampa(rampa);
+		  	}
+			} 
 		  
 		   /**   
 		   List<String> listOfStates = listado.getListOfStates();  
@@ -63,8 +81,7 @@ public class CargarRampasTest {
 	   e.printStackTrace();  
 	  }
 	  
-	  assertTrue(listado.getBarrios().get(0).getNombre().equalsIgnoreCase("COGHLAN"));
-	  assertEquals(listado.getBarrios().get(4).getCalles().get(0).getCoordenadas().get(0),-34.5729116200995,0);
+	  assertEquals(HandlerDS.getRampas().size(),id,0);
 	  
 	}
 

@@ -16,7 +16,12 @@ public class Barrio {
 				"[[[[-58.47242,-34.5661],[-58.47296,-34.56642],[-58.47299,-34.56644],[-58.47242,-34.5661]]]]"
 		},
 		"calles":
-		[{"coordenadas":[-34.5535366295266, -58.47358614652592]},{"coordenadas":[-34.5544263051994, -58.47517607932252]}]
+		[{"coordenadas":[-34.5977376702305, -58.4217776331198], 
+			"tieneInformacion": false, 
+			"tieneRampa": false, 
+			"buenEstado": false, 
+			"crucesAccesibles": false, 
+			"reportada": false}]
 	},
 	{},
 	]
