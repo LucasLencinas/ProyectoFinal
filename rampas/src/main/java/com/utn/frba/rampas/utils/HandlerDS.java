@@ -104,7 +104,7 @@ public class HandlerDS {
 			System.out.println("Error"); 	
 			return false;
 		}
-		System.out.println("OK"); 	
+		System.out.println("Id: "+ unaRampa.getId() +  " - OK - Rampa lat: " + unaRampa.getLatitud()); 	
 		return true;
 	}
 	

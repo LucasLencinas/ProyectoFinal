@@ -57,7 +57,7 @@ public class CargarRampasTest {
 		  //convert the json string back to object  
 		  listado = gson.fromJson(br, ListadoIntersecciones.class);  
 		   
-		  for (int i = 0; i < 2/*listado.getBarrios().size()*/ ; i++) {
+		  for (int i = 0; i < listado.getBarrios().size() ; i++) {
 		  	barrio = listado.getBarrios().get(i);
 		  	barrioBD = new BarrioBD(i+1, barrio.getNombre(), barrio.getPoligono().getCoordinates());
 		  	HandlerDS.saveBarrio(barrioBD);
