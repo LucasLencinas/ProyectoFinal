@@ -70,13 +70,6 @@ public class CargarRampasTest {
 		  	}
 			} 
 		  
-		   /**   
-		   List<String> listOfStates = listado.getListOfStates();  
-		   for (int i = 0; i < listOfStates.size(); i++) {  
-		    System.out.println(listOfStates.get(i));  
-		   }  
-		   **/
-	    
 	  } catch (IOException e) {  
 	   e.printStackTrace();  
 	  }
