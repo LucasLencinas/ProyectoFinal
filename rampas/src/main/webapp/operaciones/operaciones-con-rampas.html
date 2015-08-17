@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Operaciones con Rampas</title>
+  <style>
+    thead {color:green;}
+    tbody {color:blue;}
+    tfoot {color:red;}
+    table,th,td {border:1px solid black;}
+  </style>
+</head>
+<body>
+  <h1>Operaciones con Rampas</h1>
+
+
+<table border="1"><!--style="width:800px"-->
+  <thead>
+  <tr>
+    <th width="100">Nombre Operacion</th>
+    <th width="200">Atributos: Valores</th>
+    <th width="50"> Ejecutar </th>
+    <th width="150"> Resultado </th>
+  </tr>
+  </thead>
+
+<tbody>
+<tr>
+<td>Nueva Rampa</td>
+<td>
+  <div>
+    Coordenadas: </br>
+    - Lat: <input type="textbox" id="nuevaLat"></br>
+    - Lng: <input type="textbox" id="nuevaLng"></br>
+    Tiene Informacion: <input type="checkbox" id="nuevaTieneRampa"></br>
+    Tiene Rampa: <input type="checkbox" id="nuevaTieneRampa"></br>
+    Buen Estado: <input type="checkbox" id="nuevaBuenEstado"></br>
+    Cruces Accesibles: <input type="checkbox" id="nuevaCrucesAccesibles"></br>
+    Reportada: <input type="checkbox" id="nuevaReportada"></br>
+    Barrio: <input type="textbox" id="nuevaBarrio" value="Almagro"></br>
+  </div>
+</td>
+<td><button onclick="nuevaRampa()">Nueva</button></td>
+<td>
+  <div id="resultadoNuevaRampa">
+    Todavia no se dio de alta una rampa.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Reportar Rampa</td>
+<td>
+  <div>
+    Coordenadas: </br>
+    - Lat: <input type="textbox" id="reportarLat"></br>
+    - Lng: <input type="textbox" id="reportarLng"></br>
+  </div>
+</td>
+<td><button onclick="reportarRampa()">Reportar</button></td>
+<td>
+  <div id="resultadoReportarRampa">
+    Todavia no se reporto una rampa.<br>
+  </div></td>
+</tr>
+
+<tr>
+<td>Modificar Rampa</td>
+<td>
+  <div>
+    Coordenadas: </br>
+    - Lat: <input type="textbox" id="modificarLat"></br>
+    - Lng: <input type="textbox" id="modificarLng"></br>
+    Tiene Informacion: <input type="checkbox" id="modificarTieneRampa"></br>
+    Tiene Rampa: <input type="checkbox" id="modificarTieneRampa"></br>
+    Buen Estado: <input type="checkbox" id="modificarBuenEstado"></br>
+    Cruces Accesibles: <input type="checkbox" id="modificarCrucesAccesibles"></br>
+    Reportada: <input type="checkbox" id="modificarReportada"></br>
+    Barrio: <input type="textbox" id="modificarBarrio" value="Almagro"></br>
+  </div>
+</td>
+<td><button onclick="modificarRampa()">Modificar</button></td>
+<td>
+  <div id="resultadoModificarRampa">
+    Todavia no se modifico una rampa.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Buscar/Consultar Rampa por Ubicacion</td>
+<td>
+  <div>
+    Coordenadas: </br>
+    - Lat: <input type="textbox" id="buscarPorUbicacionLat"></br>
+    - Lng: <input type="textbox" id="buscarPorUbicacionLng"></br>
+  </div>
+</td>
+<td><button onclick="buscarRampaPorUbicacion()">Buscar</button></td>
+<td>
+  <div id="resultadoBuscarRampaPorUbicacion">
+    Todavia no se busco rampa por Ubicacion.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Buscar/Consultar Rampa por Barrio </td>
+<td>
+  <div>
+    Barrio: <input type="textbox" id="buscarPorBarrioBarrio" value="Almagro"></br>
+    Cantidad: <input type="textbox" id="buscarPorBarrioCantidad" value="10"></br>
+  </div>
+</td>
+<td><button onclick="buscarRampaPorBarrio()">Buscar</button></td>
+<td>
+  <div id="resultadoBuscarRampaPorBarrio">
+    Todavia no se busco rampa por barrio.<br>
+  </div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</body>
+</html>
+
+  <!--
+  <div id="panel">
+    <div id="form">
+      Interseccion: <input class="autocomplete" id="direccion" placeholder="Direccion" type="text"></input>
+      <button onclick="ubicarInterseccion()">Ubicar</button>  
+      <button id="buttonNueva" onclick="mostrarFormNueva()">Nueva</button>  
+      <div id= "soloNuevo">
+        Tiene Rampa: <input type="checkbox" id="tieneRampa">
+        </br>Estado: </br>
+        <input id="estado" type="radio" name="estado" value="bueno" checked>Bueno</br>
+        <input id="estado" type="radio" name="estado" value="malo" checked>Malo</br>
+        Cruces Accesibles: <input type="checkbox" id="tieneRampa">
+      </br>
+      </br>
+      <button onclick="guardarInterseccion()">Guardar</button></br>
+      </div>
+    </div>
+    <div id="result">
+    Presione un Boton para buscar si en esa direccion hay una rampa o interseccion.<br>
+    </div>
+  </div>
+-->
+</body>
+  <script src="jquery-2.1.4.min.js"></script>
+  <script src="consulta-interseccion.js"></script>
+
+</html>
