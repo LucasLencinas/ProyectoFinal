@@ -49,6 +49,22 @@ public class Rampas {
 		}
 	}
 	
+	@GET 
+	@Path("/barrios/{barrio}")
+	@Produces("application/json")
+	public Response loadRampaByBarrio(@PathParam("barrio") String barrio) {
+		System.out.println("Dentro de get rampas by Barrio");
+		System.out.println("Me llegan, barrio: "+ barrio);
+		ArrayList<Rampa> rampas = HandlerDS.getRampasByBarrio(barrio);
+		if (rampas == null || rampas.size() == 0) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			return Response.ok(new Gson().toJson(rampas),MediaType.APPLICATION_JSON).build();		
+		}
+	}
+	
+	
 	/**Lo de abajo todavia no esta testeado mediante la pagina web usando AJAX**/
 
 	@GET

@@ -27,46 +27,57 @@ id="resultadoBuscarRampaPorUbicacion"
 
   console.log("A punto de buscar rampas por ubicacion...");
   $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
-        success: function (data) {
-          var rampa = ""
-          rampa += data.id + "<br/>";
-          rampa += data.latitud + "<br/>";
-          rampa += data.longitud + "<br/>";
-          rampa += data.barrio + "<br/>";
-          rampa += data.tieneInformacion + "<br/>";
-          rampa += data.tieneRampas + "<br/>";
-          $('#resultadoBuscarRampaPorUbicacion').html(rampa);
-        }
-    });
+    type: "GET",
+    dataType: "json",
+    url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
+    success: function (rampa) {
+      $('#resultadoBuscarRampaPorUbicacion').html(JSON.stringify(rampa));
+    }
+  });
+}
 
+function buscarRampaPorBarrio(barrio,cantidad){
+  $.ajax({
+    type:"GET",
+    dataType: "json",
+    url: "/rampas/Rampas/barrios/" + barrio,
+    success: function(rampas){
+      if(rampas.length > 10){ //Para que no me muestre las 500 rampas por barrio.
+        rampas = rampas.slice(0, 11);
+      }
+      $('#resultadoBuscarRampaPorBarrio').html(JSON.stringify(rampas));
+    },
+    statusCode: {
+      404: function () { 
+        $('#resultadoBuscarRampaPorBarrio').html("No se ha encontrado ninguna rampa con ese barrio.");
+      }
+    }
+  });
 }
 
 function cargarDatos(){
   console.log("A punto de cargar los datos en la base de datos...");
   $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/rampas/Usuarios/admin/carga",
-        success: function (data) {
-          alert("Success - Carga inicial OK");
-          console.log("Success - Carga inicial OK");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          var resultado = "Error - Carga inicial. ";
-          resultado += "Contenido jqHR:" + jqXHR + ". ";
-          resultado += "Contenido textStatus:" + textStatus + ". ";
-          resultado += "Contenido errorThrown:" + errorThrown + ". ";
-          alert(resultado);
-        },
-        complete: function (jqXHR, textStatus) {
-          var resultado = "Complete - Carga inicial. ";
-          resultado += "Contenido jqHR:" + jqXHR + ". ";
-          resultado += "Contenido textStatus:" + textStatus + ". ";
-          alert(resultado);
-        }
-    });
+    type: "GET",
+    dataType: "json",
+    url: "/rampas/Usuarios/admin/carga",
+    success: function (data) {
+      alert("Success - Carga inicial OK");
+      console.log("Success - Carga inicial OK");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      var resultado = "Error - Carga inicial. ";
+      resultado += "Contenido jqHR:" + jqXHR + ". ";
+      resultado += "Contenido textStatus:" + textStatus + ". ";
+      resultado += "Contenido errorThrown:" + errorThrown + ". ";
+      alert(resultado);
+    },
+    complete: function (jqXHR, textStatus) {
+      var resultado = "Complete - Carga inicial. ";
+      resultado += "Contenido jqHR:" + jqXHR + ". ";
+      resultado += "Contenido textStatus:" + textStatus + ". ";
+      alert(resultado);
+    }
+  });
 }
 

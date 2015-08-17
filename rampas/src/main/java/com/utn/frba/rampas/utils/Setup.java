@@ -60,10 +60,11 @@ public class Setup {
   		medranoYtucuman = new Rampa(2,-34.59816741095431,-58.42018889999997,"Almagro",true,false,false,false,false);
   		medranoYlavalle = new Rampa(3,-34.59896381095469,-58.420347900000024,"Almagro",true,true,false,false,false);
   		medranoYrocamora = new Rampa(4,-34.59950261095487,-58.420448299999975,"Almagro",true,true,false,true,false);
-  		medranoYrauch = new Rampa(5,-34.60001371095508,-58.42052460000002,"Almagro",true,true,true,false,false);
-  		medranoYguardiaVieja = new Rampa(6,-34.600685110955375,-58.42059330000001,"Almagro",true,true,true,true,false);
-  		medranoYhumahuaca = new Rampa(7,-34.60191351095585,-58.4207993,"Almagro",true,true,true,true,true);
-  		medranoYcorrientes = new Rampa(8,-34.60316471095638,-58.420967099999984,"Almagro", true,true,true,true,false);
+  		/**las de abajo tambien son de almagro pero las cambio para un test sobre los barrios**/
+  		medranoYrauch = new Rampa(5,-34.60001371095508,-58.42052460000002,"Retiro",true,true,true,false,false);
+  		medranoYguardiaVieja = new Rampa(6,-34.600685110955375,-58.42059330000001,"Retiro",true,true,true,true,false);
+  		medranoYhumahuaca = new Rampa(7,-34.60191351095585,-58.4207993,"Belgrano",true,true,true,true,true);
+  		medranoYcorrientes = new Rampa(8,-34.60316471095638,-58.420967099999984,"Belgrano", true,true,true,true,false);
         
       HandlerDS.saveRampa(medranoYcordoba);
       HandlerDS.saveRampa(medranoYtucuman);
