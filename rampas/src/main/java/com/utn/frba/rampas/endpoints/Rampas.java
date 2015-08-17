@@ -7,12 +7,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-
 import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
@@ -33,6 +33,23 @@ public class Rampas {
 			return Response.ok(new Gson().toJson(rampas),MediaType.APPLICATION_JSON).build();		
 		}
 	}
+	
+	@GET 
+	@Path("/latlng/{lat}/{lng}")
+	@Produces("application/json")
+	public Response loadRampaByLatLng(@PathParam("lat") String lat, @PathParam("lng") String lng) {
+		System.out.println("Dentro de get rampas by latlng");
+		System.out.println("Me llegan, lat: "+ lat +", lng: " + lng );
+		Rampa unaRampa = HandlerDS.getRampaByLatitudLongitud(Double.parseDouble(lat),Double.parseDouble(lng));
+		if (unaRampa == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			return Response.ok(new Gson().toJson(unaRampa),MediaType.APPLICATION_JSON).build();		
+		}
+	}
+	
+	/**Lo de abajo todavia no esta testeado mediante la pagina web usando AJAX**/
 
 	@GET
 	@Path("/Rampa")

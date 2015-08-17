@@ -34,11 +34,23 @@ public class Usuarios {
 		else {
 			return Response.ok(new Gson().toJson(usuarios),MediaType.APPLICATION_JSON).build();		
 		}
-/*
-		String usuarios_json = new Gson().toJson(HandlerDS.getUsuarios());
-		return Response.ok(usuarios_json,MediaType.APPLICATION_JSON).build();
-*/	
 	}
+	
+	@GET 
+	@Path("/admin/carga")
+	@Produces("application/json")
+	public Response cargaInicial() {
+		
+		System.out.println("Me piden la carga inicial de datos de prueba...");
+		Setup.setup();
+		return Response.ok("{\"Respuesta\": \"OK\"}",MediaType.APPLICATION_JSON).build();		
+	}
+	
+	
+	
+	
+	
+	/**Las funciones de abajo todavia no fueron probadas desde la pagina web con AJAX**/
 	
 	@GET
 	@Path("/Usuario")

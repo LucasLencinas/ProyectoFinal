@@ -17,6 +17,7 @@ import com.utn.frba.rampas.domain.Rampa;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -37,7 +38,7 @@ public class CargarRampasTest {
   public void tearDown() {
       helper.tearDown();
   }
-	
+	@Ignore
 	@Test
 	public void cargarArchivoConRampasTest(){
 		int id = 0;

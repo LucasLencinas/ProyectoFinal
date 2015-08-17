@@ -10,9 +10,10 @@
     tfoot {color:red;}
     table,th,td {border:1px solid black;}
   </style>
+  <script src="../jquery-2.1.4.min.js"></script>
 </head>
 <body>
-  <h1>Operaciones con Rampas</h1>
+  <h1>Operaciones con Rampas <button onclick="cargarDatos()">Cargar Datos</button></h1>
 
 
 <table border="1"><!--style="width:800px"-->
@@ -97,7 +98,7 @@
     - Lng: <input type="textbox" id="buscarPorUbicacionLng"></br>
   </div>
 </td>
-<td><button onclick="buscarRampaPorUbicacion()">Buscar</button></td>
+<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())">Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampaPorUbicacion">
     Todavia no se busco rampa por Ubicacion.<br>
@@ -125,31 +126,8 @@
 </table>
 </body>
 </html>
-
-  <!--
-  <div id="panel">
-    <div id="form">
-      Interseccion: <input class="autocomplete" id="direccion" placeholder="Direccion" type="text"></input>
-      <button onclick="ubicarInterseccion()">Ubicar</button>  
-      <button id="buttonNueva" onclick="mostrarFormNueva()">Nueva</button>  
-      <div id= "soloNuevo">
-        Tiene Rampa: <input type="checkbox" id="tieneRampa">
-        </br>Estado: </br>
-        <input id="estado" type="radio" name="estado" value="bueno" checked>Bueno</br>
-        <input id="estado" type="radio" name="estado" value="malo" checked>Malo</br>
-        Cruces Accesibles: <input type="checkbox" id="tieneRampa">
-      </br>
-      </br>
-      <button onclick="guardarInterseccion()">Guardar</button></br>
-      </div>
-    </div>
-    <div id="result">
-    Presione un Boton para buscar si en esa direccion hay una rampa o interseccion.<br>
-    </div>
-  </div>
--->
 </body>
-  <script src="jquery-2.1.4.min.js"></script>
-  <script src="consulta-interseccion.js"></script>
+  
+  <script src="llamadas-al-servidor.js"></script>
 
 </html>
