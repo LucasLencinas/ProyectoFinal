@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class Rampa implements Serializable {
 	
-	@Expose @Id private long id;
+	@Expose @Id private Long id;
 	/* El par de coordenadas usado por GoogleMaps es (latitud;longitud) */
 	@Expose @Index private double latitud; 
 	@Expose @Index private double longitud;

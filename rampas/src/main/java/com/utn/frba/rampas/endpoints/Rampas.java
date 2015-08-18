@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -64,6 +66,23 @@ public class Rampas {
 		}
 	}
 	
+	@POST
+  @Produces("application/json")
+  @Consumes("application/json")
+	public Response saveRampa(String rampa_json) {
+		Gson parser = new Gson();
+		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
+		boolean agregoRampaBien = HandlerDS.saveRampa(unaRampa);
+		if (agregoRampaBien) {
+			System.out.println("La rampa se agrego bien");
+			return Response.status(Response.Status.OK).build();
+		} 
+		else {
+			System.out.println("Hubo con conflicto al guardar la rampa");
+			return Response.status(Response.Status.CONFLICT).build();
+		}
+	}
+	
 	
 	/**Lo de abajo todavia no esta testeado mediante la pagina web usando AJAX**/
 
@@ -83,20 +102,7 @@ public class Rampas {
 		}
 	}
 	
-	@POST
-	@Path("/Rampa")
-	@Consumes("application/json")
-	public Response saveRampa(String rampa_json) {
-		Gson parser = new Gson();
-		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
-		boolean agregoRampaBien = HandlerDS.saveRampa(unaRampa);
-		if (agregoRampaBien) {
-			return Response.status(Response.Status.OK).build();
-		} 
-		else {
-			return Response.status(Response.Status.CONFLICT).build();
-		}
-	}
+	
 	
 	@DELETE
 	@Path("/Rampa")

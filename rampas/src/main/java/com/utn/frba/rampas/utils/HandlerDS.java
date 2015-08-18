@@ -101,7 +101,8 @@ public class HandlerDS {
 			ofy().save().entity(unaRampa).now();
 		}
 		catch(Exception ex) {
-			System.out.println("Error"); 	
+			System.out.println("Error"); 
+			System.out.println(ex.getLocalizedMessage());
 			return false;
 		}
 		System.out.println("Id: "+ unaRampa.getId() +  " - OK - Rampa lat: " + unaRampa.getLatitud()); 	
