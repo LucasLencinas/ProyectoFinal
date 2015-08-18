@@ -17,7 +17,9 @@
 
 **/
 
-function generarRampaDesdeLosInput(){
+/**--------NUEVA RAMPA-------**/
+
+function generarRampaDesdeLosInputDeNuevaRampa(){
   var rampa = {};
   //rampa.id = 0;
   rampa.latitud = $("#nuevaLat").val(); 
@@ -50,11 +52,91 @@ function nuevaRampa(rampa){
     },
     statusCode: {
       409: function () { 
-        $('#resultadoBuscarRampaPorBarrio').html("Hubo un error al grabar la rampa en la base de datos.");
+        $('#resultadoNuevaRampa').html("Hubo un error al grabar la rampa en la base de datos.");
       }
     }
   });
 }
+
+/**--------REPORTAR RAMPA-------**/
+
+function generarRampaDesdeLosInputDeReportarRampa(){
+  var rampa = {};
+  rampa.latitud = $("#reportarLat").val(); 
+  rampa.longitud = $("#reportarLng").val();
+  rampa.reportada = true;
+  return rampa;
+}
+
+function reportarRampa(rampa){
+
+  console.log("A punto de reportar una rampa...");
+  $.ajax({
+    type: "PUT",
+    contentType: "application/json",
+    data: JSON.stringify(rampa),
+    url: "/rampas/Rampas/reportadas",
+    success: function (data) {
+      $('#resultadoReportarRampa').html("Se reporto la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+    },
+    complete: function (jqXHR, textStatus) {
+      var resultado = "Complete - Nueva Rampa. ";
+      resultado += "Contenido jqHR:" + jqXHR.toString() + ". ";
+      resultado += "Contenido textStatus:" + textStatus + ". ";
+      alert(resultado);
+    },
+    statusCode: {
+      409: function () { 
+        $('#resultadoReportarRampa').html("Hubo un error reportar la rampa en la base de datos.");
+      }
+    }
+  });
+}
+
+
+/**--------MODIFICAR RAMPA-------**/
+
+function generarRampaDesdeLosInputDeModificarRampa(){
+
+  var rampa = {};
+  rampa.latitud = $("#modificarLat").val(); 
+  rampa.longitud = $("#modificarLng").val();
+  rampa.barrio = $("#modificarBarrio").val();
+  rampa.tieneInformacion = $("#modificarTieneInformacion").is(':checked');
+  rampa.tieneRampas = $("#modificarTieneRampas").is(':checked');
+  rampa.buenEstado = $("#modificarBuenEstado").is(':checked');
+  rampa.todosCrucesAccesibles = $("#modificarCrucesAccesibles").is(':checked');
+  rampa.reportada = $("#modificarReportada").is(':checked');
+  return rampa;
+}
+
+function modificarRampa(rampa){
+
+  console.log("A punto de modificar una rampa...");
+  $.ajax({
+    type: "PUT",
+    contentType: "application/json",
+    data: JSON.stringify(rampa),
+    url: "/rampas/Rampas",
+    success: function (data) {
+      $('#resultadoReportarRampa').html("Se reporto la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+    },
+    complete: function (jqXHR, textStatus) {
+      var resultado = "Complete - Nueva Rampa. ";
+      resultado += "Contenido jqHR:" + jqXHR.toString() + ". ";
+      resultado += "Contenido textStatus:" + textStatus + ". ";
+      alert(resultado);
+    },
+    statusCode: {
+      409: function () { 
+        $('#resultadoReportarRampa').html("Hubo un error reportar la rampa en la base de datos.");
+      }
+    }
+  });
+}
+
+
+/**--------BUSCAR RAMPA POR UBICACION-------**/
 
 function buscarRampaPorUbicacion(latitud, longitud){
 /*----- Ids que se usan en este query al servidor --------
@@ -79,6 +161,10 @@ id="resultadoBuscarRampaPorUbicacion"
   });
 }
 
+
+
+/**--------BUSCAR RAMPAS POR BARRIO-------**/
+
 function buscarRampaPorBarrio(barrio,cantidad){
   $.ajax({
     type:"GET",
@@ -97,6 +183,11 @@ function buscarRampaPorBarrio(barrio,cantidad){
     }
   });
 }
+
+
+
+
+/**--------Carga inicial de la base de datos -------**/
 
 function cargarDatos(){
   console.log("A punto de cargar los datos en la base de datos...");
