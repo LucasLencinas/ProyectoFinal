@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class BarrioBD implements Serializable {
@@ -14,12 +15,8 @@ public class BarrioBD implements Serializable {
 //	nombre: "Almagro"
 // 	limites: "[[[[-58.47242,-34.5661],[-58.47296,-34.56642],[-58.47299,-34.56644],[-58.47242,-34.5661]]]]"
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@Expose @Id private long id;
-	@Expose private String nombre;
+	@Expose @Index private String nombre;
 	@Expose private String limites;	
 
 	/* Es necesario este constructor para que funcione el GSON */

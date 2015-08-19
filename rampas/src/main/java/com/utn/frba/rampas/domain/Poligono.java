@@ -1,7 +1,5 @@
 package com.utn.frba.rampas.domain;
 
-import java.util.ArrayList;
-
 import com.google.gson.annotations.Expose;
 
 public class Poligono {

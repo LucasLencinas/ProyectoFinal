@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Usuario implements Serializable {
@@ -12,9 +13,9 @@ public class Usuario implements Serializable {
 	@Expose @Id private long id;
 	@Expose private String nombre;
 	@Expose private String apellido;
-	@Expose private String mail;
+	@Expose @Index private String mail;
 	@Expose private String contraseña;
-	@Expose private String facebook;
+	@Expose @Index private String facebook;
 	@Expose private boolean usuarioPropio;
 
 	/* Es necesario este constructor para que funcione el GSON */
