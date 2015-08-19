@@ -52,26 +52,20 @@ public class BarrioBD implements Serializable {
 		this.limites = limites;
 	}
 	
-	public ArrayList<Double> getCoordenadas() {
-		ArrayList<Double> limitesDouble = new ArrayList<Double>();
+	public ArrayList<Point> getPuntos() {
+		ArrayList<Point> puntos = new ArrayList<Point>();
 		String limitesSinCorchetes = getLimites().substring(4,getLimites().length()-4);
 		String[] limitesComoArray = limitesSinCorchetes.split("\\],\\[");
 		String[] aux;
 		for (int i = 0; i < limitesComoArray.length; i++) {
 			aux = limitesComoArray[i].split(",");
-			limitesDouble.add(Double.parseDouble(aux[0]));
-			limitesDouble.add(Double.parseDouble(aux[1]));
+			puntos.add(new Point(Double.parseDouble(aux[0]),Double.parseDouble(aux[1])));
 		}
-		return limitesDouble;
+		return puntos;
 	}
 	
 	public boolean contiene(Rampa unaRampa) {
-		ArrayList<Double> coordenadas = new ArrayList<Double>();
-		coordenadas = getCoordenadas();
-		ArrayList<Point> puntos = new ArrayList<Point>();
-		for (int i = 0; i < coordenadas.size(); i += 2) {
-			puntos.add(new Point(coordenadas.get(i),coordenadas.get(i+1)));
-		}
+		ArrayList<Point> puntos = getPuntos();
 		Polygon poligono = Polygon.Builder().addVertexes(puntos).build();
 		if (poligono.contains(new Point(unaRampa.getLatitud(),unaRampa.getLongitud()))) {
 			return true;

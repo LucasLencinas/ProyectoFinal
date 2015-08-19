@@ -181,12 +181,10 @@ public class DataStoreTest {
     	assertEquals(unBarrio.getId(),agronomia.getId(),0);
     }
     
-    @Ignore
     @Test
     public void getBarrioByRampa() {
-    	HandlerDS.saveBarrio(almagro);
-    	String barrio = HandlerDS.getBarrioByRampa(medranoYcordoba);
-    	assertTrue(barrio.equalsIgnoreCase(medranoYcordoba.getBarrio()));
+    	String barrio = HandlerDS.getBarrioByRampa(medranoYcorrientes);
+    	assertTrue(barrio.equalsIgnoreCase(medranoYcorrientes.getBarrio()));
     }    
     
     @Ignore
@@ -212,8 +210,8 @@ public class DataStoreTest {
     @Test
     public void getUsuarioById() {
 		Usuario unUsuario = HandlerDS.getUsuarioById(federico.getId());
-		assertEquals(unUsuario.getNombre(),federico.getNombre(),0);
-		assertEquals(unUsuario.getApellido(),federico.getApellido(),0);      	
+    	assertTrue(unUsuario.getNombre().equalsIgnoreCase(federico.getNombre()));
+    	assertTrue(unUsuario.getApellido().equalsIgnoreCase(federico.getApellido()));
 	}
     
     @Test

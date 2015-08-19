@@ -9,97 +9,89 @@ import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.domain.Usuario;
 
 public class HandlerDS {
-	
-	/* Usuario */
-	
-	public static String saveUsuario(Usuario unUsuario) {
-		System.out.print("Guardar Usuario: " + unUsuario.getId());
-		try {
-			ofy().save().entity(unUsuario).now();
-		}
-		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
-			return ex.getLocalizedMessage();
-		}
-		System.out.println(" OK"); 	
-		return "OK";
-	}
-	
-	public static String deleteUsuario(Usuario unUsuario) {
-		System.out.print("Borrar Usuario: " + unUsuario.getId());
-		try {
-			ofy().delete().entity(unUsuario).now();
-		}
-		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
-			return ex.getLocalizedMessage();
-		}
-		System.out.println(" OK"); 	
-		return "OK";
-	}
 
-	public static ArrayList<Usuario> getUsuarios() {
-		System.out.print("Buscar Usuarios: ");
-		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-		Iterable<Usuario> usuariosDS = new ArrayList<Usuario>() ;
+	/* Barrio */
+	
+	public static String saveBarrio(BarrioBD unBarrio) {
+		System.out.print("Guardar Barrio: " + unBarrio.getNombre());
 		try {
-			usuariosDS = ofy().load().type(Usuario.class).list();
+			ofy().save().entity(unBarrio).now();
+		}
+		catch(Exception ex) {
+			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			return ex.getLocalizedMessage();
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+	
+	public static String deleteBarrio(BarrioBD unBarrio) {
+		System.out.print("Borrar Barrio: " + unBarrio.getNombre());
+		try {
+			ofy().delete().entity(unBarrio).now();
+		}
+		catch(Exception ex) {
+			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			return ex.getLocalizedMessage();
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+	
+	public static ArrayList<BarrioBD> getBarrios() {
+		System.out.print("Buscar Barrios: ");
+		ArrayList<BarrioBD> barrios = new ArrayList<BarrioBD>();
+		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
+		try {
+			barriosDS = ofy().load().type(BarrioBD.class).list();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}		
-		for (Usuario unUsuario:usuariosDS) {
-			usuarios.add(unUsuario);
-			System.out.print(unUsuario.getId() + " ");	
-		}	
-		System.out.println(" ");		
-		return usuarios;
-	}
+		for (BarrioBD unBarrio:barriosDS) {
+			barrios.add(unBarrio);
+			System.out.print(unBarrio.getId() + " ");	
+		}
+		System.out.println(" ");
+		return barrios;
+	}	
 	
-	public static Usuario getUsuarioById(long id) {
-		System.out.print("Buscar Usuario por Id: ");
-		Usuario unUsuario;
+	public static BarrioBD getBarrioByNombre(String nombre) {
+		System.out.print("Buscar Barrio por Nombre: ");
+		BarrioBD unBarrio;
 		try {
-		  unUsuario = ofy().load().type(Usuario.class).id(id).now();
+		  unBarrio = ofy().load().type(BarrioBD.class).filter("nombre",nombre).first().now();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
 		System.out.println("OK");
-		return unUsuario;
+		return unBarrio;
 	}
 	
-	public static Usuario getUsuarioByMail(String mail) {
-		System.out.print("Buscar Usuario por Mail: ");
-		Usuario unUsuario;
+	public static String getBarrioByRampa(Rampa unaRampa) {
+		System.out.print("Buscar Barrio por Rampa: ");
+		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
 		try {
-		  unUsuario = ofy().load().type(Usuario.class).filter("mail",mail).first().now();
+			barriosDS = ofy().load().type(BarrioBD.class).list();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unUsuario;
-	}
-	
-	public static Usuario getUsuarioByFacebook(String facebook) {
-		System.out.print("Buscar Usuario por Facebook: ");
-		Usuario unUsuario;
-		try {
-		  unUsuario = ofy().load().type(Usuario.class).filter("facebook",facebook).first().now();
-		} 
-		catch(Exception ex) {
-			System.out.println("Error - " + ex.getLocalizedMessage()); 
-			return null;
+		for (BarrioBD unBarrio:barriosDS) {
+			if (unBarrio.contiene(unaRampa)) {
+				System.out.print(unBarrio.getNombre());	
+				return unBarrio.getNombre();
+			}
 		}
-		System.out.println("OK");
-		return unUsuario;
-	}
+		System.out.println("No existe ningun barrio cargado que contenga esa Rampa");
+		return null;
+	}		
 	
-	/** TODO Rampa:Cambie de nombre todo lo que decia interseccion por rampa, preguntarle a los chicos**/
+/** TODO Rampa:Cambie de nombre todo lo que decia interseccion por rampa, preguntarle a los chicos**/
 	
 	/* Rampa */
 	
@@ -274,87 +266,98 @@ public class HandlerDS {
 		System.out.println(" ");
 		return rampasBarrio;
 	}
+	
+	/* Usuario */
+	
+	public static String saveUsuario(Usuario unUsuario) {
+		System.out.print("Guardar Usuario: " + unUsuario.getId());
+		try {
+			ofy().save().entity(unUsuario).now();
+		}
+		catch(Exception ex) {
+			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			return ex.getLocalizedMessage();
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+	
+	public static String deleteUsuario(Usuario unUsuario) {
+		System.out.print("Borrar Usuario: " + unUsuario.getId());
+		try {
+			ofy().delete().entity(unUsuario).now();
+		}
+		catch(Exception ex) {
+			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			return ex.getLocalizedMessage();
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
 
-	/* Barrio */
-	
-	public static String saveBarrio(BarrioBD unBarrio) {
-		System.out.print("Guardar Barrio: " + unBarrio.getNombre());
+	public static ArrayList<Usuario> getUsuarios() {
+		System.out.print("Buscar Usuarios: ");
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		Iterable<Usuario> usuariosDS = new ArrayList<Usuario>() ;
 		try {
-			ofy().save().entity(unBarrio).now();
-		}
-		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
-			return ex.getLocalizedMessage();
-		}
-		System.out.println(" OK"); 	
-		return "OK";
-	}
-	
-	public static String deleteBarrio(BarrioBD unBarrio) {
-		System.out.print("Borrar Barrio: " + unBarrio.getNombre());
-		try {
-			ofy().delete().entity(unBarrio).now();
-		}
-		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
-			return ex.getLocalizedMessage();
-		}
-		System.out.println(" OK"); 	
-		return "OK";
-	}
-	
-	public static ArrayList<BarrioBD> getBarrios() {
-		System.out.print("Buscar Barrios: ");
-		ArrayList<BarrioBD> barrios = new ArrayList<BarrioBD>();
-		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
-		try {
-			barriosDS = ofy().load().type(BarrioBD.class).list();
+			usuariosDS = ofy().load().type(Usuario.class).list();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}		
-		for (BarrioBD unBarrio:barriosDS) {
-			barrios.add(unBarrio);
-			System.out.print(unBarrio.getId() + " ");	
-		}
-		System.out.println(" ");
-		return barrios;
-	}	
+		for (Usuario unUsuario:usuariosDS) {
+			usuarios.add(unUsuario);
+			System.out.print(unUsuario.getId() + " ");	
+		}	
+		System.out.println(" ");		
+		return usuarios;
+	}
 	
-	public static BarrioBD getBarrioByNombre(String nombre) {
-		System.out.print("Buscar Barrio por Nombre: ");
-		BarrioBD unBarrio;
+	public static Usuario getUsuarioById(long id) {
+		System.out.print("Buscar Usuario por Id: ");
+		Usuario unUsuario;
 		try {
-		  unBarrio = ofy().load().type(BarrioBD.class).filter("nombre",nombre).first().now();
+		  unUsuario = ofy().load().type(Usuario.class).id(id).now();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
 		System.out.println("OK");
-		return unBarrio;
+		return unUsuario;
 	}
 	
-	public static String getBarrioByRampa(Rampa unaRampa) {
-		System.out.print("Buscar Barrio por Rampa: ");
-		Iterable<BarrioBD> barriosDS = new ArrayList<BarrioBD>() ;
+	public static Usuario getUsuarioByMail(String mail) {
+		System.out.print("Buscar Usuario por Mail: ");
+		Usuario unUsuario;
 		try {
-			barriosDS = ofy().load().type(BarrioBD.class).list();
+		  unUsuario = ofy().load().type(Usuario.class).filter("mail",mail).first().now();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		for (BarrioBD unBarrio:barriosDS) {
-			if (unBarrio.contiene(unaRampa)) {
-				System.out.print(unBarrio.getNombre());	
-				return unBarrio.getNombre();
-			}
+		System.out.println("OK");
+		return unUsuario;
+	}
+	
+	public static Usuario getUsuarioByFacebook(String facebook) {
+		System.out.print("Buscar Usuario por Facebook: ");
+		Usuario unUsuario;
+		try {
+		  unUsuario = ofy().load().type(Usuario.class).filter("facebook",facebook).first().now();
+		} 
+		catch(Exception ex) {
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
+			return null;
 		}
-		System.out.println("No existe ningun barrio cargado que contenga esa Rampa");
-		return null;
-	}		
+		System.out.println("OK");
+		return unUsuario;
+	}
+	
+	
+
 	
 }	
 	
