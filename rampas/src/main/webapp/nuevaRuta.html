@@ -5,20 +5,41 @@
     <meta charset="utf-8">
     <title>Calcular Ruta</title>
 	<link rel="stylesheet" href="ruta.css">
+	<link rel="stylesheet" href="contextMenu/contextmenu.css">
 	<script src="jquery-2.1.4.min.js"></script>
     <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>-->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
 	<script src="barrios.js"></script>
+	<script src="contextMenu/contextmenu.js"></script>
 	<script src="nuevaRuta.js"></script>
   </head>
   
   <body>
-	Desde: <input class="autocomplete" id="inputDesde" value="medrano y cordoba caba" type="text"></input>
-	</br>
-	Hasta: <input class="autocomplete" id="inputHasta" value="medrano y corrientes caba" type="text"></input>	
-	<button onclick="calcularRutas()">Calcular Rutas</button> 
-	<div id="checkboxes"></div>
-    <div id="map-canvas"></div>
+	<table border="1"><!--style="width:800px"-->
+		<thead>
+			<tr>
+			<th width="200">Buscar Nueva Ruta</th>
+			<th width="200">Resultados</th>
+			</tr>
+		</thead>
+			<tbody>
+			<tr>
+				<td>
+				<div>
+				Desde: <input class="autocomplete" id="inputDesde" value="medrano y cordoba caba" type="text"></input>
+				</br>
+				Hasta: <input class="autocomplete" id="inputHasta" value="medrano y corrientes caba" type="text"></input>	
+				<button onclick="calcularRutas()" style="cursor:pointer">Calcular Rutas</button> 
+				
+				</div>
+				</td>
+				<td>
+				<div id="checkboxes"></div>
+				</td>
+			</tr>
+		</tbody>  
+		</table>
+	<div id="map-canvas" style="cursor:pointer !important; "></div>
   </body>
   
   <script>

@@ -6,7 +6,6 @@ var cordobaAl3950 = new google.maps.LatLng(-34.609226, -58.374925);
 var cordobaAl3450 = new google.maps.LatLng(-34.598205, -58.420201);
 var infowindow = new google.maps.InfoWindow();
 var pointsArray =[];
-var arrayDeColores= ["#FF0000","#00FF00", "#0000FF", "#000FFF","#00FFFF","#FFF000","#FFFF00","#0FFF00"];
 var geocoder;
 var autocompleteDesde;
 var autocompleteHasta;
@@ -14,14 +13,29 @@ var checkpointsRuta;
 var polilineas= [];
 var poligonos = [];
 var colores = {};
-colores['GRIS'] = {valor:"#808080", puntaje:0};
-colores['AZUL'] = {valor:"#0000FF", puntaje:0};
-colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1};
-colores['ROJO'] = {valor:"#ff0000", puntaje:1};
-colores['NARANJA'] = {valor:"#ff8000", puntaje:2};
-colores['AMARILLO'] = {valor:"#ffff00", puntaje:4};
-colores['VERDE'] = {valor:"#00ff00", puntaje:5};
+var tallIcono = new google.maps.Size(32, 32);
+var originIcono = new google.maps.Point(0,0);
+var anchorIcono = new google.maps.Point(16, 32);
 
+colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("imagen/ltblue-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("imagen/blue-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("imagen/purple-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['ROJO'] = {valor:"#ff0000", puntaje:1, icono: new google.maps.MarkerImage("imagen/red-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['NARANJA'] = {valor:"#ff8000", puntaje:2, icono: new google.maps.MarkerImage("imagen/orange-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['AMARILLO'] = {valor:"#ffff00", puntaje:4, icono: new google.maps.MarkerImage("imagen/yellow-dot.png",tallIcono,originIcono,anchorIcono)};
+colores['VERDE'] = {valor:"#00ff00", puntaje:5, icono: new google.maps.MarkerImage("imagen/green-dot.png",tallIcono,originIcono,anchorIcono)};
+
+var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
+      new google.maps.Size(59, 32),
+      new google.maps.Point(0,0),
+      new google.maps.Point(16, 32));
+	  
+  var iconShape = {
+	coord: [19,0, 24,5, 24,12, 23,13, 23,14, 20,17, 20,18, 19,19,19,20, 18,21, 
+			18,22, 17,23, 17,26, 16,27, 16,31, 14,31, 14,26, 13,25,13,23, 
+			12,22, 12,20, 10,18, 10,17, 7,14, 7,13, 6,12, 6,6, 7,5, 7,4, 11,0],
+    type: 'poly'
+  };
 
 function initialize() {
 	
@@ -39,21 +53,147 @@ function initialize() {
 	
     var mapOptions = {
 		zoom: 14,
-		center: cordobaAl3950
+		center: cordobaAl3950,
+		draggableCursor: 'default'
 	}
-	
 	map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+	var defaultBounds = new google.maps.LatLngBounds(
+	  new google.maps.LatLng(-34.650316, -58.533205),
+	  new google.maps.LatLng(-34.549427, -58.363947));
+	map.fitBounds(defaultBounds);
+	
+	var contextMenuOptions={};
+	contextMenuOptions.classNames={menu:'context_menu', menuSeparator:'context_menu_separator'};
+	
+	//	create an array of ContextMenuItem objects
+	//	an 'id' is defined for each of the four directions related items
+	var menuItems=[];
+	menuItems.push({className:'context_menu_item', eventName:'directions_origin_click', id:'directionsOriginItem', label:'Desde aqui'});
+	menuItems.push({className:'context_menu_item', eventName:'directions_destination_click', id:'directionsDestinationItem', label:'Hasta aqui'});
+	menuItems.push({className:'context_menu_item', eventName:'clear_directions_click', id:'clearDirectionsItem', label:'Clear directions'});
+	menuItems.push({className:'context_menu_item', eventName:'get_directions_click', id:'getDirectionsItem', label:'Get directions'});
+	//	a menuItem with no properties will be rendered as a separator
+	menuItems.push({});
+	menuItems.push({className:'context_menu_item', eventName:'Rampas Cercanas', label:'Zoom in'});
+	/*Este Nueva Rampa se deberia habilitar cuando se haga click antes en Rampas Cercanas creo, o solo cuando aparezca un marcador*/
+	menuItems.push({className:'context_menu_item', eventName:'Nueva Rampa', label:'Zoom out'});
 
-	var markers = [];
+	contextMenuOptions.menuItems=menuItems;
+	
+	var contextMenu=new ContextMenu(map, contextMenuOptions);
+	
+	google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
+		contextMenu.show(mouseEvent.latLng);
+	});
+	
+	/*marcadores Iniciales y finales*/
+	var markerOptions={};
+	markerOptions.icon='http://www.google.com/intl/en_ALL/mapfiles/markerA.png';
+	markerOptions.map=null;
+	markerOptions.position=new google.maps.LatLng(0, 0);
+	markerOptions.title='Directions origin';
+	
+	var originMarker=new google.maps.Marker(markerOptions);
+	
+	markerOptions.icon='http://www.google.com/intl/en_ALL/mapfiles/markerB.png';
+	markerOptions.title='Directions destination';
+	var destinationMarker=new google.maps.Marker(markerOptions);
 
-  var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-34.650316, -58.533205),
-      new google.maps.LatLng(-34.549427, -58.363947));
-  map.fitBounds(defaultBounds);
+	google.maps.event.addListener(originMarker, 'rightclick', function(){
+		contextMenu.show(this.getPosition());
+	});
+	google.maps.event.addListener(destinationMarker, 'rightclick', function(){
+		contextMenu.show(this.getPosition());
+	});
+	
+	
+	google.maps.event.addListener(contextMenu, 'menu_item_selected', function(latLng, eventName){
+		switch(eventName){
+			case 'directions_origin_click':
+				originMarker.setPosition(latLng);
+				if(!originMarker.getMap()){
+					originMarker.setMap(map);
+				}
+				geocoder.geocode({'location': latLng}, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+					  if (results[0]) {
+						$("#inputDesde").val(results[0].formatted_address);
+					  } else {
+						window.alert('No results found');
+					  }
+					} else {
+					  window.alert('Geocoder failed due to: ' + status);
+					}
+				});
 
-//cargarMarcadoresDeEjemplos(calles);  
-//probarDistancia();
-  //calcularRutas();
+			break;
+			case 'directions_destination_click':
+				destinationMarker.setPosition(latLng);
+				if(!destinationMarker.getMap()){
+					destinationMarker.setMap(map);
+				}
+				geocoder.geocode({'location': latLng}, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+					  if (results[0]) {
+						$("#inputHasta").val(results[0].formatted_address);
+					  } else {
+						window.alert('No results found');
+					  }
+					} else {
+					  window.alert('Geocoder failed due to: ' + status);
+					}
+				});
+				
+				break;
+			case 'clear_directions_click':
+				directionsRenderer.setMap(null);
+				//	set CSS styles to defaults
+				document.getElementById('clearDirectionsItem').style.display='';
+				document.getElementById('directionsDestinationItem').style.display='';
+				document.getElementById('directionsOriginItem').style.display='';
+				document.getElementById('getDirectionsItem').style.display='';
+				break;
+			case 'get_directions_click':
+				var directionsRequest={};
+				directionsRequest.destination=destinationMarker.getPosition();
+				directionsRequest.origin=originMarker.getPosition();
+				directionsRequest.travelMode=google.maps.TravelMode.DRIVING;
+				
+				
+				calcularRutas();
+				/*
+				directionsService.route(directionsRequest, function(result, status){
+					if(status===google.maps.DirectionsStatus.OK){
+						//	hide the origin and destination markers as the DirectionsRenderer will render Markers itself
+						originMarker.setMap(null);
+						destinationMarker.setMap(null);
+						directionsRenderer.setDirections(result);
+						directionsRenderer.setMap(map);
+						//	hide all but the 'Clear directions' menu item
+						document.getElementById('clearDirectionsItem').style.display='block';
+						document.getElementById('directionsDestinationItem').style.display='none';
+						document.getElementById('directionsOriginItem').style.display='none';
+						document.getElementById('getDirectionsItem').style.display='none';
+					} else {
+						alert('Sorry, the map was unable to obtain directions.\n\nThe request failed with the message: '+status);
+					}
+				});
+				*/
+				break;
+			case 'zoom_in_click':
+				map.setZoom(map.getZoom()+1);
+				break;
+			case 'zoom_out_click':
+				map.setZoom(map.getZoom()-1);
+				break;
+		}
+		if(originMarker.getMap() && destinationMarker.getMap() && document.getElementById('getDirectionsItem').style.display===''){
+			//	display the 'Get directions' menu item if it is not visible and both directions origin and destination have been selected
+			document.getElementById('getDirectionsItem').style.display='block';
+		}
+	});
+	
+
   
 }//Fin initialize
 
@@ -61,6 +201,7 @@ function initialize() {
 function crearMarcador(posicion){
 	return new google.maps.Marker ({
 		position:posicion,
+		cursor: 'pointer',
 		icon: {
 			path: google.maps.SymbolPath.CIRCLE,
 			fillColor: "#000000",
@@ -70,14 +211,13 @@ function crearMarcador(posicion){
 	});
 }
 
-function crearMarcadorConColor(posicion,color){
+function crearMarcadorConColor(posicion,icono){
 	return new google.maps.Marker ({
 		position:posicion,
-		icon: {
-			path: google.maps.SymbolPath.CIRCLE,
-			strokeColor:color,
-			scale: 3
-		}
+		cursor: 'pointer',
+		icon: icono,
+		shape: iconShape
+		/*zIndex: Math.round(latlng.lat()*-100000)<<5*/
 	});
 }
 
@@ -257,9 +397,7 @@ function rellenarInfoWindow(unInfoWindow, marcador){
 function habilitarBotonDeRuta(idRuta){
 	var checkbox =	$("<input />", { 
 		type: "checkbox", 
-		id: "checkRuta" + idRuta, 
-		value: "Ruta " + idRuta,
-		name: "checkRuta" + idRuta
+		id: "checkRuta" + idRuta
 		});
 	checkbox.change(function() {
 		if($("#checkRuta" + idRuta).is(':checked')){
@@ -288,9 +426,12 @@ function habilitarBotonDeRuta(idRuta){
 		}
 	});
 
-		
-
-	$("#checkboxes").append(checkbox); 
+	//$("#checkboxes").append("Ruta "+ idRuta + " <input id='checkRuta"+idRuta+"' type='checkbox'>");
+	//$("#checkboxes").append("Ruta "+ idRuta + checkbox);
+	$("#checkboxes").append('<label>Ruta ' + (idRuta+1) + ':</label>');
+	$("#checkboxes").append(checkbox);
+	$("#checkboxes").append("</br>");
+	//$("#checkboxes").append(checkbox/*.after('<label>Ruta ' + idRuta + '</label>')*/); 
 	if(idRuta == 1){
 		checkbox.prop('checked', true);
 		polilineas[idRuta].poly.setMap(map);
@@ -302,31 +443,6 @@ function habilitarBotonDeRuta(idRuta){
 			});			
 		}		
 	}
-}
-
-function marcadoresIncluidos(poligonos){
-	var latlng;
-	var marcador;
-	var color;
-	var incluidos = [];
-	$.each(barrios, function(index,barrio){
-		$.each(barrio.calles, function(indice,punto){
-			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
-			function poligonoContienePunto(poligono, indice,array){
-				return google.maps.geometry.poly.containsLocation(latlng, poligono);
-			}
-			if(poligonos.some(poligonoContienePunto)){
-				marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).valor);
-				marcador.tieneInformacion = punto.tieneInformacion;
-				marcador.tieneRampa = punto.tieneRampa; 
-				marcador.buenEstado = punto.buenEstado;
-				marcador.crucesAccesibles = punto.crucesAccesibles;
-				marcador.reportada = punto.reportada;
-				incluidos.push(marcador);	
-			}
-    });
-	});
-	return incluidos;
 }
 
 function calcularColorSegunRampa(punto){
@@ -352,6 +468,33 @@ function calcularColorSegunRampa(punto){
 	if(punto.buenEstado == true && punto.crucesAccesibles == true)
 		return colores.VERDE;
 }
+
+function marcadoresIncluidos(poligonos){
+	var latlng;
+	var marcador;
+	var color;
+	var incluidos = [];
+	$.each(barrios, function(index,barrio){
+		$.each(barrio.calles, function(indice,punto){
+			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+			function poligonoContienePunto(poligono, indice,array){
+				return google.maps.geometry.poly.containsLocation(latlng, poligono);
+			}
+			if(poligonos.some(poligonoContienePunto)){
+				marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono);
+				marcador.tieneInformacion = punto.tieneInformacion;
+				marcador.tieneRampa = punto.tieneRampa; 
+				marcador.buenEstado = punto.buenEstado;
+				marcador.crucesAccesibles = punto.crucesAccesibles;
+				marcador.reportada = punto.reportada;
+				incluidos.push(marcador);	
+			}
+		});
+	});
+	return incluidos;
+}
+
+
 
 
 function dibujarRutas(respuesta){
@@ -416,6 +559,22 @@ function marcadoresDentroDelPoligono(poligono){
 }
 
 
+function borrarRutasPrevias(){
+
+	$.each(polilineas, function(index,polilinea){
+		polilinea.poly.setMap(null);
+		$.each(polilinea.figura,function(index, unPoligono){
+			unPoligono.setMap(null);
+		});
+		$.each(polilinea.marcadores,function(indice, marcador){
+			marcador.setMap(null);
+		});
+	});
+	polilineas = [];
+	$("#checkboxes" ).empty();
+}
+
+
 function calcularRutas() {
 	var desdeString = $("#inputDesde").val();
 	var hastaString = $("#inputHasta").val();
@@ -424,32 +583,33 @@ function calcularRutas() {
 		if (status == google.maps.GeocoderStatus.OK) {
 		    //map.setCenter(results[0].geometry.location);
 		    geocoder.geocode( { 'address': hastaString}, function(resultsHasta, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-			  //map.setCenter(results[0].geometry.location);
-			  	var request = {
-					origin: resultsDesde[0].geometry.location,
-					destination: resultsHasta[0].geometry.location,
-					provideRouteAlternatives: true,
-					travelMode: google.maps.TravelMode.WALKING
-				};
-				directionsService.route(request, function(response, status) {
-					if (status == google.maps.DirectionsStatus.OK) {	//Ver que puedo poner si hay un error.
-						dibujarRutas(response);
-						//Hacer Zoom sobre esa ruta
-						var latlngbounds = new google.maps.LatLngBounds();
-						latlngbounds.extend(resultsDesde[0].geometry.location);
-						latlngbounds.extend(resultsHasta[0].geometry.location);
-						map.setCenter(latlngbounds.getCenter());
-						map.fitBounds(latlngbounds); 
-					}
-					else{
-						alert('Error al dibujar las rutas: ' + status);
-					}
-				});
-			} else {
-			  alert('La direccion no se pudo encontrar: ' + status);
-			}
-	});
+				if (status == google.maps.GeocoderStatus.OK) {
+				  //map.setCenter(results[0].geometry.location);
+					var request = {
+						origin: resultsDesde[0].geometry.location,
+						destination: resultsHasta[0].geometry.location,
+						provideRouteAlternatives: true,
+						travelMode: google.maps.TravelMode.WALKING
+					};
+					directionsService.route(request, function(response, status) {
+						if (status == google.maps.DirectionsStatus.OK) {	//Ver que puedo poner si hay un error.
+							borrarRutasPrevias();
+							dibujarRutas(response);
+							//Hacer Zoom sobre esa ruta
+							var latlngbounds = new google.maps.LatLngBounds();
+							latlngbounds.extend(resultsDesde[0].geometry.location);
+							latlngbounds.extend(resultsHasta[0].geometry.location);
+							map.setCenter(latlngbounds.getCenter());
+							map.fitBounds(latlngbounds); 
+						}
+						else{
+							alert('Error al dibujar las rutas: ' + status);
+						}
+					});
+				} else {
+				  alert('La direccion no se pudo encontrar: ' + status);
+				}
+			});
 		} else {
 		  alert('La direccion no se pudo encontrar: ' + status);
 		}

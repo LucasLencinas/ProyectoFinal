@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Operaciones con Usuarios</title>
+  <style>
+    thead {color:green;}
+    tbody {color:blue;}
+    tfoot {color:red;}
+    table,th,td {border:1px solid black;}
+  </style>
+  <script src="../jquery-2.1.4.min.js"></script>
+</head>
+<body>
+  <h1>Operaciones con Usuarios <button onclick="cargarDatos()">Cargar Datos</button></h1>
+
+
+<table border="1"><!--style="width:800px"-->
+  <thead>
+  <tr>
+    <th width="100">Nombre Operacion</th>
+    <th width="200">Atributos: Valores</th>
+    <th width="50"> Ejecutar </th>
+    <th width="150"> Resultado </th>
+  </tr>
+  </thead>
+
+<tbody>
+<tr>
+<td>Nuevo Usuario</td>
+<td>
+  <div>
+	<!--
+	@Expose @Id private long id;
+	@Expose private String nombre;
+	@Expose private String apellido;
+	@Expose private String mail;
+	@Expose private String contraseña;
+	@Expose private String facebook;
+	@Expose private boolean usuarioPropio;
+	-->
+    Nombre: <input type="textbox" id="nuevoNombre"></br>
+    Apellido: <input type="textbox" id="nuevoApellido"></br>
+	Mail: <input type="textbox" id="nuevoMail"></br>
+    Contrasenia: <input type="textbox" id="nuevoContrasenia"></br>
+	Facebook: <input type="textbox" id="nuevoFacebook"></br>
+    usuarioPropiio: <input type="checkbox" id="nuevoUsuarioPropio"></br>
+  </div>
+</td>
+<td><button onclick="nuevoUsuario(generarUsuarioDesdeLosInputDeNuevoUsuario())">Nuevo</button></td>
+<td>
+  <div id="resultadoNuevoUsuario">
+    Todavia no se dio de alta un Usuario.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Modificar Usuario</td>
+<td>
+  <div>
+    Nombre: <input type="textbox" id="modificarNombre"></br>
+    Apellido: <input type="textbox" id="modificarApellido"></br>
+	Mail: <input type="textbox" id="modificarMail"></br>
+    Contrasenia: <input type="textbox" id="modificarContrasenia"></br>
+	Facebook: <input type="textbox" id="modificarFacebook"></br>
+    usuarioPropiio: <input type="checkbox" id="modificarUsuarioPropio"></br>
+  </div>
+</td>
+<td><button onclick="modificarUsuario()">Modificar</button></td>
+<td>
+  <div id="resultadoModificarUsuario">
+    Todavia no se modifico un Usuario.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Buscar/Consultar Usuario por Mail</td>
+<td>
+  <div>
+    Mail: <input type="textbox" id="buscarPorMailMail"></br>
+  </div>
+</td>
+<td><button onclick="buscarUsuarioPorMail($('#buscarPorMailMail').val())">Buscar</button></td>
+<td>
+  <div id="resultadoBuscarUsuarioPorMail">
+    Todavia no se busco Usuario por Mail.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Buscar/Consultar Usuario por Facebook </td>
+<td>
+  <div>
+    Facebook: <input type="textbox" id="buscarPorFacebookFacebook"></br>
+  </div>
+</td>
+<td><button onclick="buscarUsuarioPorFacebook($('#buscarPorFacebookFacebook').val())">Buscar</button></td>
+<td>
+  <div id="resultadoBuscarUsuarioPorFacebook">
+    Todavia no se busco Usuario por Facebook.<br>
+  </div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</body>
+</html>
+</body>
+  
+  <script src="llamadas-al-servidor.js"></script>
+
+</html>

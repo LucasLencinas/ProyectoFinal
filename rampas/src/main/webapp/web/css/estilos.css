@@ -1,0 +1,195 @@
+/*--Reiniciar CSS--*/
+* {
+	padding:0;
+	margin:0;
+}
+html, body {
+	height: 100%;
+}
+ul{
+	list-style:none;
+}
+ul li a {
+	text-decoration:none;
+}
+/*--Header--*/
+#subheader{
+	float:left;
+	width:100%;
+	height:50px;
+}
+.barra_menu{
+	background:#225daf;
+/*float:auto;*/ 
+	height:100%;
+	box-shadow: 2px 2px 2px #000000;
+	position:relative;
+	z-index:400;
+}
+	/*--SENITAG--*/
+	.senitag  {
+		text-indent:20px;
+		color:white;
+		font-size:36px;
+		padding:0px 50px;
+	}
+	.senitag img {
+		float:left;
+	}
+	.senitag p {
+		float:left;
+	}
+	/*--Accesos Rapidos--*/
+	.accesosRapidos{
+	position:absolute;
+	margin:8px 0 0 calc(50% - (25px + 32px)*4/2);
+	}
+	.accesosRapidos a{
+	text-decoration:none;
+	margin:0 25px;
+	}
+	/*--SESION--*/	
+	.xbotones{
+		float:right;
+		margin:8px 10px;
+	}
+	.xbotones ul li ul{
+		display:none;
+		position:relative;
+	}
+	.xbotones ul li:hover > ul{
+		display:block;
+		z-index:400;
+	}
+	.xbotones ul  li  a  {
+		padding: 5px 27px;
+	}
+	.xbotones ul li ul li a{
+		padding: 5px 20px;
+		max-width:109px;
+		max-height:34px;
+	}
+	.xbotones ul li a{
+		display:block;
+		font-size:18px;
+		color:#dcbeb2;
+		background:#000d72;
+		border-radius:3px;
+		box-shadow:inset 0px 0px  5px #ffffbe;
+	}
+	.xbotones ul li a:hover {
+		box-shadow:inset 0px 0px  4px #000000; 
+	}
+/*--Fin_Header--*/	
+/*--BarraLateral--*/
+header .detalle{
+	width:350px;  /*Ancho de menu (pixel o %)*/
+	height:calc(100% - 50px);
+	margin:0;
+	position:absolute;
+}
+.detalle{ /*esto es donde se dan input o output*/
+	background:#2b78e4;
+	height:100%;
+	width:calc(100% - 0px);
+	float:left;	
+}
+.detalle input{
+	text-indent:10px;
+	border-radius:5px;
+	box-shadow:inset 2px 2px 2px #000000;
+	background:#f4f4f4;
+	border:0px;
+	font-size:17px;
+	margin:25px auto;
+	width:90%;
+	height:40px;
+}
+.detalle input[type="submit"]{
+	box-shadow:2px 2px 2px #000000;
+	background:#549e18;
+	height:30px;
+}
+.detalle textarea{
+	text-indent:10px;
+	border-radius:5px;
+	box-shadow:inset 2px 2px 2px #000000;
+	background:#d5d5d5;
+	border:0px;
+	font-size:17px;
+	margin:30px 5%;
+	width:90%;
+	min-height:calc(100% - 275px);
+	max-height:calc(100% - 275px);
+	max-width:90%;
+}
+/*--Fin_BarraLateral--*/
+/*--Mapa--*/
+.mapa_google {
+	width:calc(100% - 350px - 2px);
+	height:calc(100% - 50px - 2px);
+	margin: 0px 350px;
+	float:left;
+	box-sizeing:border-box;
+	border:1px solid #000000;
+}
+#map-canvas {
+	width:100%;
+	height:100%;
+	margin:0;
+	float:left;
+}
+/*--Fin_Mapa--*/
+
+/*--Menu--*/
+
+
+
+/*--Fin_Menu--*/
+
+@media screen and (max-width:800px){
+	/*header nav {
+		width:20%;
+		height:100%;
+				left:0%;/*esto lo modifico con js para aparecer y desaparecer*/
+/*		margin:0;file:///C:/Users/MartinEXO/Desktop/web/index.html#
+		position: fixed;
+	}*/
+
+.mapa_google  {
+	width:calc(100% - 0px);
+	height:calc(100% - 50px);
+	margin: 0px 0px;
+	float:left;
+	box-sizeing:border-box;
+	z-index:-200;
+}
+.menu{z-index:300;
+}
+			.boton_ocultar{ /*asi ya no funciona*/
+				display:initial;
+			}
+			.detalle .boton_ocultar{
+			display:initial;
+			}
+			/*una vez que uso con js,css pierde el control*/
+
+.boton_menu{
+display:initial;
+}
+}
+
+
+form input{
+	display:block;}
+
+@media screen and (min-width:800px){
+.boton_menu{
+display:none;
+}
+nav {
+display:initial;
+}
+.menu{display:inline-block;
+}
+}
