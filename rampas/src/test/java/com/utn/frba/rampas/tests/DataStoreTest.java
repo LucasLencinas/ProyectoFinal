@@ -125,6 +125,17 @@ public class DataStoreTest {
     }
 
     @Test
+    public void getRampasbyRuta() {
+    	ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(-34.6000,-58.4204,-34.5980,-58.4202);
+    	assertEquals(rampasRuta.get(0).getId(),3,0);
+    	ArrayList<Rampa> rampasRuta2 = HandlerDS.getRampasByRuta(-34.600685110955375,-58.42059330000001,-34.59896381095469,-58.420347900000024);
+    	assertEquals(rampasRuta2.get(0).getId(),6,0);
+    	assertEquals(rampasRuta2.get(1).getId(),5,0);
+    	assertEquals(rampasRuta2.get(2).getId(),4,0);
+    	assertEquals(rampasRuta2.get(3).getId(),3,0);
+    }
+    
+    @Test
     public void getRampasRojas() {
     	ArrayList<Rampa> rampasRojas = HandlerDS.getRampasRojas();
     	assertEquals(rampasRojas.get(0).getId(),1,0);
@@ -181,6 +192,7 @@ public class DataStoreTest {
     	assertEquals(unBarrio.getId(),agronomia.getId(),0);
     }
     
+    @Ignore
     @Test
     public void getBarrioByRampa() {
     	String barrio = HandlerDS.getBarrioByRampa(medranoYcorrientes);

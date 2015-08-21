@@ -168,6 +168,27 @@ public class HandlerDS {
 		return unaRampa;
 	}
 
+	public static ArrayList<Rampa> getRampasByRuta(double latmin,double lngmin,double latmax,double lngmax) {
+		System.out.print("Buscar Rampas por Ruta: ");
+		ArrayList<Rampa> rampasRuta = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasLatitud = new ArrayList<Rampa>();
+		try {
+			rampasLatitud = ofy().load().type(Rampa.class).filter("latitud >=",latmin).filter("latitud <=",latmax).list();
+		} 
+		catch(Exception ex) {
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
+			return null;
+		}
+		for (Rampa unaRampa:rampasLatitud) {
+			if (unaRampa.getLongitud() >= lngmin && unaRampa.getLongitud() <= lngmax) {
+				rampasRuta.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		}
+		System.out.println(" ");
+		return rampasRuta;
+	}
+	
 	public static ArrayList<Rampa> getRampasRojas() {
 		System.out.print("Buscar Rampas rojas: ");
 		ArrayList<Rampa> rampasRojas = new ArrayList<Rampa>();

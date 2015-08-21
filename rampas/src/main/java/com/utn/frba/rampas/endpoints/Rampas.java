@@ -65,6 +65,21 @@ public class Rampas {
 		}
 	}
 	
+	@GET 
+	@Path("/ruta/{latmin}/{lngmin}/{latmax}/{lngmax}")
+	@Produces("application/json")
+	public Response loadRampaByRuta(@PathParam("latmin") String latmin, @PathParam("lngmin") String lngmin, @PathParam("latmax") String latmax, @PathParam("lngmax") String lngmax) {
+		System.out.println("Dentro de get rampas by ruta");
+		System.out.println("Me llegan, latmin: "+ latmin +", lngmin: " + lngmin + ", latmax: "+ latmax +", lngmax: " + lngmax );
+		ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(Double.parseDouble(latmin),Double.parseDouble(lngmin),Double.parseDouble(latmax),Double.parseDouble(lngmax));
+		if (rampasRuta == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			return Response.ok(new Gson().toJson(rampasRuta),MediaType.APPLICATION_JSON).build();		
+		}
+	}
+	
 //	Sirve para agregar una Rampa	
 	
 	@POST
@@ -79,9 +94,8 @@ public class Rampas {
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al guardar la rampa");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			System.out.println("Hubo con conflicto al agregar la rampa");
+			return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
 		}
 	}
 	
@@ -99,9 +113,8 @@ public class Rampas {
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al guardar la rampa");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			System.out.println("Hubo con conflicto al modificar la rampa");
+			return Response.serverError().entity("Modificar Rampa: Error - " + estado).build();
 		}
 	}
 	
@@ -120,8 +133,7 @@ public class Rampas {
 		} 
 		else {
 			System.out.println("Hubo con conflicto al borrar la rampa");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			return Response.serverError().entity("Eliminar Rampa: Error - " + estado).build();
 		}		
 	}
 	

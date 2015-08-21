@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
-import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
@@ -94,9 +93,8 @@ public class Usuarios {
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al guardar el usuario");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			System.out.println("Hubo con conflicto al agregar el usuario");
+			return Response.serverError().entity("Agregar Usuario: Error - " + estado).build();
 		}
 	}
 	
@@ -109,40 +107,20 @@ public class Usuarios {
 		Usuario unUsuario = parser.fromJson(usuario_json,Usuario.class);
 		String estado = HandlerDS.saveUsuario(unUsuario);
 		if (estado == "OK") {
-			System.out.println("El usuario se agrego bien");
+			System.out.println("El usuario se modifico bien");
 			return Response.status(Response.Status.OK).build();
+			
 		} 
 		else {
-			System.out.println("Hubo con conflicto al guardar el usuario");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
-		}
-	}
-	
-//	Sirve para agregar una Rampa	
-	
-	@POST
-	@Produces("application/json")
-	@Consumes("application/json")
-	public Response saveRampa(String rampa_json) {
-		Gson parser = new Gson();
-		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
-		String estado = HandlerDS.saveRampa(unaRampa);
-		if (estado == "OK") {
-			System.out.println("La rampa se agrego bien");
-			return Response.status(Response.Status.OK).build();
-		} 
-		else {
-			System.out.println("Hubo con conflicto al guardar la rampa");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			System.out.println("Hubo con conflicto al modificar el usuario");
+			return Response.serverError().entity("Modificar Usuario: Error - " + estado).build();
 		}
 	}
 	
 	@DELETE
 	@Path("/Usuario")
 	@Consumes("application/json")
-	public Response deleteInterseccion(String usuario_json) {
+	public Response deleteUsuario(String usuario_json) {
 		Gson parser = new Gson();
 		Usuario unUsuario = parser.fromJson(usuario_json,Usuario.class);
 		String estado = HandlerDS.deleteUsuario(unUsuario);
@@ -152,8 +130,7 @@ public class Usuarios {
 		} 
 		else {
 			System.out.println("Hubo con conflicto al borrar el usuario");
-			return Response.ok(estado,MediaType.APPLICATION_JSON).build();		
-//			return Response.status(Response.Status.CONFLICT).build();
+			return Response.serverError().entity("Borrar Usuario: Error - " + estado).build();
 		}
 	}
 
