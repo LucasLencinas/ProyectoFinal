@@ -13,15 +13,15 @@ public class HandlerDS {
 	/* Barrio */
 	
 	public static String saveBarrio(BarrioBD unBarrio) {
-		System.out.print("Guardar Barrio: " + unBarrio.getNombre());
+		System.out.print("Guardar Barrio: ");
 		try {
 			ofy().save().entity(unBarrio).now();
 		}
 		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return ex.getLocalizedMessage();
 		}
-		System.out.println(" OK"); 	
+		System.out.println("OK"); 	
 		return "OK";
 	}
 	
@@ -38,6 +38,21 @@ public class HandlerDS {
 		return "OK";
 	}
 	
+	public static String deleteBarrios(ArrayList<BarrioBD> barrios) {
+		System.out.print("Borrar Barrios: ");
+		for (BarrioBD unBarrio:barrios) {
+			try {
+				ofy().delete().entity(unBarrio).now();
+			}
+			catch(Exception ex) {
+				System.out.println(" Error - " + ex.getLocalizedMessage()); 
+				return ex.getLocalizedMessage();
+			}
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+	
 	public static ArrayList<BarrioBD> getBarrios() {
 		System.out.print("Buscar Barrios: ");
 		ArrayList<BarrioBD> barrios = new ArrayList<BarrioBD>();
@@ -49,12 +64,18 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}		
-		for (BarrioBD unBarrio:barriosDS) {
-			barrios.add(unBarrio);
-			System.out.print(unBarrio.getId() + " ");	
+		if (barriosDS == null) {
+			System.out.println("No hay barrios cargados");
+			return null;
 		}
-		System.out.println(" ");
-		return barrios;
+		else {
+			for (BarrioBD unBarrio:barriosDS) {
+				barrios.add(unBarrio);
+				System.out.print(unBarrio.getId() + " ");	
+			}
+			System.out.println(" ");
+			return barrios;			
+		}
 	}	
 	
 	public static BarrioBD getBarrioByNombre(String nombre) {
@@ -67,8 +88,14 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unBarrio;
+		if (unBarrio == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unBarrio;
+		}
 	}
 	
 	public static String getBarrioByRampa(Rampa unaRampa) {
@@ -96,15 +123,15 @@ public class HandlerDS {
 	/* Rampa */
 	
 	public static String saveRampa(Rampa unaRampa) {
-		System.out.print("Guardar Rampa: " + unaRampa.getId());
+		System.out.print("Guardar Rampa: ");
 		try {
 			ofy().save().entity(unaRampa).now();
 		}
 		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return ex.getLocalizedMessage();
 		}
-		System.out.println(" OK"); 	
+		System.out.println("OK"); 	
 		return "OK";
 	}
 	
@@ -116,6 +143,21 @@ public class HandlerDS {
 		catch(Exception ex) {
 			System.out.println(" Error - " + ex.getLocalizedMessage()); 
 			return ex.getLocalizedMessage();
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+
+	public static String deleteRampas(ArrayList<Rampa> rampas) {
+		System.out.print("Borrar Rampas: ");
+		for (Rampa unaRampa:rampas) {
+			try {
+				ofy().delete().entity(unaRampa).now();
+			}
+			catch(Exception ex) {
+				System.out.println(" Error - " + ex.getLocalizedMessage()); 
+				return ex.getLocalizedMessage();
+			}
 		}
 		System.out.println(" OK"); 	
 		return "OK";
@@ -132,12 +174,18 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		for (Rampa unaRampa:rampasDS) {
-			rampas.add(unaRampa);
-			System.out.print(unaRampa.getId() + " ");	
+		if (rampasDS == null) {
+			System.out.println("No hay rampas cargadas");
+			return null;
 		}
-		System.out.println(" ");
-		return rampas;
+		else {
+			for (Rampa unaRampa:rampasDS) {
+				rampas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");	
+			}
+			System.out.println(" ");
+			return rampas;
+		}
 	}
 
 	public static Rampa getRampaById(long id) {
@@ -150,8 +198,14 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unaRampa;
+		if (unaRampa == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unaRampa;
+		}
 	}
 
 	public static Rampa getRampaByLatitudLongitud(double latitud,double longitud) {
@@ -164,8 +218,14 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unaRampa;
+		if (unaRampa == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unaRampa;
+		}
 	}
 
 	public static ArrayList<Rampa> getRampasByRuta(double latmin,double lngmin,double latmax,double lngmax) {
@@ -182,11 +242,17 @@ public class HandlerDS {
 		for (Rampa unaRampa:rampasLatitud) {
 			if (unaRampa.getLongitud() >= lngmin && unaRampa.getLongitud() <= lngmax) {
 				rampasRuta.add(unaRampa);
-				System.out.print(unaRampa.getId() + " ");		
+				System.out.print(unaRampa.getId() + " ");
 			}
 		}
-		System.out.println(" ");
-		return rampasRuta;
+		if (rampasRuta.size() == 0) {
+			System.out.println("No hay rampas cargadas en esa ruta");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasRuta;
+		}
 	}
 	
 	public static ArrayList<Rampa> getRampasRojas() {
@@ -203,10 +269,16 @@ public class HandlerDS {
 		for (Rampa unaRampa:rampasDS) 
 			if (unaRampa.esRoja()) {
 				rampasRojas.add(unaRampa);
-				System.out.print(unaRampa.getId() + " ");		
+				System.out.print(unaRampa.getId() + " ");	
 			}
-		System.out.println(" ");
-		return rampasRojas;
+		if (rampasRojas.size() == 0) {
+			System.out.println("No hay rampas rojas cargadas");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasRojas;
+		}
 	}	
 	
 	public static ArrayList<Rampa> getRampasNaranjas() {
@@ -225,8 +297,14 @@ public class HandlerDS {
 				rampasNaranjas.add(unaRampa);
 				System.out.print(unaRampa.getId() + " ");		
 			}
-		System.out.println(" ");
-		return rampasNaranjas;
+		if (rampasNaranjas.size() == 0) {
+			System.out.println("No hay rampas naranjas cargadas");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasNaranjas;
+		}
 	}	
 	
 	public static ArrayList<Rampa> getRampasAmarillas() {
@@ -245,8 +323,14 @@ public class HandlerDS {
 				rampasAmarillas.add(unaRampa);
 				System.out.print(unaRampa.getId() + " ");		
 			}
-		System.out.println(" ");
-		return rampasAmarillas;
+		if (rampasAmarillas.size() == 0) {
+			System.out.println("No hay rampas amarillas cargadas");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasAmarillas;
+		}
 	}	
 	
 	public static ArrayList<Rampa> getRampasVerdes() {
@@ -265,8 +349,14 @@ public class HandlerDS {
 				rampasVerdes.add(unaRampa);
 				System.out.print(unaRampa.getId() + " ");		
 			}
-		System.out.println(" ");
-		return rampasVerdes;
+		if (rampasVerdes.size() == 0) {
+			System.out.println("No hay rampas verdes cargadas");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasVerdes;
+		}
 	}
 
 	public static ArrayList<Rampa> getRampasByBarrio(String barrio) {
@@ -284,22 +374,28 @@ public class HandlerDS {
 			rampasBarrio.add(unaRampa);
 			System.out.print(unaRampa.getId() + " ");		
 		}
-		System.out.println(" ");
-		return rampasBarrio;
+		if (rampasBarrio.size() == 0) {
+			System.out.println("No hay rampas cargadas en ese barrio");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasBarrio;
+		}
 	}
 	
 	/* Usuario */
 	
 	public static String saveUsuario(Usuario unUsuario) {
-		System.out.print("Guardar Usuario: " + unUsuario.getId());
+		System.out.print("Guardar Usuario: ");
 		try {
 			ofy().save().entity(unUsuario).now();
 		}
 		catch(Exception ex) {
-			System.out.println(" Error - " + ex.getLocalizedMessage()); 
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return ex.getLocalizedMessage();
 		}
-		System.out.println(" OK"); 	
+		System.out.println("OK"); 	
 		return "OK";
 	}
 	
@@ -316,6 +412,21 @@ public class HandlerDS {
 		return "OK";
 	}
 
+	public static String deleteUsuarios(ArrayList<Usuario> usuarios) {
+		System.out.print("Borrar Usuarios: ");
+		for (Usuario unUsuario:usuarios) {
+			try {
+				ofy().delete().entity(unUsuario).now();
+			}
+			catch(Exception ex) {
+				System.out.println(" Error - " + ex.getLocalizedMessage()); 
+				return ex.getLocalizedMessage();
+			}
+		}
+		System.out.println(" OK"); 	
+		return "OK";
+	}
+	
 	public static ArrayList<Usuario> getUsuarios() {
 		System.out.print("Buscar Usuarios: ");
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -327,12 +438,18 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}		
-		for (Usuario unUsuario:usuariosDS) {
-			usuarios.add(unUsuario);
-			System.out.print(unUsuario.getId() + " ");	
-		}	
-		System.out.println(" ");		
-		return usuarios;
+		if (usuariosDS == null) {
+			System.out.println("No hay usuarios cargados");
+			return null;
+		}
+		else {
+			for (Usuario unUsuario:usuariosDS) {
+				usuarios.add(unUsuario);
+				System.out.print(unUsuario.getId() + " ");	
+			}
+			System.out.println(" ");		
+			return usuarios;
+		}
 	}
 	
 	public static Usuario getUsuarioById(long id) {
@@ -345,8 +462,14 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unUsuario;
+		if (unUsuario == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unUsuario;
+		}
 	}
 	
 	public static Usuario getUsuarioByMail(String mail) {
@@ -359,8 +482,14 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unUsuario;
+		if (unUsuario == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unUsuario;
+		}
 	}
 	
 	public static Usuario getUsuarioByFacebook(String facebook) {
@@ -373,12 +502,15 @@ public class HandlerDS {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		System.out.println("OK");
-		return unUsuario;
+		if (unUsuario == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unUsuario;
+		}
 	}
-	
-	
-
 	
 }	
 	

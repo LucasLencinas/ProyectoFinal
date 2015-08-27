@@ -60,11 +60,11 @@ public class CargarRampasTest {
 		   
 		  for (int i = 0; i < listado.getBarrios().size() ; i++) {
 		  	barrio = listado.getBarrios().get(i);
-		  	barrioBD = new BarrioBD(i+1, barrio.getNombre(), barrio.getPoligono().getCoordinates());
+		  	barrioBD = new BarrioBD(barrio.getNombre(), barrio.getPoligono().getCoordinates());
 		  	HandlerDS.saveBarrio(barrioBD);
 		  	for(int j = 0; j < barrio.getCalles().size(); j++){
 		  		punto = barrio.getCalles().get(j);
-		  		rampa = new Rampa(++id, punto.getCoordenadas().get(0), 
+		  		rampa = new Rampa(punto.getCoordenadas().get(0), 
 		  				punto.getCoordenadas().get(1), barrio.getNombre(), punto.getTieneInformacion(), 
 		  				punto.getTieneRampa(), punto.getBuenEstado(), punto.getCrucesAccesibles(), punto.getReportada());
 		  		HandlerDS.saveRampa(rampa);

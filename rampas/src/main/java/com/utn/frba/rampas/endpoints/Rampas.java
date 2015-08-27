@@ -25,9 +25,9 @@ public class Rampas {
 	@Produces("application/json")
 	public Response index() {
 		Setup.setup();
-		System.out.println("Obtener Rampas");
+//		System.out.println("Obtener Rampas");
 		ArrayList<Rampa> rampas = HandlerDS.getRampas();
-		if (rampas == null) {
+		if (rampas == null || rampas.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
@@ -36,11 +36,20 @@ public class Rampas {
 	}
 	
 	@GET 
+	@Path("/admin/carga")
+	@Produces("application/json")
+	public Response cargaInicial() {
+//		System.out.println("Me piden la carga inicial de datos de prueba...");
+		Setup.setup();
+		return Response.ok("{\"Respuesta\": \"OK\"}",MediaType.APPLICATION_JSON).build();		
+	}
+	
+	@GET 
 	@Path("/latlng/{lat}/{lng}")
 	@Produces("application/json")
 	public Response loadRampaByLatLng(@PathParam("lat") String lat, @PathParam("lng") String lng) {
-		System.out.println("Dentro de get rampas by latlng");
-		System.out.println("Me llegan, lat: "+ lat +", lng: " + lng );
+//		System.out.println("Dentro de get rampas by latlng");
+//		System.out.println("Me llegan, lat: "+ lat +", lng: " + lng );
 		Rampa unaRampa = HandlerDS.getRampaByLatitudLongitud(Double.parseDouble(lat),Double.parseDouble(lng));
 		if (unaRampa == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
@@ -54,8 +63,8 @@ public class Rampas {
 	@Path("/barrios/{barrio}")
 	@Produces("application/json")
 	public Response loadRampaByBarrio(@PathParam("barrio") String barrio) {
-		System.out.println("Dentro de get rampas by Barrio");
-		System.out.println("Me llegan, barrio: "+ barrio);
+//		System.out.println("Dentro de get rampas by Barrio");
+//		System.out.println("Me llegan, barrio: "+ barrio);
 		ArrayList<Rampa> rampas = HandlerDS.getRampasByBarrio(barrio);
 		if (rampas == null || rampas.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
@@ -69,10 +78,10 @@ public class Rampas {
 	@Path("/ruta/{latmin}/{lngmin}/{latmax}/{lngmax}")
 	@Produces("application/json")
 	public Response loadRampaByRuta(@PathParam("latmin") String latmin, @PathParam("lngmin") String lngmin, @PathParam("latmax") String latmax, @PathParam("lngmax") String lngmax) {
-		System.out.println("Dentro de get rampas by ruta");
-		System.out.println("Me llegan, latmin: "+ latmin +", lngmin: " + lngmin + ", latmax: "+ latmax +", lngmax: " + lngmax );
+//		System.out.println("Dentro de get rampas by ruta");
+//		System.out.println("Me llegan, latmin: "+ latmin +", lngmin: " + lngmin + ", latmax: "+ latmax +", lngmax: " + lngmax );
 		ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(Double.parseDouble(latmin),Double.parseDouble(lngmin),Double.parseDouble(latmax),Double.parseDouble(lngmax));
-		if (rampasRuta == null) {
+		if (rampasRuta == null || rampasRuta.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
@@ -83,18 +92,18 @@ public class Rampas {
 //	Sirve para agregar una Rampa	
 	
 	@POST
-	@Produces("application/json")
 	@Consumes("application/json")
+//	@Produces("application/json")
 	public Response saveRampa(String rampa_json) {
 		Gson parser = new Gson();
 		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
 		String estado = HandlerDS.saveRampa(unaRampa);
 		if (estado == "OK") {
-			System.out.println("La rampa se agrego bien");
+//			System.out.println("La rampa se agrego bien");
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al agregar la rampa");
+//			System.out.println("Hubo con conflicto al agregar la rampa");
 			return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
 		}
 	}
@@ -102,18 +111,18 @@ public class Rampas {
 //	Sirve para modificar una Rampa
 	
 	@PUT
-	@Produces("application/json")
 	@Consumes("application/json")
+//	@Produces("application/json")
 	public Response updateRampa(String rampa_json) {
 		Gson parser = new Gson();
 		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
 		String estado = HandlerDS.saveRampa(unaRampa);
 		if (estado == "OK") {
-			System.out.println("La rampa se modifico bien");
+//			System.out.println("La rampa se modifico bien");
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al modificar la rampa");
+//			System.out.println("Hubo con conflicto al modificar la rampa");
 			return Response.serverError().entity("Modificar Rampa: Error - " + estado).build();
 		}
 	}
@@ -121,18 +130,18 @@ public class Rampas {
 	/**Lo de abajo todavia no esta testeado mediante la pagina web usando AJAX**/
 
 	@DELETE
-	@Path("/Rampa")
 	@Consumes("application/json")
+//	@Produces("application/json")
 	public Response deleteRampa(String rampa_json) {
 		Gson parser = new Gson();
 		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
 		String estado = HandlerDS.deleteRampa(unaRampa);
 		if (estado == "OK") {
-			System.out.println("La rampa se elimino bien");
+//			System.out.println("La rampa se elimino bien");
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al borrar la rampa");
+//			System.out.println("Hubo con conflicto al borrar la rampa");
 			return Response.serverError().entity("Eliminar Rampa: Error - " + estado).build();
 		}		
 	}

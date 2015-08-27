@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class Usuario implements Serializable {
 	
-	@Expose @Id private long id;
+	@Expose @Id private Long id;
 	@Expose private String nombre;
 	@Expose private String apellido;
 	@Expose @Index private String mail;
@@ -21,8 +21,7 @@ public class Usuario implements Serializable {
 	/* Es necesario este constructor para que funcione el GSON */
 	public Usuario() {	} 
 	
-	public Usuario(long id, String nombre, String apellido, String mail, String contraseña) {
-		setId(id);	
+	public Usuario(String nombre, String apellido, String mail, String contraseña) {
 		setNombre(nombre);		
 		setApellido(apellido);
 		setMail(mail);
@@ -30,8 +29,7 @@ public class Usuario implements Serializable {
 		setUsuarioPropio(true);
 	}
 
-	public Usuario(long id, String facebook) {
-		setId(id);	
+	public Usuario(String facebook) {
 		setFacebook(facebook);		
 		setUsuarioPropio(false);
 	}
@@ -40,10 +38,6 @@ public class Usuario implements Serializable {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
 	public String getNombre() {
 		return nombre;
 	}

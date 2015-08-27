@@ -24,8 +24,7 @@ public class Rampa implements Serializable {
 	/* Es necesario este constructor para que funcione el GSON */
 	public Rampa () { }
 	
-	public Rampa(long unId, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
-		setId(unId);
+	public Rampa(double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
 		setLatitud(latitud);
 		setLongitud(longitud);
 		setBarrio(barrio);
@@ -36,11 +35,23 @@ public class Rampa implements Serializable {
 		setReportada(reportada);
 	}
 	
+	public Rampa(Long id, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
+		setId(id);
+		setLatitud(latitud);
+		setLongitud(longitud);
+		setBarrio(barrio);
+		setTieneInformacion(tieneInformacion);
+		setTieneRampas(tieneRampas);
+		setBuenEstado(buenEstado);
+		setTodosCrucesAccesibles(todosCrucesAccesibles);
+		setReportada(reportada);
+	}	
+	
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

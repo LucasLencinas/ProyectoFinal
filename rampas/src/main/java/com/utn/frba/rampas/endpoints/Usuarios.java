@@ -26,9 +26,9 @@ public class Usuarios {
 	@Produces("application/json")
 	public Response index() {
 		Setup.setup();
-		System.out.println("Obtener Usuarios");
+//		System.out.println("Obtener Usuarios");
 		ArrayList<Usuario> usuarios = HandlerDS.getUsuarios();
-		if (usuarios == null) {
+		if (usuarios == null || usuarios.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
@@ -40,8 +40,7 @@ public class Usuarios {
 	@Path("/admin/carga")
 	@Produces("application/json")
 	public Response cargaInicial() {
-		
-		System.out.println("Me piden la carga inicial de datos de prueba...");
+//		System.out.println("Me piden la carga inicial de datos de prueba...");
 		Setup.setup();
 		return Response.ok("{\"Respuesta\": \"OK\"}",MediaType.APPLICATION_JSON).build();		
 	}
@@ -52,8 +51,8 @@ public class Usuarios {
 	@Path("/mail")
 	@Produces("application/json")
 	public Response loadUsuarioByMail(@PathParam("mail") String mail) {
-		System.out.println("Dentro de get usuarios by mail");
-		System.out.println("Me llega, mail: " + mail);
+//		System.out.println("Dentro de get usuarios by mail");
+//		System.out.println("Me llega, mail: " + mail);
 		Usuario unUsuario;
 		unUsuario = HandlerDS.getUsuarioByMail(mail);
 		if (unUsuario == null) {
@@ -68,8 +67,8 @@ public class Usuarios {
 	@Path("/facebook")
 	@Produces("application/json")
 	public Response loadUsuarioByFacebook(@PathParam("facebook") String facebook) {
-		System.out.println("Dentro de get usuarios by facebook");
-		System.out.println("Me llega, facebook: " + facebook);
+//		System.out.println("Dentro de get usuarios by facebook");
+//		System.out.println("Me llega, facebook: " + facebook);
 		Usuario unUsuario;
 		unUsuario = HandlerDS.getUsuarioByFacebook(facebook);
 		if (unUsuario == null) {
@@ -83,17 +82,17 @@ public class Usuarios {
 	@POST
 	@Path("/Usuario")
 	@Consumes("application/json")
-	@Produces("application/json")
+//	@Produces("application/json")
 	public Response saveUsuario(String usuario_json) {
 		Gson parser = new Gson();
 		Usuario unUsuario = parser.fromJson(usuario_json,Usuario.class);
 		String estado = HandlerDS.saveUsuario(unUsuario);
 		if (estado == "OK") {
-			System.out.println("El usuario se agrego bien");
+//			System.out.println("El usuario se agrego bien");
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al agregar el usuario");
+//			System.out.println("Hubo con conflicto al agregar el usuario");
 			return Response.serverError().entity("Agregar Usuario: Error - " + estado).build();
 		}
 	}
@@ -101,18 +100,18 @@ public class Usuarios {
 	@PUT
 	@Path("/Usuario")
 	@Consumes("application/json")
-	@Produces("application/json")
+//	@Produces("application/json")
 	public Response updateUsuario(String usuario_json) {
 		Gson parser = new Gson();
 		Usuario unUsuario = parser.fromJson(usuario_json,Usuario.class);
 		String estado = HandlerDS.saveUsuario(unUsuario);
 		if (estado == "OK") {
-			System.out.println("El usuario se modifico bien");
+//			System.out.println("El usuario se modifico bien");
 			return Response.status(Response.Status.OK).build();
 			
 		} 
 		else {
-			System.out.println("Hubo con conflicto al modificar el usuario");
+//			System.out.println("Hubo con conflicto al modificar el usuario");
 			return Response.serverError().entity("Modificar Usuario: Error - " + estado).build();
 		}
 	}
@@ -125,11 +124,11 @@ public class Usuarios {
 		Usuario unUsuario = parser.fromJson(usuario_json,Usuario.class);
 		String estado = HandlerDS.deleteUsuario(unUsuario);
 		if (estado == "OK") {
-			System.out.println("El usuario se elimino bien");
+//			System.out.println("El usuario se elimino bien");
 			return Response.status(Response.Status.OK).build();
 		} 
 		else {
-			System.out.println("Hubo con conflicto al borrar el usuario");
+//			System.out.println("Hubo con conflicto al borrar el usuario");
 			return Response.serverError().entity("Borrar Usuario: Error - " + estado).build();
 		}
 	}

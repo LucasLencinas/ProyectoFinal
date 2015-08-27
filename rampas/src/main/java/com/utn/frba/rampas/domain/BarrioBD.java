@@ -15,15 +15,14 @@ public class BarrioBD implements Serializable {
 //	nombre: "Almagro"
 // 	limites: "[[[[-58.47242,-34.5661],[-58.47296,-34.56642],[-58.47299,-34.56644],[-58.47242,-34.5661]]]]"
 
-	@Expose @Id private long id;
+	@Expose @Id private Long id;
 	@Expose @Index private String nombre;
 	@Expose private String limites;	
 
 	/* Es necesario este constructor para que funcione el GSON */
 	public BarrioBD() { }
 	
-	public BarrioBD(long id,String nombre,String limites) {
-		setId(id);
+	public BarrioBD(String nombre,String limites) {
 		setNombre(nombre);
 		setLimites(limites);
 	}
@@ -32,10 +31,6 @@ public class BarrioBD implements Serializable {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}	
-	
 	public String getNombre() {
 		return nombre;
 	}

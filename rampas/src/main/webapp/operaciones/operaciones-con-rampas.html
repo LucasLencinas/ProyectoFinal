@@ -34,57 +34,18 @@
     Coordenadas: </br>
     - Lat: <input type="textbox" id="nuevaLat"></br>
     - Lng: <input type="textbox" id="nuevaLng"></br>
-    Tiene Informacion: <input type="checkbox" id="nuevaTieneRampa"></br>
-    Tiene Rampa: <input type="checkbox" id="nuevaTieneRampa"></br>
+    Tiene Informacion: <input type="checkbox" id="nuevaTieneInformacion"></br>
+    Tiene Rampa: <input type="checkbox" id="nuevaTieneRampas"></br>
     Buen Estado: <input type="checkbox" id="nuevaBuenEstado"></br>
-    Cruces Accesibles: <input type="checkbox" id="nuevaCrucesAccesibles"></br>
+    Cruces Accesibles: <input type="checkbox" id="nuevaTodosCrucesAccesibles"></br>
     Reportada: <input type="checkbox" id="nuevaReportada"></br>
-    Barrio: <input type="textbox" id="nuevaBarrio" value="Almagro"></br>
+    Barrio: <input type="textbox" id="nuevaBarrio"></br>
   </div>
 </td>
-<td><button onclick="nuevaRampa(generarRampaDesdeLosInputDeNuevaRampa())">Nueva</button></td>
+<td><button onclick="nuevaRampa(generarRampaDesdeLosInputDeNuevaRampa())" id="nuevaBoton">Nueva</button></td>
 <td>
   <div id="resultadoNuevaRampa">
     Todavia no se dio de alta una rampa.<br>
-  </div>
-</td>
-</tr>
-
-<tr>
-<td>Reportar Rampa</td>
-<td>
-  <div>
-    Coordenadas: </br>
-    - Lat: <input type="textbox" id="reportarLat"></br>
-    - Lng: <input type="textbox" id="reportarLng"></br>
-  </div>
-</td>
-<td><button onclick="reportarRampa(generarRampaDesdeLosInputDeReportarRampa())">Reportar</button></td>
-<td>
-  <div id="resultadoReportarRampa">
-    Todavia no se reporto una rampa.<br>
-  </div></td>
-</tr>
-
-<tr>
-<td>Modificar Rampa</td>
-<td>
-  <div>
-    Coordenadas: </br>
-    - Lat: <input type="textbox" id="modificarLat"></br>
-    - Lng: <input type="textbox" id="modificarLng"></br>
-    Tiene Informacion: <input type="checkbox" id="modificarTieneRampa"></br>
-    Tiene Rampa: <input type="checkbox" id="modificarTieneRampa"></br>
-    Buen Estado: <input type="checkbox" id="modificarBuenEstado"></br>
-    Cruces Accesibles: <input type="checkbox" id="modificarCrucesAccesibles"></br>
-    Reportada: <input type="checkbox" id="modificarReportada"></br>
-    Barrio: <input type="textbox" id="modificarBarrio" value="Almagro"></br>
-  </div>
-</td>
-<td><button onclick="modificarRampa()">Modificar</button></td>
-<td>
-  <div id="resultadoModificarRampa">
-    Todavia no se modifico una rampa.<br>
   </div>
 </td>
 </tr>
@@ -98,10 +59,37 @@
     - Lng: <input type="textbox" id="buscarPorUbicacionLng"></br>
   </div>
 </td>
-<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())">Buscar</button></td>
+<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())" id="buscarBoton">Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampaPorUbicacion">
     Todavia no se busco rampa por Ubicacion.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Modificar/Reportar/Desreportar/Borrar Rampa</td>
+<td>
+  <div>
+    Id: <input type="textbox" id="modificarId" disabled></br>
+    Coordenadas: </br>
+    - Lat: <input type="textbox" id="modificarLat" disabled></br>
+    - Lng: <input type="textbox" id="modificarLng" disabled></br>
+    Tiene Informacion: <input type="checkbox" id="modificarTieneInformacion"></br>
+    Tiene Rampa: <input type="checkbox" id="modificarTieneRampas"></br>
+    Buen Estado: <input type="checkbox" id="modificarBuenEstado"></br>
+    Cruces Accesibles: <input type="checkbox" id="modificarTodosCrucesAccesibles"></br>
+    Reportada: <input type="checkbox" id="modificarReportada"></br>
+    Barrio: <input type="textbox" id="modificarBarrio"></br>
+  </div>
+</td>
+<td><button onclick="modificarRampa(generarRampaDesdeLosInputDeModificarRampa())" id="modificarBoton" disabled>Modificar</button>
+    <button onclick="reportarRampa(generarRampaDesdeLosInputDeReportarRampa())" id="reportarBoton" disabled>Reportar</button>
+    <button onclick="desreportarRampa(generarRampaDesdeLosInputDeDesreportarRampa())" id="desreportarBoton" disabled>Desreportar</button>
+    <button onclick="borrarRampa(generarRampaDesdeLosInputDeBorrarRampa())" id="borrarBoton" disabled>Borrar</button>
+<td>
+  <div id="resultadoModificarRampa">
+    Todavia no se modifico/reporto/desreporto/borro una rampa.<br>
   </div>
 </td>
 </tr>

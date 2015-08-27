@@ -22,9 +22,9 @@ public class BarriosBD {
 	@Produces("application/json")
 	public Response index() {
 		Setup.setup();
-		System.out.println("Obtener Barrios");
+//		System.out.println("Obtener Barrios");
 		ArrayList<BarrioBD> barrios = HandlerDS.getBarrios();
-		if (barrios == null) {
+		if (barrios == null || barrios.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
@@ -36,14 +36,14 @@ public class BarriosBD {
 	@Path("/barrios/{barrio}")
 	@Produces("application/json")
 	public Response loadBarrioByNombre(@PathParam("barrio") String nombre) {
-		System.out.println("Dentro de get rampas by Barrio");
-		System.out.println("Me llegan, barrio: "+ nombre);
-		BarrioBD barrio = HandlerDS.getBarrioByNombre(nombre);
-		if (barrio == null) {
+//		System.out.println("Dentro de get rampas by Barrio");
+//		System.out.println("Me llegan, barrio: "+ nombre);
+		BarrioBD unBarrio = HandlerDS.getBarrioByNombre(nombre);
+		if (unBarrio == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
 		else {
-			return Response.ok(new Gson().toJson(barrio),MediaType.APPLICATION_JSON).build();		
+			return Response.ok(new Gson().toJson(unBarrio),MediaType.APPLICATION_JSON).build();		
 		}
 	}
 	
