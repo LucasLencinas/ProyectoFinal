@@ -29,6 +29,15 @@ public class Usuario implements Serializable {
 		setUsuarioPropio(true);
 	}
 
+	public Usuario(Long id, String nombre, String apellido, String mail, String contraseña) {
+		setId(id);
+		setNombre(nombre);		
+		setApellido(apellido);
+		setMail(mail);
+		setContraseña(contraseña);
+		setUsuarioPropio(true);
+	}
+	
 	public Usuario(String facebook) {
 		setFacebook(facebook);		
 		setUsuarioPropio(false);
@@ -36,6 +45,10 @@ public class Usuario implements Serializable {
 	
 	public long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNombre() {

@@ -15,7 +15,6 @@
 <body>
   <h1>Operaciones con Usuarios <button onclick="cargarDatos()">Cargar Datos</button></h1>
 
-
 <table border="1"><!--style="width:800px"-->
   <thead>
   <tr>
@@ -28,50 +27,34 @@
 
 <tbody>
 <tr>
-<td>Nuevo Usuario</td>
+<td>Nuevo Usuario por Mail</td>
 <td>
   <div>
-	<!--
-	@Expose @Id private long id;
-	@Expose private String nombre;
-	@Expose private String apellido;
-	@Expose private String mail;
-	@Expose private String contraseña;
-	@Expose private String facebook;
-	@Expose private boolean usuarioPropio;
-	-->
     Nombre: <input type="textbox" id="nuevoNombre"></br>
     Apellido: <input type="textbox" id="nuevoApellido"></br>
 	Mail: <input type="textbox" id="nuevoMail"></br>
     Contrasenia: <input type="textbox" id="nuevoContrasenia"></br>
-	Facebook: <input type="textbox" id="nuevoFacebook"></br>
-    usuarioPropiio: <input type="checkbox" id="nuevoUsuarioPropio"></br>
   </div>
 </td>
-<td><button onclick="nuevoUsuario(generarUsuarioDesdeLosInputDeNuevoUsuario())">Nuevo</button></td>
+<td><button onclick="nuevoUsuarioMail(generarUsuarioDesdeLosInputDeNuevoUsuarioMail())">Nuevo</button></td>
 <td>
-  <div id="resultadoNuevoUsuario">
-    Todavia no se dio de alta un Usuario.<br>
+  <div id="resultadoNuevoUsuarioMail">
+    Todavia no se dio de alta un Usuario por Mail.<br>
   </div>
 </td>
 </tr>
 
 <tr>
-<td>Modificar Usuario</td>
+<td>Nuevo Usuario por Facebook</td>
 <td>
   <div>
-    Nombre: <input type="textbox" id="modificarNombre"></br>
-    Apellido: <input type="textbox" id="modificarApellido"></br>
-	Mail: <input type="textbox" id="modificarMail"></br>
-    Contrasenia: <input type="textbox" id="modificarContrasenia"></br>
-	Facebook: <input type="textbox" id="modificarFacebook"></br>
-    usuarioPropiio: <input type="checkbox" id="modificarUsuarioPropio"></br>
+	Facebook: <input type="textbox" id="nuevoFacebook"></br>
   </div>
 </td>
-<td><button onclick="modificarUsuario()">Modificar</button></td>
+<td><button onclick="nuevoUsuarioFacebook(generarUsuarioDesdeLosInputDeNuevoUsuarioFacebook())">Nuevo</button></td>
 <td>
-  <div id="resultadoModificarUsuario">
-    Todavia no se modifico un Usuario.<br>
+  <div id="resultadoNuevoUsuarioFacebook">
+    Todavia no se dio de alta un Usuario por Facebook.<br>
   </div>
 </td>
 </tr>
@@ -80,10 +63,10 @@
 <td>Buscar/Consultar Usuario por Mail</td>
 <td>
   <div>
-    Mail: <input type="textbox" id="buscarPorMailMail"></br>
+    Mail: <input type="textbox" id="buscarPorMail"></br>
   </div>
 </td>
-<td><button onclick="buscarUsuarioPorMail($('#buscarPorMailMail').val())">Buscar</button></td>
+<td><button onclick="buscarUsuarioPorMail($('#buscarPorMail').val())">Buscar</button></td>
 <td>
   <div id="resultadoBuscarUsuarioPorMail">
     Todavia no se busco Usuario por Mail.<br>
@@ -92,16 +75,51 @@
 </tr>
 
 <tr>
+<td>Modificar/Borrar Usuario por Mail</td>
+<td>
+  <div>
+    Id: <input type="textbox" id="modificarId" disabled></br>
+    Nombre: <input type="textbox" id="modificarNombre"></br>
+    Apellido: <input type="textbox" id="modificarApellido"></br>
+	Mail: <input type="textbox" id="modificarMail"></br>
+    Contrasenia: <input type="textbox" id="modificarContrasenia"></br>
+  </div>
+</td>
+<td><button onclick="modificarUsuarioMail()" id="modificarBoton" disabled>Modificar</button>
+	<button onclick="borrarUsuarioMail()" id="borrarBoton" disabled>Borrar</button></td>
+<td>
+  <div id="resultadoModificarUsuario">
+    Todavia no se modifico/borro un Usuario.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
 <td>Buscar/Consultar Usuario por Facebook </td>
 <td>
   <div>
-    Facebook: <input type="textbox" id="buscarPorFacebookFacebook"></br>
+    Facebook: <input type="textbox" id="buscarPorFacebook"></br>
   </div>
 </td>
-<td><button onclick="buscarUsuarioPorFacebook($('#buscarPorFacebookFacebook').val())">Buscar</button></td>
+<td><button onclick="buscarUsuarioPorFacebook($('#buscarPorFacebook').val())">Buscar</button>
+	<button onclick="borrarUsuarioFacebook()" id="borrarFacebookBoton" disabled>Borrar</button></td>
 <td>
   <div id="resultadoBuscarUsuarioPorFacebook">
     Todavia no se busco Usuario por Facebook.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Buscar/Consultar Usuarios</td>
+<td>
+  <div>
+  </div>
+</td>
+<td><button onclick="buscarUsuarios()">Buscar</button></td>
+<td>
+  <div id="resultadoBuscarUsuarios">
+    Todavia no se busco usuarios.<br>
   </div>
 </td>
 </tr>
