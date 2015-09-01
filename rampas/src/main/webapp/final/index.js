@@ -13,20 +13,21 @@ var checkpointsRuta;
 var polilineas= [];
 var poligonos = [];
 var colores = {};
-var tallIcono = new google.maps.Size(32, 32);
-var originIcono = new google.maps.Point(0,0);
-var anchorIcono = new google.maps.Point(16, 32);
+var tamanioMarcador = new google.maps.Size(24, 24);
 var originMarker = {};
 var destinationMarker = {};
 var arrayRampasCercanas = [];
 var contextMenu = {};
-colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("../imagen/ltblue-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("../imagen/blue-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("../imagen/purple-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['ROJO'] = {valor:"#ff0000", puntaje:1, icono: new google.maps.MarkerImage("../imagen/red-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['NARANJA'] = {valor:"#ff8000", puntaje:2, icono: new google.maps.MarkerImage("../imagen/orange-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['AMARILLO'] = {valor:"#ffff00", puntaje:4, icono: new google.maps.MarkerImage("../imagen/yellow-dot.png",tallIcono,originIcono,anchorIcono)};
-colores['VERDE'] = {valor:"#00ff00", puntaje:5, icono: new google.maps.MarkerImage("../imagen/green-dot.png",tallIcono,originIcono,anchorIcono)};
+var marcadorActual = {};
+var subconjuntoDeMarcadores = [];
+var crucesBarrioElegido = [];
+colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("../imagen/ltblue-dot.png",null,null,null,tamanioMarcador)};
+colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("../imagen/blue-dot.png",null,null,null,tamanioMarcador)};
+colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("../imagen/purple-dot.png",null,null,null,tamanioMarcador)};
+colores['ROJO'] = {valor:"#ff0000", puntaje:1, icono: new google.maps.MarkerImage("../imagen/red-dot.png",null,null,null,tamanioMarcador)};
+colores['NARANJA'] = {valor:"#ff8000", puntaje:2, icono: new google.maps.MarkerImage("../imagen/orange-dot.png",null,null,null,tamanioMarcador)};
+colores['AMARILLO'] = {valor:"#ffff00", puntaje:4, icono: new google.maps.MarkerImage("../imagen/yellow-dot.png",null,null,null,tamanioMarcador)};
+colores['VERDE'] = {valor:"#00ff00", puntaje:5, icono: new google.maps.MarkerImage("../imagen/green-dot.png",null,null,null,tamanioMarcador)};
 
 var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
       new google.maps.Size(59, 32),
@@ -65,9 +66,90 @@ function initialize() {
 	  new google.maps.LatLng(-34.549427, -58.363947));
 	map.fitBounds(defaultBounds);
 	
-	var contextMenuOptions={};
-	contextMenuOptions.classNames={menu:'context_menu', menuSeparator:'context_menu_separator'};
+	var contextMenu = crearContextMenu();
 	
+	
+	/*marcadores Iniciales y finales*/
+	originMarker = crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("../imagen/disability2.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
+	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("../imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
+	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
+	
+	llenarSelectOptions();
+	
+}//Fin initialize
+
+function llenarSelectOptions(){
+
+	if($("#servidorHabilitado").is(':checked')){
+		alert("No estoy conectado con el servidor");
+	}else{
+		$.each(barrios, function (index, value) {
+			$("#selectBarrios").append($('<option/>', { 
+				value: value.nombre,
+				text : value.nombre 
+			}));
+		});
+	}
+}
+
+function buscarRampasPorBarrio(){
+	var unCruce;
+	var unMarcador;
+	
+	if($("#servidorHabilitado").is(':checked')){
+		alert("No estoy conectado con el servidor todavia.");
+	}else{	
+		barrioElegido = $("#selectBarrios").prop("selectedIndex");
+		var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barrios[barrioElegido].poligono.coordinates);
+
+		var poligonoBarrioElegido= new google.maps.Polygon({
+			paths: coordenadasBarrioElegido
+		});
+		poligonoBarrioElegido.setMap(map);
+
+		new google.maps.Polyline({
+			path:coordenadasBarrioElegido
+		}).setMap(map);
+		
+		$.each(barrios[barrioElegido].calles, function(indice, punto){
+			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+			unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
+			unMarcador.tieneInformacion = punto.tieneInformacion;
+			unMarcador.tieneRampa = punto.tieneRampa; 
+			unMarcador.buenEstado = punto.buenEstado;
+			unMarcador.crucesAccesibles = punto.crucesAccesibles;
+			unMarcador.reportada = punto.reportada;
+			unMarcador.setMap(map);
+			crucesBarrioElegido.push(unMarcador);
+		});			
+		poligonoBarrioElegido.setMap(null);
+	}
+}
+
+function coordenadasDesdeStringDeBarrio(stringBarrio){
+	var coordenadas = [];
+	//[[[[-58.47242,-34.5661],[-58.47296,-34.56642],[-58.47299,-34.56644],[-58.47353,-34.56655]]]]
+	var punto = {lat:"", lng:""};
+	var auxLatLng;
+	
+	/* Faltar hacer el parseo.*/
+	var substring = stringBarrio.slice(stringBarrio.indexOf("[[[[")+4,stringBarrio.indexOf("]]]]")) ;
+	var semipuntos =substring.split("],[");
+	
+	for (var i = 0; i < semipuntos.length; i++){
+		auxLatLng = semipuntos[i].split(",");
+		punto.lng = auxLatLng[0];
+		punto.lat = auxLatLng[1];
+		coordenadas.push(new google.maps.LatLng( parseFloat(punto.lat), parseFloat(punto.lng)));
+	}
+	
+	return coordenadas;
+}
+
+
+function crearContextMenu(){
+	var contextMenuOptions = {}
+	contextMenuOptions.classNames={menu:'context_menu', menuSeparator:'context_menu_separator'};
 	//	create an array of ContextMenuItem objects
 	//	an 'id' is defined for each of the four directions related items
 	var menuItems=[];
@@ -75,58 +157,38 @@ function initialize() {
 	menuItems.push({className:'context_menu_item', eventName:'hasta_aqui_click', id:'hasta_aqui_item', label:'Hasta aqui'});
 	menuItems.push({className:'context_menu_item', eventName:'descartar_ruta_click', id:'descartar_ruta_item', label:'Descartar Ruta'});
 	menuItems.push({className:'context_menu_item', eventName:'calcular_ruta_click', id:'calcular_ruta_item', label:'Calcular Ruta'});
-	//	a menuItem with no properties will be rendered as a separator
-	menuItems.push({});
+	menuItems.push({});//	a menuItem with no properties will be rendered as a separator
 	menuItems.push({className:'context_menu_item', eventName:'rampas_cercanas_click', id:'rampas_cercanas_item', label:'Esquinas Cercanas'});
-	/*Este Nueva Rampa se deberia habilitar cuando se haga click antes en Rampas Cercanas creo, o solo cuando aparezca un marcador*/
 	menuItems.push({className:'context_menu_item', eventName:'ocultar_rampas_cercanas_click', id: 'ocultar_rampas_cercanas_item', label:'Ocultar Esquinas Cercanas'});
-
+	menuItems.push({className:'context_menu_item', eventName:'nueva_rampa_click', id: 'nueva_rampa_item', label:'Nueva Rampa'});
+	
 	contextMenuOptions.menuItems=menuItems;
 	
 	contextMenu=new ContextMenu(map, contextMenuOptions);
 	google.maps.event.addListener(map, 'rightclick', function(mouseEvent){
 		contextMenu.show(mouseEvent.latLng);
-		if(originMarker.getMap() == null || destinationMarker.getMap() == null){
+		
+		if(originMarker.getMap() == null || destinationMarker.getMap() == null)
 			$('#calcular_ruta_item').hide();
-		}
-		else{
+		else
 			$('#calcular_ruta_item').show();
-		}
-		if(originMarker.getMap() == null || destinationMarker.getMap()  == null || polilineas.length == 0){ //Si no hay ninguna ruta habilitada
+			
+		if(originMarker.getMap() == null || destinationMarker.getMap()  == null || polilineas.length == 0) //Si no hay ninguna ruta habilitada
 			$('#descartar_ruta_item').hide();
-		}
-		else{
+		else
 			$('#descartar_ruta_item').show();
-		}
+			
 		if(arrayRampasCercanas.length == 0){
 			$('#ocultar_rampas_cercanas_item').hide();
+			$('#nueva_rampa_item').hide();
 		}
 		else{
 			$('#ocultar_rampas_cercanas_item').show();
+			$('#nueva_rampa_item').show();
 		}
 	});
-	
-	/*marcadores Iniciales y finales*/
-	var markerOptions={};
-	markerOptions.icon='http://www.google.com/intl/en_ALL/mapfiles/markerA.png';
-	markerOptions.map=null;
-	markerOptions.position=new google.maps.LatLng(0, 0);
-	
-	originMarker=new google.maps.Marker(markerOptions);
-	
-	markerOptions.icon='http://www.google.com/intl/en_ALL/mapfiles/markerB.png';
-	destinationMarker=new google.maps.Marker(markerOptions);
-
-	google.maps.event.addListener(originMarker, 'rightclick', function(){
-		contextMenu.show(this.getPosition());
-	});
-	google.maps.event.addListener(destinationMarker, 'rightclick', function(){
-		contextMenu.show(this.getPosition());
-	});
-	
-	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
-	
-}//Fin initialize
+	return contextMenu;
+}
 
 function agruparCheckpoints(ruta){
 	var checkpoints= [];
@@ -155,6 +217,8 @@ function crearPolilinea(puntosIntermedios){
 	return {poly:polilinea,figura: poligonos, puntos: puntosIntermedios , marcadores:[]};
 }
 
+
+/* MARTINCITO --> Una vez que se encuentran las 3 Rutas, con esta funcion se habilitan los 3 botones para mostrarlas en el Mapa.*/
 function habilitarBotonDeRuta(idRuta){
 	var checkbox =	$("<input />", { 
 		type: "checkbox", 
@@ -165,10 +229,6 @@ function habilitarBotonDeRuta(idRuta){
 			polilineas[idRuta].poly.setMap(map);
 			for(var i = 0; i < polilineas[idRuta].marcadores.length; i++){
 				polilineas[idRuta].marcadores[i].setMap(map);
-				google.maps.event.addListener(polilineas[idRuta].marcadores[i], 'click', function() {
-				   rellenarInfoWindow(infowindow,this);
-				   infowindow.open(map,this);
-				});
 			}
 		}
 		else{
@@ -185,54 +245,43 @@ function habilitarBotonDeRuta(idRuta){
 	$("#checkboxes").append('<label>Ruta ' + (idRuta+1) + ':</label>');
 	$("#checkboxes").append(checkbox);
 	$("#checkboxes").append("</br>");
-	if(idRuta == 1){
+	if(idRuta == 0){
 		checkbox.prop('checked', true);
 		polilineas[idRuta].poly.setMap(map);
 		for(var i = 0; i < polilineas[idRuta].marcadores.length; i++){
 			polilineas[idRuta].marcadores[i].setMap(map);
-			google.maps.event.addListener(polilineas[idRuta].marcadores[i], 'click', function() {
-			   rellenarInfoWindow(infowindow,this);
-			   infowindow.open(map,this);
-			});			
 		}		
 	}
 }
 
 
-function marcadoresIncluidos(poligonos, minimo, maximo){
+function marcadoresIncluidos(poligonos,subconjuntoDeMarcadores){
 	var latlng;
 	var marcador;
 	var color;
 	var incluidos = [];
-	
-	
-	$.each(barrios, function(index,barrio){
-		//console.log("barrio:" + barrio.nombre);
-		$.each(barrio.calles, function(indice,punto){
-			//console.log("Indice: " + indice + ". Punto: " + punto.coordenadas[0] + ", " + punto.coordenadas[1]);
-			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
-			function poligonoContienePunto(poligono, indice,array){
-				return google.maps.geometry.poly.containsLocation(latlng, poligono);
-			}
-			if(poligonos.some(poligonoContienePunto)){
-				marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono);
-				marcador.tieneInformacion = punto.tieneInformacion;
-				marcador.tieneRampa = punto.tieneRampa; 
-				marcador.buenEstado = punto.buenEstado;
-				marcador.crucesAccesibles = punto.crucesAccesibles;
-				marcador.reportada = punto.reportada;
-				incluidos.push(marcador);
-			}
-		});
+	$.each(subconjuntoDeMarcadores, function(index,latlng){
+		function poligonoContienePunto(poligono, indice,array){
+			return google.maps.geometry.poly.containsLocation(latlng, poligono);
+		}
+		if(poligonos.some(poligonoContienePunto)){
+			marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(latlng).icono, listenerClickEnMarcador);
+			marcador.tieneInformacion = latlng.tieneInformacion;
+			marcador.tieneRampa = latlng.tieneRampa; 
+			marcador.buenEstado = latlng.buenEstado;
+			marcador.crucesAccesibles =latlng.crucesAccesibles;
+			marcador.reportada = latlng.reportada;
+			incluidos.push(marcador);
+		}
 	});
 	return incluidos;
 }
 
+/*En realidad aca no se dibujan, sino que se preparan, se crean los objetos, todo seteado el map a null*/
 function dibujarRutas(respuesta){
 	var color = {};
 	var minimo = {lat:500.0, lng:500.0}, maximo = {lat:-500.0, lng:-500.0};
 	$.each(respuesta.routes, function(index, ruta){
-		if(index == 0){//Para que solo tome una ruta solo para probar
 		$.each(ruta.legs, function(i, leg){
 			$.each(leg.steps, function(indice, step){
 				$.each(step.path, function(index, latlng){
@@ -243,47 +292,76 @@ function dibujarRutas(respuesta){
 				});
 			});
 		});
-		}
 	});
+	//Esto lo hago porque sino, tengo problemas en la funcion reducirCantidadDeMarcadoresARectangulo
+	//Ya que minimo y maximo no tienen las funciones lat() y lng()
+	minimo = new google.maps.LatLng(minimo.lat, minimo.lng);
+	maximo = new google.maps.LatLng(maximo.lat, maximo.lng);
 	
-	/**
-	var perimetro = [];
-	perimetro.push(new google.maps.LatLng(minimo.lat -0.001,minimo.lng -0.001));
-	perimetro.push(new google.maps.LatLng(maximo.lat + 0.001,minimo.lng -0.001));
-    perimetro.push(new google.maps.LatLng(maximo.lat +0.001,maximo.lng +0.001));
-	perimetro.push(new google.maps.LatLng(minimo.lat -0.001,maximo.lng +0.001));
-	
-	[].push(new google.maps.Polygon({
-		paths: perimetro,
-		map:map
-	}));
-	**/
-	for(var i = 0; i < respuesta.routes.length; i++){	
-		checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
-		polilineas[i] = crearPolilinea(checkpointsRuta);
-		polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, minimo, maximo);
-		color = colorDePolilinea(polilineas[i].marcadores);
-		polilineas[i].poly.setOptions({strokeColor: color})
-		habilitarBotonDeRuta(i);
+	if($("#servidorHabilitado").is(':checked')){
+		armarRutaConDatosDelServidor(respuesta, minimo,maximo);
+	}else{//Sino armo la ruta con la informacion que tengo en los array de barrios.
+		var subconjuntoDeMarcadores = reducirCantidadDeMarcadoresARectangulo(minimo,maximo);
+		for(var i = 0; i < respuesta.routes.length; i++){	
+			checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
+			polilineas[i] = crearPolilinea(checkpointsRuta);
+			polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, subconjuntoDeMarcadores);
+			color = colorDePolilinea(polilineas[i].marcadores);
+			polilineas[i].poly.setOptions({strokeColor: color})
+			habilitarBotonDeRuta(i);
+		}
 	}
 }
 
-function marcadoresDentroDelPoligono(poligono){
-	var incluidos = [];
-	var latlng;
-
+function reducirCantidadDeMarcadoresARectangulo(minimo,maximo){
+	var marcadoresEnElRectangulo = [];
 	$.each(barrios, function(index,barrio){
-		$.each(barrio.calles, function(indice,calle){
-			latlng = new google.maps.LatLng(calle.coordenadas[0],calle.coordenadas[1]);
-			if (google.maps.geometry.poly.containsLocation(latlng, poligono)) {
-      incluidos.push(crearMarcador(latlng));	
-    	}
+		$.each(barrio.calles, function(indice,punto){
+			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+			if(latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo)){
+				latlng.tieneInformacion = punto.tieneInformacion;
+				latlng.tieneRampa = punto.tieneRampa; 
+				latlng.buenEstado = punto.buenEstado;
+				latlng.crucesAccesibles = punto.crucesAccesibles;
+				latlng.reportada = punto.reportada;
+				marcadoresEnElRectangulo.push(latlng);
+			}
 		});
 	});
-	return incluidos;
+	return marcadoresEnElRectangulo;
+}
+
+function latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo){
+	return (latlng.lat() > minimo.lat() && latlng.lng() > minimo.lng() && latlng.lat() < maximo.lat() && latlng.lng() < maximo.lat())
+}
+
+function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: armarURLconMinimoYMaximo(minimo,maximo),//TODO --> Esta funcion todavia no esta hecha y mati me tiene que decir como lo piensa hacer de su lado.
+		success: function (listaRampas) {
+			console.log("Se encontraron las rampas que estaban dentro de ese rectangulo");
+			for(var i = 0; i < respuesta.routes.length; i++){
+				checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
+				polilineas[i] = crearPolilinea(checkpointsRuta);
+				polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, listaRampas);
+				color = colorDePolilinea(polilineas[i].marcadores);
+				polilineas[i].poly.setOptions({strokeColor: color})
+				habilitarBotonDeRuta(i);
+			}
+		},
+		statusCode: {
+			404: function () { 
+				limpiarHTML();
+				$('#resultadoBuscarRampaPorUbicacion').html("No se ha encontrado ninguna rampa en esa ubicacion.");
+			}
+		}
+	});
 }
 
 
+/*Antes de ver las rampas cercanas o crar una nueva ruta, se ejecuta esto para que no se superponga nada*/
 function borrarRutasPrevias(){
 
 	$.each(polilineas, function(index,polilinea){
@@ -299,7 +377,7 @@ function borrarRutasPrevias(){
 	$("#checkboxes" ).empty();
 }
 
-
+/* MARTINCITO --> Esta es la funcion que inicia todo el proceso de calculo de Ruta*/
 function calcularRutas() {
 	var desdeString = $("#inputDesde").val();
 	var hastaString = $("#inputHasta").val();

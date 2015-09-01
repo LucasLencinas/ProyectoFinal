@@ -14,9 +14,15 @@
 @version 	Provides the version number of a library
 
 **/
-/*Primero hay que cargar el index.js*/
+/************************************
+Primero hay que cargar:
+-el index.js
+-el jquery.sprintf.js
+-
+-
+**/
 
-
+/*Esta funcion ya no se llama, pero la dejo para hacer pruebas*/
 function crearMarcador(posicion){
 	return new google.maps.Marker ({
 		position:posicion,
@@ -30,17 +36,28 @@ function crearMarcador(posicion){
 	});
 }
 
-function crearMarcadorConColor(posicion,icono){
-	return new google.maps.Marker ({
+/*Se crea el marcador junto con el Evento a ejecutarse cuando lo clickean*/
+function crearMarcadorConColor(posicion,icono, listenerClick){
+	var marcador = new google.maps.Marker ({
 		position:posicion,
 		cursor: 'pointer',
 		icon: icono,
 		shape: iconShape
 		/*zIndex: Math.round(latlng.lat()*-100000)<<5*/
 	});
+	/*Ese addListener, en este momento le adjudica esa funcion que recibe por parametro, 
+		en este caso, es la funcion listenerClickEnMarcador definida abajo*/
+	if(listenerClick != undefined)
+		google.maps.event.addListener(marcador, 'click', listenerClick);
+	return marcador
+	
 }
 
-
+/* MARTINCITO --> Cuando se hace click en un Marcador, se ejecuta esta funcion*/
+function listenerClickEnMarcador() {
+		   rellenarInfoWindow(infowindow,this);
+		   infowindow.open(map,this);
+		}
 
 /**Funciona de algebra para el dibujo de Poligonos que encierran a la ruta**/
 
@@ -71,7 +88,7 @@ function calcularVersor(direccion){
 }
 
 
-/**Funcionalidades del Context Menu**/
+/** MARTINCITO --> Funcionalidades del Context Menu: Cuando se ejecuta cualquier boton del context menu, se hace lo que dice en esta funcion**/
 
 function setearListenerParaContextMenu(latLng, eventName){
 
@@ -128,11 +145,17 @@ function setearListenerParaContextMenu(latLng, eventName){
 			map.setZoom(15);
 			ocultarRampasCercanas();
 			break;
+		case 'nueva_rampa_click':
+			/*MARTINCITO --> Aca tendrias que poner la ventana para dar de alta una nueva Rampa, para saber la ubicacion del click
+			esta la variable latLng que viene como parametro.*/
+			alert("Se hizo click en el boton de Nueva Rampa");
+			break;
 	}
-	if(originMarker.getMap() && destinationMarker.getMap() && document.getElementById('calcular_ruta_item').style.display===''){
+	/*if(originMarker.getMap() && destinationMarker.getMap() && document.getElementById('calcular_ruta_item').style.display===''){
 		//	display the 'Get directions' menu item if it is not visible and both directions origin and destination have been selected
 		document.getElementById('calcular_ruta_item').style.display='block';
 	}
+	*/
 }
 
 
@@ -153,19 +176,17 @@ function rampasCercanas(latlng){
 	latlngbounds.extend(perimetro[2]);
 	map.setCenter(latlngbounds.getCenter());
 
+	
 	var poligonos = [];
 	poligonos.push(new google.maps.Polygon({
 		paths: perimetro,
 		map:null
 	}));
-	arrayRampasCercanas = marcadoresIncluidos(poligonos);
+	
+	arrayRampasCercanas = marcadoresIncluidos(poligonos,reducirCantidadDeMarcadoresARectangulo(perimetro[0],perimetro[2]));
 	$.each(arrayRampasCercanas, function(indice,marcador){
 		marcador.setMap(map);
-		google.maps.event.addListener(marcador, 'rightclick', function(){
-			contextMenu.show(this.getPosition());
-		});
 	});
-
 }
 
 function ocultarRampasCercanas(){
@@ -176,7 +197,7 @@ function ocultarRampasCercanas(){
 }
 
 /**Funcionalidades para el InfoWindows y StreetView**/
-
+/* MARTINCITO --> Esta funcion se ejecuta cuando se hace click en el boton StreetView que esta en el InfoWindows de cada marcador.*/
 function mostrarStreetView(lat, lng){
 	panorama = map.getStreetView();
 	panorama.setPosition(new google.maps.LatLng(lat, lng));
@@ -192,19 +213,15 @@ function mostrarStreetView(lat, lng){
   }
 }
 
+/*MARTINCITO --> esta funcion traduce la latitud y longitud para mostrar la direccion completa y 
+	despues llama a una funcion que rellena posta el contenido del Infowindow.*/
 function rellenarInfoWindow(unInfoWindow, marcador){
 
-	var direccion, estado, accesibilidad,boton;
 	geocoder.geocode({'latLng': marcador.getPosition()}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[0]) {
-        direccion = results[0].formatted_address + "</br>";
-		//Consultar al servidor lo siguiente:
-		estado = "Bien</br>";
-		accesibilidad = "Se puede cruzar en todos los sentidos</br>";
-		boton = "<input type='button' id='streetview' value='StreetView' "+
-			"onclick='mostrarStreetView" +results[0].geometry.location + "'></br>";
-		unInfoWindow.setContent(direccion + estado + accesibilidad + boton);
+        marcador.stringDireccion = results[0].formatted_address;
+		unInfoWindow.setContent(armarContenidoDelInfoWindows(marcador));
       } else {
         alert('No results found');
       }
@@ -214,6 +231,44 @@ function rellenarInfoWindow(unInfoWindow, marcador){
   });
 }
 
+/* MARTINCITO --> Esta funcion rellena el infoWindow con toda la informacion de la rampa  y ademas agrega los botones.*/
+
+function armarContenidoDelInfoWindows(marcador){
+	
+	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
+	tieneInformacion = "Tiene Informacion: ", tieneRampa = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "";
+	
+	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
+	tieneRampa += marcador.tieneRampa? "Si" : "No";
+	estado += marcador.buenEstado? "Si" : "No" ;	//Se podria cambiar por un tilde y una cruz mas adelante
+	accesibilidad += marcador.crucesAccesibles? "Si" : "No";
+	
+	botonStreetView = "<input type='button' id='streetview' value='StreetView' "+
+		"onclick='mostrarStreetView" +marcador.getPosition() + "'>";
+	
+	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
+	marcadorActual = marcador;
+	botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
+		"onclick='modificarRampa(marcadorActual);'>";
+		
+	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
+		"onclick='reportarRampa(marcadorActual)'>";
+	
+	return $.sprintf( "<div>Direccion: %s </br>%s </br>%s</br> %s</br> %s</br> %s %s %s </div>", marcador.stringDireccion, 
+		tieneInformacion, tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar);
+}
+
+
+/**Operaciones dummy con rampas**/
+/* MARTINCITO --> Esta funcion se llama cuando se hace click en Reportar en el InfoWindow de cada marcador*/
+function reportarRampa(marcador){
+	alert("Rampa reportada: " + marcador.toString());
+}
+
+/* MARTINCITO --> Esta funcion se llama cuando se hace click en Modificar en el InfoWindow de cada marcador*/
+function modificarRampa(marcador){
+	alert("Rampa modificada: " + marcador.toString());
+}
 
 /**Funciones para saber colores de rampas y rutas**/
 
@@ -329,19 +384,6 @@ function crearPoligono(puntos){
 
 	return poligonosRutaElegida;
 }
-
-/****/
-
-
-/****/
-
-/****/
-
-
-/****/
-
-/****/
-
 
 /****/
 
