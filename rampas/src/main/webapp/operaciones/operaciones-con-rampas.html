@@ -98,13 +98,13 @@
 <td>Buscar/Consultar Rampas por Barrio </td>
 <td>
   <div>
-    Barrio: <input type="textbox" id="buscarPorBarrioBarrio" value="Almagro"></br>
-    Cantidad: <input type="textbox" id="buscarPorBarrioCantidad" value="10"></br>
+    Barrio: <input type="textbox" id="buscarBarrio" value="Almagro"></br>
+    Cantidad: <input type="textbox" id="buscarCantidad" value="10"></br>
   </div>
 </td>
-<td><button onclick="buscarRampaPorBarrio($('#buscarPorBarrioBarrio').val(),$('#buscarPorBarrioCantidad').val())">Buscar</button></td>
+<td><button onclick="buscarRampasPorBarrio($('#buscarBarrio').val(),$('#buscarCantidad').val())">Buscar</button></td>
 <td>
-  <div id="resultadoBuscarRampaPorBarrio">
+  <div id="resultadoBuscarRampasPorBarrio">
     Todavia no se busco rampas por barrio.<br>
   </div>
 </td>

@@ -71,7 +71,6 @@ public class Rampas {
 		}		
 	}
 
-	
 	@GET 
 	@Path("/rampas")
 	@Produces("application/json")

@@ -17,12 +17,19 @@ import com.utn.frba.rampas.utils.Setup;
 
 @Path("/Barrios")
 public class BarriosBD {
+
+	@GET 
+	@Path("/admin/carga")
+	@Produces("application/json")
+	public Response cargaInicial() {
+		Setup.setup();
+		return Response.ok("",MediaType.APPLICATION_JSON).build();		
+	}
 	
 	@GET 
+	@Path("/barrios")
 	@Produces("application/json")
-	public Response index() {
-		Setup.setup();
-//		System.out.println("Obtener Barrios");
+	public Response loadBarrios() {
 		ArrayList<BarrioBD> barrios = HandlerDS.getBarrios();
 		if (barrios == null || barrios.size() == 0) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
@@ -36,8 +43,6 @@ public class BarriosBD {
 	@Path("/barrios/{barrio}")
 	@Produces("application/json")
 	public Response loadBarrioByNombre(@PathParam("barrio") String nombre) {
-//		System.out.println("Dentro de get rampas by Barrio");
-//		System.out.println("Me llegan, barrio: "+ nombre);
 		BarrioBD unBarrio = HandlerDS.getBarrioByNombre(nombre);
 		if (unBarrio == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		

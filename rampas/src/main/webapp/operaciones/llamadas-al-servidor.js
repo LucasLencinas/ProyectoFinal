@@ -302,7 +302,7 @@ function borrarRampa(rampa){
 
 /** ----- BUSCAR RAMPAS POR BARRIO ----- **/
 
-function buscarRampaPorBarrio(barrio,cantidad){
+function buscarRampasPorBarrio(barrio,cantidad){
   $.ajax({
     type:"GET",
     dataType: "json",
@@ -311,11 +311,11 @@ function buscarRampaPorBarrio(barrio,cantidad){
       if(rampas.length > 10){ //Para que no me muestre las 500 rampas por barrio.
         rampas = rampas.slice(0, 11);
       }
-      $('#resultadoBuscarRampaPorBarrio').html(JSON.stringify(rampas));
+      $('#resultadoBuscarRampasPorBarrio').html(JSON.stringify(rampas));
     },
     statusCode: {
       404: function () { 
-        $('#resultadoBuscarRampaPorBarrio').html("No se ha encontrado ninguna rampa con ese barrio.");
+        $('#resultadoBuscarRampasPorBarrio').html("No se ha encontrado ninguna rampa con ese barrio.");
       }
     }
   });

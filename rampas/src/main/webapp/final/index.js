@@ -41,9 +41,37 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
     type: 'poly'
   };
 
+  /** ----- Carga inicial de la base de datos ----- **/
+
+  function cargarDatos(){
+    console.log("A punto de cargar los datos en la base de datos...");
+    $.ajax({
+  	  type: "GET",
+  	  dataType: "json",
+  	  url: "/rampas/Rampas/admin/carga",
+  	  success: function (data) {
+  		  alert("Success - Carga inicial OK");
+  	      console.log("Success - Carga inicial OK");
+  	  },
+  	  error: function (jqXHR, textStatus, errorThrown) {
+  	      var resultado = "Error - Carga inicial. ";
+  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
+  	      resultado += "Contenido textStatus:" + textStatus + ". ";
+  	      resultado += "Contenido errorThrown:" + errorThrown + ". ";
+  	      alert(resultado);
+  	  },
+  	  complete: function (jqXHR, textStatus) {
+  	      var resultado = "Complete - Carga inicial. ";
+  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
+  	      resultado += "Contenido textStatus:" + textStatus + ". ";
+  	      alert(resultado);
+  	  }
+    }); 
+}
+  
 function initialize() {
 	
-	
+	cargarDatos();
 	geocoder = new google.maps.Geocoder();
 	autocompleteDesde = new google.maps.places.Autocomplete(
 	($("#inputDesde")[0]),{ types: ['geocode'] });
@@ -78,6 +106,23 @@ function initialize() {
 	
 }//Fin initialize
 
+function buscarBarrios(){
+	console.log("A punto de buscar barrios...");
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Barrios/barrios",
+		success: function (barrios) {
+			$('#resultadoBuscarBarrios').html(JSON.stringify(barrios));
+		},
+		statusCode: {
+			404: function () { 
+				$('#resultadoBuscarBarrios').html("No se ha encontrado ningun usuario.");
+			}
+		}
+	});
+}
+
 function llenarSelectOptions(){
 
 	if($("#servidorHabilitado").is(':checked')){
@@ -90,6 +135,23 @@ function llenarSelectOptions(){
 			}));
 		});
 	}
+}
+
+function buscarRampasPorBarrio(barrio){
+	console.log("A punto de buscar rampas por barrio...");
+	$.ajax({
+		type:"GET",
+		dataType: "json",
+		url: "/rampas/Rampas/barrios/" + barrio,
+		success: function(rampas){
+			$('#resultadoBuscarRampasPorBarrio').html(JSON.stringify(rampas));
+		},
+		statusCode: {
+			404: function () { 
+				$('#resultadoBuscarRampasPorBarrio').html("No se ha encontrado ninguna rampa con ese barrio.");
+			}
+		}
+	});
 }
 
 function buscarRampasPorBarrio(){
@@ -333,6 +395,23 @@ function reducirCantidadDeMarcadoresARectangulo(minimo,maximo){
 
 function latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo){
 	return (latlng.lat() > minimo.lat() && latlng.lng() > minimo.lng() && latlng.lat() < maximo.lat() && latlng.lng() < maximo.lat())
+}
+
+function buscarRampasPorRuta(latmin,lngmin,latmax,lngmax){
+	console.log("A punto de buscar rampas por ruta...");
+	$.ajax({
+	    type:"GET",
+	    dataType: "json",
+	    url: "/rampas/Rampas/ruta/" + latmin + "/" + lngmin + "/" + latmax + "/" + lngmax,
+	    success: function(rampas){
+	      $('#resultadoBuscarRampasPorRuta').html(JSON.stringify(rampas));
+	    },
+	    statusCode: {
+	      404: function () { 
+	        $('#resultadoBuscarRampasPorRuta').html("No se ha encontrado ninguna rampa en esa ruta.");
+	      }
+	    }
+	});
 }
 
 function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
