@@ -1,7 +1,5 @@
 package com.utn.frba.rampas.utils;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -123,7 +121,7 @@ public class Setup {
 			Rampa rampa;
 			System.out.println("Cargar Barrios y Rampas desde Archivo: ");  
 			//Cada uno tiene que ingresar su propia ubicacion de dicho archivo
-			String direccionArchivo = "D:\\Usuarios\\Matti\\Desktop\\Proyecto\\workspace\\rampas\\rampas\\src\\main\\webapp\\barriosParaJava.js";
+			String direccionArchivo = "/WEB-INF/archivos/barriosParaJava.js";
 			BufferedReader br = new BufferedReader(new FileReader(direccionArchivo));  
 		     
 			//Convert the json string back to object  
