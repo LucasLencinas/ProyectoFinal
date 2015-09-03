@@ -21,13 +21,13 @@ var contextMenu = {};
 var marcadorActual = {};
 var subconjuntoDeMarcadores = [];
 var crucesBarrioElegido = [];
-colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("../imagen/ltblue-dot.png",null,null,null,tamanioMarcador)};
-colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("../imagen/blue-dot.png",null,null,null,tamanioMarcador)};
-colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("../imagen/purple-dot.png",null,null,null,tamanioMarcador)};
-colores['ROJO'] = {valor:"#ff0000", puntaje:1, icono: new google.maps.MarkerImage("../imagen/red-dot.png",null,null,null,tamanioMarcador)};
-colores['NARANJA'] = {valor:"#ff8000", puntaje:2, icono: new google.maps.MarkerImage("../imagen/orange-dot.png",null,null,null,tamanioMarcador)};
-colores['AMARILLO'] = {valor:"#ffff00", puntaje:4, icono: new google.maps.MarkerImage("../imagen/yellow-dot.png",null,null,null,tamanioMarcador)};
-colores['VERDE'] = {valor:"#00ff00", puntaje:5, icono: new google.maps.MarkerImage("../imagen/green-dot.png",null,null,null,tamanioMarcador)};
+colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("imagen/ltblue-dot.png",null,null,null,tamanioMarcador)};
+colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("imagen/blue-dot.png",null,null,null,tamanioMarcador)};
+colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("imagen/purple-dot.png",null,null,null,tamanioMarcador)};
+colores['ROJO'] = {valor:"#ff0000", puntaje:1, icono: new google.maps.MarkerImage("imagen/red-dot.png",null,null,null,tamanioMarcador)};
+colores['NARANJA'] = {valor:"#ff8000", puntaje:2, icono: new google.maps.MarkerImage("imagen/orange-dot.png",null,null,null,tamanioMarcador)};
+colores['AMARILLO'] = {valor:"#ffff00", puntaje:4, icono: new google.maps.MarkerImage("imagen/yellow-dot.png",null,null,null,tamanioMarcador)};
+colores['VERDE'] = {valor:"#00ff00", puntaje:5, icono: new google.maps.MarkerImage("imagen/green-dot.png",null,null,null,tamanioMarcador)};
 
 var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
       new google.maps.Size(59, 32),
@@ -41,6 +41,7 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
     type: 'poly'
   };
 
+
   /** ----- Carga inicial de la base de datos ----- **/
 
   function cargarDatos(){
@@ -50,8 +51,7 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
   	  dataType: "json",
   	  url: "/rampas/Rampas/admin/carga",
   	  success: function (data) {
-  		  alert("Success - Carga inicial OK");
-  	      console.log("Success - Carga inicial OK");
+  	    	console.log("Success - Carga inicial OK");
   	  },
   	  error: function (jqXHR, textStatus, errorThrown) {
   	      var resultado = "Error - Carga inicial. ";
@@ -64,11 +64,12 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
   	      var resultado = "Complete - Carga inicial. ";
   	      resultado += "Contenido jqHR:" + jqXHR + ". ";
   	      resultado += "Contenido textStatus:" + textStatus + ". ";
-  	      alert(resultado);
+  	      console.log(resultado);
   	  }
     }); 
 }
-  
+
+
 function initialize() {
 	
 	cargarDatos();
@@ -98,35 +99,36 @@ function initialize() {
 	
 	
 	/*marcadores Iniciales y finales*/
-	originMarker = crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("../imagen/disability2.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
-	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("../imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
+	originMarker = crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/disability2.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
+	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
 	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
 	
 	llenarSelectOptions();
 	
 }//Fin initialize
 
-function buscarBarrios(){
-	console.log("A punto de buscar barrios...");
-	$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "/rampas/Barrios/barrios",
-		success: function (barrios) {
-			$('#resultadoBuscarBarrios').html(JSON.stringify(barrios));
-		},
-		statusCode: {
-			404: function () { 
-				$('#resultadoBuscarBarrios').html("No se ha encontrado ningun usuario.");
-			}
-		}
-	});
-}
-
 function llenarSelectOptions(){
 
 	if($("#servidorHabilitado").is(':checked')){
-		alert("No estoy conectado con el servidor");
+		console.log("A punto de buscar barrios...");
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: "/rampas/Barrios/barrios",
+			success: function (barrios) {
+				$.each(barrios, function (index, value) {
+					$("#selectBarrios").append($('<option/>', { 
+						value: value.nombre,
+						text : value.nombre 
+					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
+				});
+			},
+			statusCode: {
+				404: function () { 
+					alert("Hubo un problema al buscar los barrios en el sistema.");
+				}
+			}
+		});		
 	}else{
 		$.each(barrios, function (index, value) {
 			$("#selectBarrios").append($('<option/>', { 
@@ -137,32 +139,34 @@ function llenarSelectOptions(){
 	}
 }
 
-function buscarRampasPorBarrio(barrio){
-	console.log("A punto de buscar rampas por barrio...");
-	$.ajax({
-		type:"GET",
-		dataType: "json",
-		url: "/rampas/Rampas/barrios/" + barrio,
-		success: function(rampas){
-			$('#resultadoBuscarRampasPorBarrio').html(JSON.stringify(rampas));
-		},
-		statusCode: {
-			404: function () { 
-				$('#resultadoBuscarRampasPorBarrio').html("No se ha encontrado ninguna rampa con ese barrio.");
-			}
-		}
-	});
-}
 
+/**Esta funcion se llama al apretarse el boton de Buscar despues de seleccionar el barrio en el Select**/
 function buscarRampasPorBarrio(){
 	var unCruce;
 	var unMarcador;
-	
+	barrioElegido = $("#selectBarrios").prop("selectedIndex");
+
 	if($("#servidorHabilitado").is(':checked')){
-		alert("No estoy conectado con el servidor todavia.");
+		console.log("A punto de buscar rampas porbarrio ...");
+		$.ajax({
+		    type:"GET",
+		    dataType: "json",
+		    url: "/rampas/barrios/" + $("#selectBarrios option:selected").text(),
+		    success: function(rampas){
+		      mostraMarcadoresDelBarrio($("#selectBarrios option:selected").data("stringCoordenadas"),rampas);
+		    },
+		    statusCode: {
+		      404: function () { 
+		        alert("No se ha podido buscar las rampas de ese barrio");
+		      }
+		    }
+		});		
 	}else{	
-		barrioElegido = $("#selectBarrios").prop("selectedIndex");
-		var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barrios[barrioElegido].poligono.coordinates);
+		mostraMarcadoresDelBarrio(barrios[barrioElegido].poligono.coordinates, barrios[barrioElegido].calles);		
+}
+
+function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
+		var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(stringCoordenadas);
 
 		var poligonoBarrioElegido= new google.maps.Polygon({
 			paths: coordenadasBarrioElegido
@@ -173,7 +177,7 @@ function buscarRampasPorBarrio(){
 			path:coordenadasBarrioElegido
 		}).setMap(map);
 		
-		$.each(barrios[barrioElegido].calles, function(indice, punto){
+		$.each(rampasDelBarrio, function(indice, punto){
 			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
 			unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
 			unMarcador.tieneInformacion = punto.tieneInformacion;
@@ -478,6 +482,15 @@ function calcularRutas() {
 							borrarRutasPrevias();
 							ocultarRampasCercanas();
 							dibujarRutas(response);
+							
+							destinationMarker.setPosition(resultsHasta[0].geometry.location);
+							if(!destinationMarker.getMap()){
+								destinationMarker.setMap(map);
+							}
+							originMarker.setPosition(resultsDesde[0].geometry.location);
+							if(!originMarker.getMap()){
+								originMarker.setMap(map);
+							}
 							//Hacer Zoom sobre esa ruta
 							var latlngbounds = new google.maps.LatLngBounds();
 							latlngbounds.extend(resultsDesde[0].geometry.location);

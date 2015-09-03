@@ -1,57 +1,196 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Mas Rampas</title>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>Mas Rampas</title>
+		<link rel="shortcut icon" type="image/x-icon" href="imagen/favicon.ico">
 	<link rel="stylesheet" href="index.css">
-	<link rel="stylesheet" href="../contextMenu/contextmenu.css">
-	<script src="jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" href="contextMenu/contextmenu.css">
+		<link rel="stylesheet" type="text/css" href="css/estilos.css">
+		<link rel="stylesheet" href="css/popup.css" />
+		<script  type="text/javascript" src="javascript/popup.js"> </script>
+		<script src="jquery-2.1.4.min.js"></script>
     <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>-->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
-	<script src="barrios.js"></script>
-	<script src="contextMenu/contextmenu.js"></script>
-	<script src="jquery.sprintf.js"></script>
-	<script src="index.js"></script>
-	<script src="utils.js"></script>
-  </head>
-  
-  <body>
-	<table border="1"><!--style="width:800px"-->
-		<thead>
-			<tr>
-			<th width="500">Buscar Nueva Ruta</th>
-			<th width="200">Resultados</th>
-			</tr>
-		</thead>
-			<tbody>
-			<tr>
-				<td>
-				<div>
-				Desde: <input class="autocomplete" id="inputDesde" value="medrano y cordoba caba" type="text"></input>
-				</br>
-				Hasta: <input class="autocomplete" id="inputHasta" value="medrano y corrientes caba" type="text"></input>	
-				<button onclick="calcularRutas()" style="cursor:pointer">Calcular Rutas</button> 
-				Servidor Habilitado: <input type="checkbox" id="servidorHabilitado">
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
+		<script src="barrios.js"></script>
+		<script src="contextMenu/contextmenu.js"></script>
+		<script src="jquery.sprintf.js"></script>
+		<script src="index.js"></script>
+		<script src="utils.js"></script>
+	</head>
+		<body>
+			<header>
+				<div id="subheader">
+					<div class="barra_menu no_seleccion">
+						<div class="senitag">
+							<p><img src="imagen/LogoMasRampas.png"/></p>
+						</div>
+						<div class="xbotones" >
+							<ul>
+								<li><a id="sesion" href="#">Sesión</a>
+									<ul id="lista">
+										<li id="loguear"><a href="#" onclick="showdlgboxIniciar()">Loguear</a></li>
+										<li id="registrar"><a href="#" onclick="showdlgboxRegistro()">Registrar</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="detalle no_seleccion">
+						<form>
+							<input class="autocomplete" id="inputDesde" type="text" placeholder="Desde:" ></input>
+							<input class="autocomplete" id="inputHasta" type="text" placeholder="Hasta:"></input>
+							<input onclick="calcularRutas()" type="submit" style="cursor:pointer" value="Consultar"></input> 
+						</form>
+						<div class="textarea">
+							<select id="selectBarrios"></select>
+							<button onclick="buscarRampasPorBarrio()">Buscar</button></br>
+							Servidor Habilitado: <input type="checkbox" id="servidorHabilitado"> 
+							<div id="checkboxes"></div>
+						</div>
+					</div>
 				</div>
-				</td>
-				<td>
-				<div id="checkboxes"></div>
-				</td>
-				<td>
-				<select id="selectBarrios"></select>
-				</br>
-				<button onclick="buscarRampasPorBarrio()">Buscar</button>
-				</td>
-			</tr>
-		</tbody>  
-		</table>
-	<div id="map-canvas" style="cursor:pointer !important; "></div>
-  </body>
+			</header>	
+			<div class="mapa_google">
+				<div id="map-canvas" style="cursor:pointer !important; "></div>
+			</div>
+
+
+
+<!--POP UP-->
+<div id="white-background"></div>
+<div id="dlgboxIniciar" class="dlgbox dlgboxIniciar no_seleccion">
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxIniciar');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Iniciar Sesión</p></div>
+    <div class="dlg-footerRegistro">
+        <button class="email" onclick="showdlgboxIniciarMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button class="facebook" onclick="cerrarTodo()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+	</div>
+</div>
+<div id="dlgboxRegistro" class="dlgbox dlgboxRegistro no_seleccion">
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistro');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Registro</p></div>
+    <div class="dlg-footerRegistro">
+        <button class="email" onclick="showdlgboxRegistroMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button class="facebook" onclick="cerrarTodo()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+	</div>
+</div>
+<div id="dlgboxRegistroMail" class="dlgbox dlgboxRegistroMail no_seleccion" >
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistroMail');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Registro</p></div>
+    <div class="dlg-body dlg-bodyRegistroMail">
+		<form class="etiqueta">
+			<label>Nombre:</label>
+			<label>Apellido:</label>
+			<label>Email:</label>
+			<label>Contraseña:</label>
+			<label>Confirmar<br>Contraseña:</label>			
+		</form>
+		<form>
+			<input type="text" placeholder="Nombre" ></input>
+			<input type="text" placeholder="Apellido" ></input>
+			<input type="text" placeholder="Email" ></input>
+			<input type="password" placeholder="Contraseña" ></input>
+			<input type="password" placeholder="Contraseña" ></input>			
+		</form>
+	</div>
+    <div class="dlg-footer">
+        <button onclick="cerrarTodo()">Registrar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxIniciarMail" class="dlgbox dlgboxIniciarMail no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxIniciarMail');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Iniciar Sesion</p></div>
+    <div class="dlg-bodyIniciarMail">
+		<form class="etiqueta">
+			<label>Email:</label>
+			<label>Contraseña:</label>	
+		</form>
+		<form>
+			<input id="nombre" type="text" placeholder="Email" ></input>
+			<input type="password" placeholder="Contraseña" ></input>		
+		</form>
+	</div>
+    <div class="dlg-footer dlg-footerIniciarMail">
+        <button onclick="cerrarTodoM()">Iniciar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxCerrarSesion" class="dlgbox dlgboxCerrarSesion no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxCerrarSesion');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Cerrar Sesion</p></div>
+    <div class="dlg-bodyCerrarSesion" align="center">
+	<p>¿Está seguro que <br>desea Cerrar Sesión?</p>
+	</div>
+    <div class="dlg-footer dlg-footerCerrarSesion">
+        <button class="CerrarSesionSi" onclick="cerrarSesion()">SI</button>
+        <button class="CerrarSesionNo" onclick="cerrarTodo()">NO</button>
+	</div>
+</div>
+<div id="dlgboxeliminarUsuarios" class="dlgbox dlgboxeliminarUsuarios no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxeliminarUsuarios');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Eliminar Usuarios</p></div>
+    <div class="dlg-bodyeliminarUsuarios dlg-body">
+		<form>
+			<ul>
+				<li><input type="checkbox">Nombre Apellido1</input></li>
+				<li><input type="checkbox">Nombre Apellido2</input></li>
+			</ul>
+		</form>	
+	</div>
+	<div class="dlg-footer dlg-footereliminarUsuarios">
+        <button onclick="cerrarTodo()">Eliminar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+    </div>
+</div>
+<div id="dlgboxInformacionRampa" class="dlgbox dlgboxInformacionRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxInformacionRampa');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center"></p></div>
+    <div class="dlg-bodyInformacionRampa dlg-body">
+		<p>La rampa se encntra ...</br> Todas en buen estado</p>
+	</div>
+    <div class="dlg-footer dlg-footerInformacionRampa">
+		<button onclick="cerrarTodo()">Modificar</button>
+		<button onclick="cerrarTodo()">StreetView</button>
+		<button onclick="cerrarTodo()">Reportar Rampa</button>	
+	</div>
+</div>
+<div id="dlgboxClick" class="dlgbox dlgboxClick no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxClick');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center"></p></div>
+    <div class="dlg-footer dlg-footerClick">
+		<button onclick="cerrarTodo()">Desde Aquí</button>
+		<button onclick="cerrarTodo()">Hasta Aquí</button>
+		<button onclick="cerrarTodo()">Rampas Cercanas</button>
+		<button onclick="cerrarTodo()">Nueva Rampa</button>	
+	</div>
+</div>
+<div id="dlgboxNuevaRampa" class="dlgbox dlgboxNuevaRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center"></p></div>
+    <div class="dlg-bodyNuevaRampa dlg-body">
+		<form>
+			<input type="checkbox">Todos los Cruces son accesibles.</input><br>
+			<input type="checkbox">Todas las Rampas en Buen estado.</input>
+		</form>	
+	</div>
+    <div class="dlg-footer dlg-footerNuevaRampa">
+		<button onclick="cerrarTodo()">Agregar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxModificarRampa" class="dlgbox dlgboxModificarRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center"></p></div>
+    <div class="dlg-bodyModificarRampa dlg-body">
+		<form>
+			<input type="checkbox">Todos los Cruces son accesibles.</input><br>
+			<input type="checkbox">Todas las Rampas en Buen estado.</input>
+		</form>	
+	</div>
+    <div class="dlg-footer dlg-footerModificarRampa">
+		<button onclick="cerrarTodo()">Modificar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+		</body>
   
   <script>
   window.onload = function() {
   //calcularRutas();
 };
   </script>
+
 </html>

@@ -133,6 +133,8 @@ function setearListenerParaContextMenu(latLng, eventName){
 			destinationMarker.setMap(null);
 			originMarker.setMap(null);
 			borrarRutasPrevias();
+			$("#inputHasta").val("");
+			$("#inputDesde").val("");
 			break;
 		case 'calcular_ruta_click':
 			calcularRutas();
@@ -148,14 +150,10 @@ function setearListenerParaContextMenu(latLng, eventName){
 		case 'nueva_rampa_click':
 			/*MARTINCITO --> Aca tendrias que poner la ventana para dar de alta una nueva Rampa, para saber la ubicacion del click
 			esta la variable latLng que viene como parametro.*/
-			alert("Se hizo click en el boton de Nueva Rampa");
+			showdlgboxNuevaRampa();
 			break;
 	}
-	/*if(originMarker.getMap() && destinationMarker.getMap() && document.getElementById('calcular_ruta_item').style.display===''){
-		//	display the 'Get directions' menu item if it is not visible and both directions origin and destination have been selected
-		document.getElementById('calcular_ruta_item').style.display='block';
-	}
-	*/
+
 }
 
 
