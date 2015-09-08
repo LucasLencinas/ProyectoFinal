@@ -9,6 +9,7 @@
 	var dlgboxInformacionRampa = document.getElementById("dlgboxInformacionRampa");
 	var dlgboxClick = document.getElementById("dlgboxClick");
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
+	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	whitebg.style.display = "none";
 	dlgboxRegistro.style.display = "none";
 	dlgboxRegistroMail.style.display = "none";
@@ -20,6 +21,7 @@
 	dlgboxClick.style.display = "none";
 	dlgboxNuevaRampa.style.display = "none";
 	dlgboxModificarRampa.style.display = "none";
+	dlgboxAlerta.style.display = "none";
 }
 function showdlgboxIniciar(){
 	var whitebg = document.getElementById("white-background");
@@ -59,6 +61,7 @@ function showdlgboxCerrarSesion(){
 function showdlgboxeliminarUsuarios(){
 	var whitebg = document.getElementById("white-background");
 	var dlgboxeliminarUsuarios = document.getElementById("dlgboxeliminarUsuarios");
+	listarUsuarios();
 	whitebg.style.display = "block";
 	dlgboxeliminarUsuarios.style.display = "block";
 	centrar(dlgboxeliminarUsuarios);
@@ -73,15 +76,29 @@ function showdlgboxClick(){
 	dlgboxClick.style.display = "block";
 	centrar(dlgboxClick);
 }
-function showdlgboxNuevaRampa(){
+function showdlgboxNuevaRampa(latLng){
 	var dlgboxNuevaRampa = document.getElementById("dlgboxNuevaRampa");
+ubicacion=latLng;	
 	dlgboxNuevaRampa.style.display = "block";
 	centrar(dlgboxNuevaRampa);
 }
-function showdlgboxModificarRampa(){
+function showdlgboxModificarRampa(marcador){
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
+document.getElementById("crucesAccesiblesM").checked=marcador.crucesAccesibles;
+document.getElementById("buenEstadoM").checked=checked=marcador.buenEstado;
+ubicacion=marcador;	
 	dlgboxModificarRampa.style.display = "block";
 	centrar(dlgboxModificarRampa);
+}
+function showdlgboxAlerta(mensaje){
+	var textAlerta = document.getElementById("textAlerta");
+	textAlerta.innerHTML="</br>" + mensaje;
+	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
+	dlgboxAlerta.style.display = "block";
+	centrar(dlgboxAlerta);
+}
+function alerta(mensaje){
+	showdlgboxAlerta(mensaje);
 }
 /***************************************************************************************************/
 function cerrarTodoM(){

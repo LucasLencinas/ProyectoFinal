@@ -150,7 +150,7 @@ function setearListenerParaContextMenu(latLng, eventName){
 		case 'nueva_rampa_click':
 			/*MARTINCITO --> Aca tendrias que poner la ventana para dar de alta una nueva Rampa, para saber la ubicacion del click
 			esta la variable latLng que viene como parametro.*/
-			showdlgboxNuevaRampa();
+			showdlgboxNuevaRampa(latLng);
 			break;
 	}
 
@@ -265,7 +265,7 @@ function reportarRampa(marcador){
 
 /* MARTINCITO --> Esta funcion se llama cuando se hace click en Modificar en el InfoWindow de cada marcador*/
 function modificarRampa(marcador){
-	alert("Rampa modificada: " + marcador.toString());
+	showdlgboxModificarRampa(marcador);
 }
 
 /**Funciones para saber colores de rampas y rutas**/

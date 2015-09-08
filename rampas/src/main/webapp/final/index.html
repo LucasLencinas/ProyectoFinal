@@ -18,6 +18,7 @@
 		<script src="jquery.sprintf.js"></script>
 		<script src="index.js"></script>
 		<script src="utils.js"></script>
+				<script src="usuarios.js"></script>
 	</head>
 		<body>
 			<header>
@@ -163,12 +164,12 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center"></p></div>
     <div class="dlg-bodyNuevaRampa dlg-body">
 		<form>
-			<input type="checkbox">Todos los Cruces son accesibles.</input><br>
-			<input type="checkbox">Todas las Rampas en Buen estado.</input>
+			<input id="crucesAccesiblesA" type="checkbox">Todos los Cruces son accesibles.</input><br>
+			<input id="buenEstadoA" type="checkbox">Todas las Rampas en Buen estado.</input>
 		</form>	
 	</div>
     <div class="dlg-footer dlg-footerNuevaRampa">
-		<button onclick="cerrarTodo()">Agregar</button>
+		<button onclick="altaRampa()">Agregar</button>
 		<button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
@@ -176,13 +177,22 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center"></p></div>
     <div class="dlg-bodyModificarRampa dlg-body">
 		<form>
-			<input type="checkbox">Todos los Cruces son accesibles.</input><br>
-			<input type="checkbox">Todas las Rampas en Buen estado.</input>
+			<input id="crucesAccesiblesM" type="checkbox">Todos los Cruces son accesibles.</input><br>
+			<input id="buenEstadoM" type="checkbox">Todas las Rampas en Buen estado.</input>
 		</form>	
 	</div>
     <div class="dlg-footer dlg-footerModificarRampa">
-		<button onclick="cerrarTodo()">Modificar</button>
+		<button onclick="modRampa()">Modificar</button>
 		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxAlerta" class="dlgbox dlgboxAlerta no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxAlerta');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center"></p></div>
+    <div class="dlg-bodyAlerta dlg-body" style="width:200px;">
+		<p id="textAlerta"></P>
+	</div>
+    <div class="dlg-footer dlg-footerAlerta">
+		<button onclick="cerrarTodo()">Aceptar</button>
 	</div>
 </div>
 		</body>
