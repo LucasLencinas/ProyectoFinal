@@ -260,7 +260,7 @@ function armarContenidoDelInfoWindows(marcador){
 /**Operaciones dummy con rampas**/
 /* MARTINCITO --> Esta funcion se llama cuando se hace click en Reportar en el InfoWindow de cada marcador*/
 function reportarRampa(marcador){
-	alert("Rampa reportada: " + marcador.toString());
+	showdlgboxReportarRampa(marcador);
 }
 
 /* MARTINCITO --> Esta funcion se llama cuando se hace click en Modificar en el InfoWindow de cada marcador*/

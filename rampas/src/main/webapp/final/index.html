@@ -29,7 +29,7 @@
 						</div>
 						<div class="xbotones" >
 							<ul>
-								<li><a id="sesion" href="#">Sesión</a>
+								<li><a id="sesion" href="#" onclick="showdlgboxeliminarUsuarios()">Sesión</a>
 									<ul id="lista">
 										<li id="loguear"><a href="#" onclick="showdlgboxIniciar()">Loguear</a></li>
 										<li id="registrar"><a href="#" onclick="showdlgboxRegistro()">Registrar</a></li>
@@ -128,15 +128,15 @@
 <div id="dlgboxeliminarUsuarios" class="dlgbox dlgboxeliminarUsuarios no_seleccion" >
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxeliminarUsuarios');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Eliminar Usuarios</p></div>
     <div class="dlg-bodyeliminarUsuarios dlg-body">
-		<form>
-			<ul>
-				<li><input type="checkbox">Nombre Apellido1</input></li>
+		<form id="f1" name="f1">
+			<ul id="usEliminar">
+		<!--		<li><input type="checkbox">Nombre Apellido1</input></li>
 				<li><input type="checkbox">Nombre Apellido2</input></li>
-			</ul>
+		-->	</ul>
 		</form>	
 	</div>
 	<div class="dlg-footer dlg-footereliminarUsuarios">
-        <button onclick="cerrarTodo()">Eliminar</button>
+        <button onclick="eliminar()">Eliminar</button>
         <button onclick="cerrarTodo()">Cancelar</button>
     </div>
 </div>
@@ -161,7 +161,7 @@
 	</div>
 </div>
 <div id="dlgboxNuevaRampa" class="dlgbox dlgboxNuevaRampa no_seleccion" >
-    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center"></p></div>
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><button onclick="cerrarTodo()">x</button><p align="center">Nueva Rampa</p></div>
     <div class="dlg-bodyNuevaRampa dlg-body">
 		<form>
 			<input id="crucesAccesiblesA" type="checkbox">Todos los Cruces son accesibles.</input><br>
@@ -174,7 +174,7 @@
 	</div>
 </div>
 <div id="dlgboxModificarRampa" class="dlgbox dlgboxModificarRampa no_seleccion" >
-    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center"></p></div>
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center">Modificar Rampa</p></div>
     <div class="dlg-bodyModificarRampa dlg-body">
 		<form>
 			<input id="crucesAccesiblesM" type="checkbox">Todos los Cruces son accesibles.</input><br>
@@ -193,6 +193,39 @@
 	</div>
     <div class="dlg-footer dlg-footerAlerta">
 		<button onclick="cerrarTodo()">Aceptar</button>
+	</div>
+</div>
+<div id="dlgboxModificarUsuario" class="dlgbox dlgboxModificarUsuario no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarUsuario');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center">Modifcar</p></div>
+    <div class="dlg-body dlg-ModificarUsuario ">
+		<form class="etiqueta">
+			<label>Nombre:</label>
+			<label>Apellido:</label>
+			<label>Email:</label>
+			<label>Contraseña:</label>
+			<label>Confirmar<br>Contraseña:</label>			
+		</form>
+		<form>
+			<input type="text" placeholder="Nombre" ></input>
+			<input type="text" placeholder="Apellido" ></input>
+			<input type="text" placeholder="Email" ></input>
+			<input type="password" placeholder="Contraseña" ></input>
+			<input type="password" placeholder="Contraseña" ></input>			
+		</form>
+	</div>
+    <div class="dlg-footer dlg-footerModificarUsuario">
+		<button onclick="cerrarTodo()">Modificar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxReportarRampa" class="dlgbox dlgboxReportarRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportarRampa');" onMouseOver="this.style.cursor='move'"><a href="#" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/></a><p align="center">Reportar Rampa</p></div>
+    <div class="dlg-bodyReportarRampa dlg-body">
+			Motivo: <select id="selectMotivo"></select>
+	</div>
+    <div class="dlg-footer dlg-footerReportarRampa">
+		<button onclick="repRampa()">Reportar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
 		</body>

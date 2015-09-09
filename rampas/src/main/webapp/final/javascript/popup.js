@@ -10,6 +10,8 @@
 	var dlgboxClick = document.getElementById("dlgboxClick");
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
+	var dlgboxModificarUsuario =  document.getElementById("dlgboxModificarUsuario");
+	var dlgboxReportarRampa =  document.getElementById("dlgboxReportarRampa");
 	whitebg.style.display = "none";
 	dlgboxRegistro.style.display = "none";
 	dlgboxRegistroMail.style.display = "none";
@@ -22,6 +24,8 @@
 	dlgboxNuevaRampa.style.display = "none";
 	dlgboxModificarRampa.style.display = "none";
 	dlgboxAlerta.style.display = "none";
+	dlgboxModificarUsuario.style.display = "none";
+	dlgboxReportarRampa.style.display = "none";
 }
 function showdlgboxIniciar(){
 	var whitebg = document.getElementById("white-background");
@@ -77,6 +81,8 @@ function showdlgboxClick(){
 	centrar(dlgboxClick);
 }
 function showdlgboxNuevaRampa(latLng){
+	document.getElementById("crucesAccesiblesA").checked=false;
+	document.getElementById("buenEstadoA").checked=false;
 	var dlgboxNuevaRampa = document.getElementById("dlgboxNuevaRampa");
 ubicacion=latLng;	
 	dlgboxNuevaRampa.style.display = "block";
@@ -100,6 +106,26 @@ function showdlgboxAlerta(mensaje){
 function alerta(mensaje){
 	showdlgboxAlerta(mensaje);
 }
+function showdlgboxModificarUsuario(){
+	var whitebg = document.getElementById("white-background");
+	var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
+	whitebg.style.display = "block";
+	dlgboxModificarUsuario.style.display = "block";
+	centrar(dlgboxModificarUsuario);
+}
+function showdlgboxReportarRampa(marcador){
+var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"}]
+	var dlgboxReportarRampa = document.getElementById("dlgboxReportarRampa");
+					$.each(motivos, function (index, value) {
+					$("#selectMotivo").append($('<option/>', { 
+						value: value.nombre,
+						text : value.nombre 
+					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
+				});
+	dlgboxReportarRampa.style.display = "block";
+	ubicacion=marcador;	
+	centrar(dlgboxReportarRampa);
+}
 /***************************************************************************************************/
 function cerrarTodoM(){
 	cerrarTodo();
@@ -118,7 +144,7 @@ configuracion.id='configuracion';
 admin.id='admin';
 
 cerrar.innerHTML="<a href='#' onclick='showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
-configuracion.innerHTML="<a href='#' onclick='showdlgboxCerrarSesion()'>Configuración</a>";
+configuracion.innerHTML="<a href='#' onclick='showdlgboxModificarUsuario()'>Configuración</a>";
 admin.innerHTML="<a href='#' onclick='showdlgboxeliminarUsuarios()'>Admin Task</a>";
 
 
