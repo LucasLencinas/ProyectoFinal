@@ -96,15 +96,19 @@ ubicacion=marcador;
 	dlgboxModificarRampa.style.display = "block";
 	centrar(dlgboxModificarRampa);
 }
-function showdlgboxAlerta(mensaje){
+function showdlgboxAlerta(mensaje,titulo){
+	var tituloAlerta = document.getElementById("tituloAlerta");
+	if(typeof titulo == 'undefined')
+		tituloAlerta.innerHTML = "Alerta";
+		else tituloAlerta.innerHTML = titulo;
 	var textAlerta = document.getElementById("textAlerta");
 	textAlerta.innerHTML="</br>" + mensaje;
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	dlgboxAlerta.style.display = "block";
 	centrar(dlgboxAlerta);
 }
-function alerta(mensaje){
-	showdlgboxAlerta(mensaje);
+function alerta(mensaje,titulo){
+	showdlgboxAlerta(mensaje,titulo);
 }
 function showdlgboxModificarUsuario(){
 	var whitebg = document.getElementById("white-background");
