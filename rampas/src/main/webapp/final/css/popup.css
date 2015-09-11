@@ -195,10 +195,7 @@
 	margin: 3px 0;
 	width:150px;
 }
-.dlg-bodyNuevaRampa input,.dlg-bodyModificarRampa input{
+.dlg-bodyNuevaRampa input,.dlg-bodyModificarRampa input,.dlg-bodyReportarRampa input, .dlg-bodyReportarRampa select{
 	display:inline-block;
 	margin: 8px 20px 8px 5px;
 }
-
-.dlgboxReportarRampa{
-	width: 250px;

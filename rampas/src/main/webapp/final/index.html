@@ -42,7 +42,7 @@
 						<form>
 							<input class="autocomplete" id="inputDesde" type="text" placeholder="Desde:" ></input>
 							<input class="autocomplete" id="inputHasta" type="text" placeholder="Hasta:"></input>
-							<input onclick="calcularRutas()" type="submit" style="cursor:pointer" value="Consultar"></input> 
+							<input onclick="calcularRutas()" type="button" style="cursor:pointer" value="Consultar"></input> 
 						</form>
 						<div class="textarea">
 							<select id="selectBarrios"></select>
@@ -221,7 +221,12 @@
 <div id="dlgboxReportarRampa" class="dlgbox dlgboxReportarRampa no_seleccion" >
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Reportar Rampa</p></div>
     <div class="dlg-bodyReportarRampa dlg-body">
-			Motivo: <select id="selectMotivo"></select>
+		<form>
+			<input id="crucesAccesiblesR" type="checkbox">Todos los Cruces son accesibles.</input><br>
+			<input id="buenEstadoR" type="checkbox">Todas las Rampas en Buen estado.</input><br>
+		</form>	
+			<label>Motivo: </label><select  id="selectMotivo" onChange="activarPersonalizada()"></select><br>
+			<input id="motivoPersonalizado"  type="text" placeholder="Otro motivo:" style="display:none"></input>
 	</div>
     <div class="dlg-footer dlg-footerReportarRampa">
 		<button onclick="repRampa()">Reportar</button>

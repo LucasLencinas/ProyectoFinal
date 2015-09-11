@@ -118,8 +118,9 @@ function showdlgboxModificarUsuario(){
 	centrar(dlgboxModificarUsuario);
 }
 function showdlgboxReportarRampa(marcador){
-var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"}]
+var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]
 	var dlgboxReportarRampa = document.getElementById("dlgboxReportarRampa");
+					if(!document.getElementById("selectMotivo").length)
 					$.each(motivos, function (index, value) {
 					$("#selectMotivo").append($('<option/>', { 
 						value: value.nombre,
@@ -127,8 +128,16 @@ var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstacu
 					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
 				});
 	dlgboxReportarRampa.style.display = "block";
+document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
+document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
 	ubicacion=marcador;	
 	centrar(dlgboxReportarRampa);
+}
+function activarPersonalizada(){
+	var motivoPersonalizado = document.getElementById("motivoPersonalizado");
+	if($("#selectMotivo").prop("value")=="Otros")
+		motivoPersonalizado.style.display="block"
+		else motivoPersonalizado.style.display="none";
 }
 /***************************************************************************************************/
 function cerrarTodoM(){

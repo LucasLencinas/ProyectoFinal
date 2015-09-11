@@ -111,7 +111,7 @@ header .detalle{
 	width:90%;
 	height:40px;
 }
-.detalle input[type="submit"]{
+.detalle input[type="button"]{
 	border-radius:5px;
 	box-shadow:2px 2px 2px #000000;
 	background:#549e18;
