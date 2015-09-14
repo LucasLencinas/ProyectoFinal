@@ -9,6 +9,6 @@
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
     <resource-files>
-        <include path="/WEB-INF/archivos/*" />
+        <include path="WEB-INF/archivos/*"/>
     </resource-files>
 </appengine-web-app>
