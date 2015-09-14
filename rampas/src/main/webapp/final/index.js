@@ -45,34 +45,35 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
   /** ----- Carga inicial de la base de datos ----- **/
 
   function cargarDatos(){
-    console.log("A punto de cargar los datos en la base de datos...");
-    $.ajax({
-  	  type: "GET",
-  	  dataType: "json",
-  	  url: "/rampas/Rampas/admin/carga",
-  	  success: function (data) {
-  	    	console.log("Success - Carga inicial OK");
-  	  },
-  	  error: function (jqXHR, textStatus, errorThrown) {
-  	      var resultado = "Error - Carga inicial. ";
-  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
-  	      resultado += "Contenido textStatus:" + textStatus + ". ";
-  	      resultado += "Contenido errorThrown:" + errorThrown + ". ";
-  	      alert(resultado);
-  	  },
-  	  complete: function (jqXHR, textStatus) {
-  	      var resultado = "Complete - Carga inicial. ";
-  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
-  	      resultado += "Contenido textStatus:" + textStatus + ". ";
-  	      console.log(resultado);
-  	  }
-    }); 
+  	$.getScript( "barrios.js", function( data, textStatus, jqxhr ) {
+		  console.log( textStatus ); // Success
+		  console.log( jqxhr.status ); // 200
+		  console.log( "Load was performed." );
+			console.log("A punto de cargar los datos en la base de datos...");  
+
+			//Le mando los datos
+			$.ajax({
+		  	type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify(barrios),//Lo acabo de cargar con el pedido anterior
+	  	  url: "/rampas/Rampas/admin/carga",
+	  	  success: function (data) {
+	  	    	console.log("Success - Carga inicial OK");
+	  	  },
+	  	  complete: function (jqXHR, textStatus) {
+	  	      var resultado = "Complete - Carga inicial. ";
+	  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
+	  	      resultado += "Contenido textStatus:" + textStatus + ". ";
+	  	      console.log(resultado);
+	  	  }
+    	});
+		});
 }
 
 
 function initialize() {
 	
-	cargarDatos();
+	//cargarDatos();
 	geocoder = new google.maps.Geocoder();
 	autocompleteDesde = new google.maps.places.Autocomplete(
 	($("#inputDesde")[0]),{ types: ['geocode'] });
@@ -108,7 +109,8 @@ function initialize() {
 }//Fin initialize
 
 function llenarSelectOptions(){
-
+//ESTA funcion esta mal. No deberia hacer esto porque el checkbox ese no se clickearia al empezar la pagina automaticamnete.
+//Si el pedido al servidor no se puede hacer, entonces se cargaria solo.
 	if($("#servidorHabilitado").is(':checked')){
 		console.log("A punto de buscar barrios...");
 		$.ajax({
@@ -151,7 +153,7 @@ function buscarRampasPorBarrio(){
 		$.ajax({
 		    type:"GET",
 		    dataType: "json",
-		    url: "/rampas/barrios/" + $("#selectBarrios option:selected").text(),
+		    url: "/rampas/Barrios/barrios/" + $("#selectBarrios option:selected").text(),
 		    success: function(rampas){
 		      mostraMarcadoresDelBarrio($("#selectBarrios option:selected").data("stringCoordenadas"),rampas);
 		    },
