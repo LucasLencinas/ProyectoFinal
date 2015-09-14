@@ -81,8 +81,10 @@ function showdlgboxClick(){
 	centrar(dlgboxClick);
 }
 function showdlgboxNuevaRampa(latLng){
+	document.getElementById("tieneRampaA").checked=false;
 	document.getElementById("crucesAccesiblesA").checked=false;
 	document.getElementById("buenEstadoA").checked=false;
+	tieneRampaCheck();
 	var dlgboxNuevaRampa = document.getElementById("dlgboxNuevaRampa");
 ubicacion=latLng;	
 	dlgboxNuevaRampa.style.display = "block";
@@ -138,6 +140,20 @@ function activarPersonalizada(){
 	if($("#selectMotivo").prop("value")=="Otros")
 		motivoPersonalizado.style.display="block"
 		else motivoPersonalizado.style.display="none";
+}
+function tieneRampaCheck(){
+	var crucesAccesiblesA = document.getElementById("crucesAccesiblesA");
+	var buenEstadoA = document.getElementById("buenEstadoA");
+	if(document.getElementById("tieneRampaA").checked)
+		{crucesAccesiblesA.disabled=false;
+		buenEstadoA.disabled=false;
+		}
+		else{ 
+		crucesAccesiblesA.checked=false;
+		buenEstadoA.checked=false;
+		crucesAccesiblesA.disabled=true;
+		buenEstadoA.disabled=true;
+		}
 }
 /***************************************************************************************************/
 function cerrarTodoM(){

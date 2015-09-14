@@ -241,6 +241,12 @@ function armarContenidoDelInfoWindows(marcador){
 	estado += marcador.buenEstado? "Si" : "No" ;	//Se podria cambiar por un tilde y una cruz mas adelante
 	accesibilidad += marcador.crucesAccesibles? "Si" : "No";
 	
+	var coordenada = String(marcador.getPosition());
+	coordenada=coordenada.substring(1, coordenada.length-1);
+	coordenada=coordenada.substring(0, coordenada.indexOf(",")+1)+coordenada.substring(coordenada.indexOf(",")+2, coordenada.length);
+	var url="http://maps.googleapis.com/maps/api/streetview?size=140x80&location="+coordenada+"&fov=90&heading=235&pitch=10";
+	var imagen= "<img class='imagens' src=" + url +"/>";
+
 	botonStreetView = "<input type='button' id='streetview' value='StreetView' "+
 		"onclick='mostrarStreetView" +marcador.getPosition() + "'>";
 	
@@ -252,8 +258,8 @@ function armarContenidoDelInfoWindows(marcador){
 	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 		"onclick='reportarRampa(marcadorActual)'>";
 	
-	return $.sprintf( "<div>Direccion: %s </br>%s </br>%s</br> %s</br> %s</br> %s %s %s </div>", marcador.stringDireccion, 
-		tieneInformacion, tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar);
+	return $.sprintf( "<div>Direccion: %s </br>%s </br>%s</br> %s</br> %s</br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
+		tieneInformacion, tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
 }
 
 

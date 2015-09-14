@@ -199,3 +199,12 @@
 	display:inline-block;
 	margin: 8px 20px 8px 5px;
 }
+.imagens{
+	position:absolute;
+
+	left:180px;
+	top:20px;
+}
+input[type="checkbox"]:disabled + label {
+	color:#666666;
+}

@@ -164,8 +164,9 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Nueva Rampa</p></div>
     <div class="dlg-bodyNuevaRampa dlg-body">
 		<form>
-			<input id="crucesAccesiblesA" type="checkbox">Todos los Cruces son accesibles.</input><br>
-			<input id="buenEstadoA" type="checkbox">Todas las Rampas en Buen estado.</input>
+			<input id="tieneRampaA" type="checkbox" onChange="tieneRampaCheck() "><label>Tiene Rampa.</label></input><br>
+			<input id="crucesAccesiblesA" type="checkbox" disabled="true"><label>Todos los Cruces son accesibles.</label></input><br>
+			<input id="buenEstadoA" type="checkbox" disabled="true"><label>Todas las Rampas en Buen estado.</label></input>
 		</form>	
 	</div>
     <div class="dlg-footer dlg-footerNuevaRampa">
