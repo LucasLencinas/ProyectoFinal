@@ -180,6 +180,8 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 		new google.maps.Polyline({
 			path:coordenadasBarrioElegido
 		});
+		borrarRutasPrevias();
+		ocultarRampasCercanas();
 		borrarBarriosPrevios();
 		polilinea.setMap(map);
 		polilineaAnterior = polilinea;
