@@ -257,9 +257,15 @@ function armarContenidoDelInfoWindows(marcador){
 */		
 	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 		"onclick='reportarRampa(marcadorActual)'>";
-	
-	return $.sprintf( "<div>Direccion: %s </br>%s </br>%s</br> %s</br> %s</br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
-		tieneInformacion, tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
+	var contenido = '';
+	if(marcador.tieneInformacion){
+	contenido = $.sprintf( "<div>Direccion: %s </br>%s</br> %s</br> %s</br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
+		tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
+	}else{
+	contenido = $.sprintf( "<div>Direccion: %s </br>%s </br></br></br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
+		tieneInformacion, botonStreetView,botonModificar,botonReportar,imagen);
+	}
+	return contenido;
 }
 
 

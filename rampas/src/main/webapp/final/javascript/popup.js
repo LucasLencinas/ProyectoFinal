@@ -6,8 +6,6 @@
 	var dlgboxCerrarSesion = document.getElementById("dlgboxCerrarSesion");
 	var dlgboxIniciar = document.getElementById("dlgboxIniciar");
 	var dlgboxeliminarUsuarios = document.getElementById("dlgboxeliminarUsuarios");
-	var dlgboxInformacionRampa = document.getElementById("dlgboxInformacionRampa");
-	var dlgboxClick = document.getElementById("dlgboxClick");
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	var dlgboxModificarUsuario =  document.getElementById("dlgboxModificarUsuario");
@@ -19,8 +17,6 @@
 	dlgboxCerrarSesion.style.display = "none";
 	dlgboxIniciar.style.display = "none";
 	dlgboxeliminarUsuarios.style.display = "none";
-	dlgboxInformacionRampa.style.display = "none";
-	dlgboxClick.style.display = "none";
 	dlgboxNuevaRampa.style.display = "none";
 	dlgboxModificarRampa.style.display = "none";
 	dlgboxAlerta.style.display = "none";
@@ -70,21 +66,11 @@ function showdlgboxeliminarUsuarios(){
 	dlgboxeliminarUsuarios.style.display = "block";
 	centrar(dlgboxeliminarUsuarios);
 }
-function showdlgboxInformacionRampa(){
-	var dlgboxInformacionRampa = document.getElementById("dlgboxInformacionRampa");
-	dlgboxInformacionRampa.style.display = "block";
-	centrar(dlgboxInformacionRampa);
-}
-function showdlgboxClick(){
-	var dlgboxClick = document.getElementById("dlgboxClick");
-	dlgboxClick.style.display = "block";
-	centrar(dlgboxClick);
-}
 function showdlgboxNuevaRampa(latLng){
 	document.getElementById("tieneRampaA").checked=false;
 	document.getElementById("crucesAccesiblesA").checked=false;
 	document.getElementById("buenEstadoA").checked=false;
-	tieneRampaCheck();
+	tieneRampaCheck('A');
 	var dlgboxNuevaRampa = document.getElementById("dlgboxNuevaRampa");
 ubicacion=latLng;	
 	dlgboxNuevaRampa.style.display = "block";
@@ -141,18 +127,18 @@ function activarPersonalizada(){
 		motivoPersonalizado.style.display="block"
 		else motivoPersonalizado.style.display="none";
 }
-function tieneRampaCheck(){
-	var crucesAccesiblesA = document.getElementById("crucesAccesiblesA");
-	var buenEstadoA = document.getElementById("buenEstadoA");
-	if(document.getElementById("tieneRampaA").checked)
-		{crucesAccesiblesA.disabled=false;
-		buenEstadoA.disabled=false;
+function tieneRampaCheck(accion){ //Modificar(M) Alta(A) Reportar(R)
+	var crucesAccesibles = document.getElementById("crucesAccesibles"+accion);
+	var buenEstado = document.getElementById("buenEstado"+accion);
+	if(document.getElementById("tieneRampa"+accion).checked)
+		{crucesAccesibles.disabled=false;
+		buenEstado.disabled=false;
 		}
 		else{ 
-		crucesAccesiblesA.checked=false;
-		buenEstadoA.checked=false;
-		crucesAccesiblesA.disabled=true;
-		buenEstadoA.disabled=true;
+		crucesAccesibles.checked=false;
+		buenEstado.checked=false;
+		crucesAccesibles.disabled=true;
+		buenEstado.disabled=true;
 		}
 }
 /***************************************************************************************************/

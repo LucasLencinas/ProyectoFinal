@@ -183,18 +183,6 @@
 	margin: 8px 20px 8px 5px;
 }
 /*--Informacion Rampa--*/
-.dlgboxInformacionRampa{
-	width:300px;
-}
-.dlgboxInformacionRampa button{
-	width:45%;
-	margin: 2px 0;
-}
-.dlgboxClick button{
-	display:block;
-	margin: 3px 0;
-	width:150px;
-}
 .dlg-bodyNuevaRampa input,.dlg-bodyModificarRampa input,.dlg-bodyReportarRampa input, .dlg-bodyReportarRampa select{
 	display:inline-block;
 	margin: 8px 20px 8px 5px;
