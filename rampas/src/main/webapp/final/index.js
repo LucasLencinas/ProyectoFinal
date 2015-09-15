@@ -21,6 +21,7 @@ var contextMenu = {};
 var marcadorActual = {};
 var subconjuntoDeMarcadores = [];
 var crucesBarrioElegido = [];
+var polilineaAnterior =[];
 colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("imagen/ltblue-dot.png",null,null,null,tamanioMarcador)};
 colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("imagen/blue-dot.png",null,null,null,tamanioMarcador)};
 colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("imagen/purple-dot.png",null,null,null,tamanioMarcador)};
@@ -175,9 +176,13 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 		});
 		poligonoBarrioElegido.setMap(map);
 
+		var  polilinea =
 		new google.maps.Polyline({
 			path:coordenadasBarrioElegido
-		}).setMap(map);
+		});
+		borrarBarriosPrevios();
+		polilinea.setMap(map);
+		polilineaAnterior = polilinea;
 		
 		$.each(rampasDelBarrio, function(indice, punto){
 			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
@@ -462,6 +467,14 @@ function borrarRutasPrevias(){
 	$("#checkboxes" ).empty();
 }
 
+function borrarBarriosPrevios(){
+	if (crucesBarrioElegido.length)
+		polilineaAnterior.setMap(null);
+	$.each(crucesBarrioElegido,function(indice, marcador){
+		marcador.setMap(null);
+	});
+}
+
 /* MARTINCITO --> Esta es la funcion que inicia todo el proceso de calculo de Ruta*/
 function calcularRutas() {
 	var desdeString = $("#inputDesde").val();
@@ -483,6 +496,7 @@ function calcularRutas() {
 						if (status == google.maps.DirectionsStatus.OK) {	//Ver que puedo poner si hay un error.
 							borrarRutasPrevias();
 							ocultarRampasCercanas();
+							borrarBarriosPrevios();
 							dibujarRutas(response);
 							
 							destinationMarker.setPosition(resultsHasta[0].geometry.location);
