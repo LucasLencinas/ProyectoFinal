@@ -22,6 +22,8 @@ var marcadorActual = {};
 var subconjuntoDeMarcadores = [];
 var crucesBarrioElegido = [];
 var polilineaAnterior =[];
+var servidorActivado = false;
+var barriosDelSelect = [];
 colores['GRIS'] = {valor:"#808080", puntaje:0, icono: new google.maps.MarkerImage("imagen/ltblue-dot.png",null,null,null,tamanioMarcador)};
 colores['AZUL'] = {valor:"#0000FF", puntaje:0, icono: new google.maps.MarkerImage("imagen/blue-dot.png",null,null,null,tamanioMarcador)};
 colores['VIOLETA'] = {valor:"#7f00ff", puntaje:-1, icono: new google.maps.MarkerImage("imagen/purple-dot.png",null,null,null,tamanioMarcador)};
@@ -42,39 +44,32 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
     type: 'poly'
   };
 
+function echo(){
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Rampas/echo",
+		statusCode: {
+			200: function(){
+				servidorActivado = true;
+				console.log("El servidor esta ACTIVADO");	
+				llenarSelectOptions();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + JSON.stringify(errorThrown) );
+			servidorActivado = false;
+			console.log("El servidor no esta ACTIVADO");
+			llenarSelectOptions();//Poner estas dos llamadas en un complete
+		}
 
-  /** ----- Carga inicial de la base de datos ----- **/
-
-  function cargarDatos(){
-  	$.getScript( "barrios.js", function( data, textStatus, jqxhr ) {
-		  console.log( textStatus ); // Success
-		  console.log( jqxhr.status ); // 200
-		  console.log( "Load was performed." );
-			console.log("A punto de cargar los datos en la base de datos...");  
-
-			//Le mando los datos
-			$.ajax({
-		  	type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(barrios),//Lo acabo de cargar con el pedido anterior
-	  	  url: "/rampas/Rampas/admin/carga",
-	  	  success: function (data) {
-	  	    	console.log("Success - Carga inicial OK");
-	  	  },
-	  	  complete: function (jqXHR, textStatus) {
-	  	      var resultado = "Complete - Carga inicial. ";
-	  	      resultado += "Contenido jqHR:" + jqXHR + ". ";
-	  	      resultado += "Contenido textStatus:" + textStatus + ". ";
-	  	      console.log(resultado);
-	  	  }
-    	});
-		});
+	});
 }
 
 
 function initialize() {
 	
-	//cargarDatos();
+	echo();
 	geocoder = new google.maps.Geocoder();
 	autocompleteDesde = new google.maps.places.Autocomplete(
 	($("#inputDesde")[0]),{ types: ['geocode'] });
@@ -105,34 +100,40 @@ function initialize() {
 	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),listenerClickEnMarcador);
 	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
 	
-	llenarSelectOptions();
+	
 	
 }//Fin initialize
 
 function llenarSelectOptions(){
-//ESTA funcion esta mal. No deberia hacer esto porque el checkbox ese no se clickearia al empezar la pagina automaticamnete.
-//Si el pedido al servidor no se puede hacer, entonces se cargaria solo.
-	if($("#servidorHabilitado").is(':checked')){
+	if(servidorActivado === true){
 		console.log("A punto de buscar barrios...");
 		$.ajax({
 			type: "GET",
 			dataType: "json",
 			url: "/rampas/Barrios/barrios",
-			success: function (barrios) {
-				$.each(barrios, function (index, value) {
-					$("#selectBarrios").append($('<option/>', { 
-						value: value.nombre,
-						text : value.nombre 
-					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
-				});
-			},
 			statusCode: {
+				200: function(barrios){
+					$.each(barrios, function (index, value) {
+						$("#selectBarrios").append($('<option/>', { 
+							value: value.nombre,
+							text : value.nombre,
+						}));
+						barriosDelSelect.push({id: value.id, nombre:value.nombre, limites: value.limites});
+					});
+				},
 				404: function () { 
 					alert("Hubo un problema al buscar los barrios en el sistema.");
 				}
-			}
+			},
+      complete: function (jqXHR, textStatus) {
+        var resultado = "";
+        resultado += "Contenido jqHR:" + JSON.stringify(jqXHR) + ". ";
+        resultado += "Contenido textStatus:" + JSON.stringify(textStatus) + ". ";
+        console.log(resultado);
+      }
 		});		
 	}else{
+		$("body").append($("<script />", {src: "barrios.js"}));
 		$.each(barrios, function (index, value) {
 			$("#selectBarrios").append($('<option/>', { 
 				value: value.nombre,
@@ -149,14 +150,14 @@ function buscarRampasPorBarrio(){
 	var unMarcador;
 	barrioElegido = $("#selectBarrios").prop("selectedIndex");
 
-	if($("#servidorHabilitado").is(':checked')){
+	if(servidorActivado === true){
 		console.log("A punto de buscar rampas porbarrio ...");
 		$.ajax({
 		    type:"GET",
 		    dataType: "json",
-		    url: "/rampas/Barrios/barrios/" + $("#selectBarrios option:selected").text(),
+		    url: "/rampas/Rampas/barrios/" + $("#selectBarrios option:selected").text(),
 		    success: function(rampas){
-		      mostraMarcadoresDelBarrio($("#selectBarrios option:selected").data("stringCoordenadas"),rampas);
+		      mostraMarcadoresDelBarrio(barriosDelSelect[barrioElegido].limites,rampas);
 		    },
 		    statusCode: {
 		      404: function () { 
@@ -187,10 +188,14 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 		polilineaAnterior = polilinea;
 		
 		$.each(rampasDelBarrio, function(indice, punto){
-			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+			if(typeof (punto.coordenadas) === 'undefined')
+				latlng = new google.maps.LatLng(punto.latitud,punto.longitud);
+			else
+				latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+
 			unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
 			unMarcador.tieneInformacion = punto.tieneInformacion;
-			unMarcador.tieneRampa = punto.tieneRampa; 
+			unMarcador.tieneRampas = punto.tieneRampas; 
 			unMarcador.buenEstado = punto.buenEstado;
 			unMarcador.crucesAccesibles = punto.crucesAccesibles;
 			unMarcador.reportada = punto.reportada;
@@ -342,7 +347,7 @@ function marcadoresIncluidos(poligonos,subconjuntoDeMarcadores){
 		if(poligonos.some(poligonoContienePunto)){
 			marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(latlng).icono, listenerClickEnMarcador);
 			marcador.tieneInformacion = latlng.tieneInformacion;
-			marcador.tieneRampa = latlng.tieneRampa; 
+			marcador.tieneRampas = latlng.tieneRampas; 
 			marcador.buenEstado = latlng.buenEstado;
 			marcador.crucesAccesibles =latlng.crucesAccesibles;
 			marcador.reportada = latlng.reportada;
@@ -373,7 +378,7 @@ function dibujarRutas(respuesta){
 	minimo = new google.maps.LatLng(minimo.lat, minimo.lng);
 	maximo = new google.maps.LatLng(maximo.lat, maximo.lng);
 	
-	if($("#servidorHabilitado").is(':checked')){
+	if(servidorActivado === true){
 		armarRutaConDatosDelServidor(respuesta, minimo,maximo);
 	}else{//Sino armo la ruta con la informacion que tengo en los array de barrios.
 		var subconjuntoDeMarcadores = reducirCantidadDeMarcadoresARectangulo(minimo,maximo);
@@ -395,7 +400,7 @@ function reducirCantidadDeMarcadoresARectangulo(minimo,maximo){
 			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
 			if(latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo)){
 				latlng.tieneInformacion = punto.tieneInformacion;
-				latlng.tieneRampa = punto.tieneRampa; 
+				latlng.tieneRampas = punto.tieneRampas; 
 				latlng.buenEstado = punto.buenEstado;
 				latlng.crucesAccesibles = punto.crucesAccesibles;
 				latlng.reportada = punto.reportada;
@@ -410,28 +415,12 @@ function latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo){
 	return (latlng.lat() > minimo.lat() && latlng.lng() > minimo.lng() && latlng.lat() < maximo.lat() && latlng.lng() < maximo.lat())
 }
 
-function buscarRampasPorRuta(latmin,lngmin,latmax,lngmax){
-	console.log("A punto de buscar rampas por ruta...");
-	$.ajax({
-	    type:"GET",
-	    dataType: "json",
-	    url: "/rampas/Rampas/ruta/" + latmin + "/" + lngmin + "/" + latmax + "/" + lngmax,
-	    success: function(rampas){
-	      $('#resultadoBuscarRampasPorRuta').html(JSON.stringify(rampas));
-	    },
-	    statusCode: {
-	      404: function () { 
-	        $('#resultadoBuscarRampasPorRuta').html("No se ha encontrado ninguna rampa en esa ruta.");
-	      }
-	    }
-	});
-}
 
 function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 	$.ajax({
 		type: "GET",
 		dataType: "json",
-		url: armarURLconMinimoYMaximo(minimo,maximo),//TODO --> Esta funcion todavia no esta hecha y mati me tiene que decir como lo piensa hacer de su lado.
+		url: "/rampas/Rampas/ruta/" + minimo.lat() + "/" + minimo.lng() + "/" + maximo.lat() + "/" + maximo.lng() ,
 		success: function (listaRampas) {
 			console.log("Se encontraron las rampas que estaban dentro de ese rectangulo");
 			for(var i = 0; i < respuesta.routes.length; i++){

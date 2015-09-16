@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Carga Inicial</title>
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="barrios.js"></script>
+      <script src="jquery.sprintf.js"></script>
+  </head>
+    <body>
+      <h1>Carga Inicial</h1>
+      <form>
+        <input onclick="cargarDatos()" type="button" value="Cargar Datos"></Input>
+      </form>
+    </body>
+  
+  <script>
+  function cargarDatos(){
+  
+  $.getScript( "barrios.js", function( data, textStatus, jqxhr ) {
+    console.log( JSON.stringify(textStatus )); // Success
+    console.log( JSON.stringify(jqxhr.status )); // 200
+    console.log( "Load was performed." );
+    console.log("A punto de cargar los datos en la base de datos...");    
+    //Le mando los datos
+    $.ajax({
+    type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(barrios),//Lo acabo de cargar con el pedido anterior
+      url: "/rampas/Rampas/admin/carga",
+      success: function (data) {
+        console.log("Success - Carga inicial OK - " + JSON.stringify(data));
+        var respuesta = confirm("Se cargaron los datos correctamente. Desea volver a la pagina principal?");
+        if(respuesta)
+          window.location.replace("index.html");
+      },
+      complete: function (jqXHR, textStatus) {
+        var resultado = "Complete - Carga inicial. ";
+        resultado += "Contenido jqHR:" + JSON.stringify(jqXHR) + ". ";
+        resultado += "Contenido textStatus:" + JSON.stringify(textStatus) + ". ";
+        console.log(resultado);
+      }
+    });
+  });
+  }
+  
+  </script>
+
+</html>

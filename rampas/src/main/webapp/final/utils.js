@@ -234,10 +234,10 @@ function rellenarInfoWindow(unInfoWindow, marcador){
 function armarContenidoDelInfoWindows(marcador){
 	
 	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
-	tieneInformacion = "Tiene Informacion: ", tieneRampa = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "";
+	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "";
 	
 	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
-	tieneRampa += marcador.tieneRampa? "Si" : "No";
+	tieneRampas += marcador.tieneRampas? "Si" : "No";
 	estado += marcador.buenEstado? "Si" : "No" ;	//Se podria cambiar por un tilde y una cruz mas adelante
 	accesibilidad += marcador.crucesAccesibles? "Si" : "No";
 	
@@ -260,7 +260,7 @@ function armarContenidoDelInfoWindows(marcador){
 	var contenido = '';
 	if(marcador.tieneInformacion){
 	contenido = $.sprintf( "<div>Direccion: %s </br>%s</br> %s</br> %s</br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
-		tieneRampa, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
+		tieneRampas, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
 	}else{
 	contenido = $.sprintf( "<div>Direccion: %s </br>%s </br></br></br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
 		tieneInformacion, botonStreetView,botonModificar,botonReportar,imagen);
@@ -289,7 +289,7 @@ function colorDePolilinea(marcadores){
 			return	colores.GRIS;
 		if(marcador.reportada == true)
 			return colores.AZUL;
-		if(marcador.tieneRampa == false)
+		if(marcador.tieneRampas == false)
 			return colores.VIOLETA;
 		if(marcador.buenEstado == false && marcador.crucesAccesibles == false)
 			return colores.ROJO;
@@ -322,7 +322,7 @@ function calcularColorSegunRampa(punto){
 		return	colores.ROJO;
 	if(punto.reportada == true)
 		return colores.ROJO;
-	if(punto.tieneRampa == false)
+	if(punto.tieneRampas == false)
 		return colores.ROJO;
 	if(punto.buenEstado == false && punto.crucesAccesibles == false)
 		return colores.ROJO;

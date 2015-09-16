@@ -44,6 +44,13 @@ public class Rampas {
 		return Response.ok("",MediaType.APPLICATION_JSON).build();		
 	}
 	
+	@GET
+	@Path("/echo")
+	@Produces("application/json")
+	public Response echoMessage(){
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+	}
+	
 
 	@POST
 	@Consumes("application/json")
