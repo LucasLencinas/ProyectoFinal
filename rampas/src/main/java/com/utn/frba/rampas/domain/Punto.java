@@ -18,7 +18,7 @@ public class Punto {
 	 * **/
 	@Expose private ArrayList<Double> coordenadas;
 	@Expose private boolean tieneInformacion;
-	@Expose private boolean tienetieneRampa;
+	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;
 	@Expose private boolean crucesAccesibles;
 	@Expose private boolean reportada;
@@ -33,7 +33,7 @@ public class Punto {
 		return tieneInformacion;
 	}
 	public boolean getTieneRampa(){
-		return tienetieneRampa;
+		return tieneRampas;
 	}
 	public boolean getBuenEstado(){
 		return buenEstado;

@@ -18,7 +18,7 @@ public class Rampa implements Serializable {
 	@Expose private boolean tieneInformacion;
 	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;
-	@Expose private boolean todosCrucesAccesibles;
+	@Expose private boolean crucesAccesibles;
 	@Expose private boolean reportada;
 	
 	/* Es necesario este constructor para que funcione el GSON */
@@ -33,6 +33,9 @@ public class Rampa implements Serializable {
 		setBuenEstado(buenEstado);
 		setTodosCrucesAccesibles(todosCrucesAccesibles);
 		setReportada(reportada);
+		if(tieneRampas)
+			System.out.println("Adentro del constructor de RampaR, tieneRampas == true.");
+			
 	}
 	
 	public Rampa(Long id, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
@@ -104,11 +107,11 @@ public class Rampa implements Serializable {
 	}
 
 	public boolean getTodosCrucesAccesibles() {
-		return todosCrucesAccesibles;
+		return crucesAccesibles;
 	}
 	
 	public void setTodosCrucesAccesibles(boolean todosCrucesAccesibles) {
-		this.todosCrucesAccesibles = todosCrucesAccesibles;
+		this.crucesAccesibles = todosCrucesAccesibles;
 	}
 
 	public boolean getReportada() {
