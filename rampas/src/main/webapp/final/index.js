@@ -393,6 +393,7 @@ function dibujarRutas(respuesta){
 	}
 }
 
+/*Esta funcion solo es para cuando no se esta conectado al servidor.*/
 function reducirCantidadDeMarcadoresARectangulo(minimo,maximo){
 	var marcadoresEnElRectangulo = [];
 	$.each(barrios, function(index,barrio){
@@ -421,18 +422,18 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 		type: "GET",
 		dataType: "json",
 		url: "/rampas/Rampas/ruta/" + minimo.lat() + "/" + minimo.lng() + "/" + maximo.lat() + "/" + maximo.lng() ,
-		success: function (listaRampas) {
-			console.log("Se encontraron las rampas que estaban dentro de ese rectangulo");
-			for(var i = 0; i < respuesta.routes.length; i++){
-				checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
-				polilineas[i] = crearPolilinea(checkpointsRuta);
-				polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, listaRampas);
-				color = colorDePolilinea(polilineas[i].marcadores);
-				polilineas[i].poly.setOptions({strokeColor: color})
-				habilitarBotonDeRuta(i);
-			}
-		},
 		statusCode: {
+			200: function (listaRampas){
+				console.log("Se encontraron las rampas que estaban dentro de ese rectangulo");
+				for(var i = 0; i < respuesta.routes.length; i++){
+					checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
+					polilineas[i] = crearPolilinea(checkpointsRuta);
+					polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, listaRampas);
+					color = colorDePolilinea(polilineas[i].marcadores);
+					polilineas[i].poly.setOptions({strokeColor: color})
+					habilitarBotonDeRuta(i);
+				}
+			},
 			404: function () { 
 				limpiarHTML();
 				$('#resultadoBuscarRampaPorUbicacion').html("No se ha encontrado ninguna rampa en esa ubicacion.");

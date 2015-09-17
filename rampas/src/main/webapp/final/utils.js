@@ -166,7 +166,7 @@ function rampasCercanas(latlng){
 	var perimetro = [];
 	perimetro.push(new google.maps.LatLng(latlng.lat() - 0.003,latlng.lng() - 0.004));
 	perimetro.push(new google.maps.LatLng(latlng.lat() - 0.003,latlng.lng() + 0.004));
-    perimetro.push(new google.maps.LatLng(latlng.lat() + 0.003,latlng.lng() + 0.004));
+  perimetro.push(new google.maps.LatLng(latlng.lat() + 0.003,latlng.lng() + 0.004));
 	perimetro.push(new google.maps.LatLng(latlng.lat() + 0.003,latlng.lng() - 0.004));
 	
 	var latlngbounds = new google.maps.LatLngBounds();
@@ -180,12 +180,51 @@ function rampasCercanas(latlng){
 		paths: perimetro,
 		map:null
 	}));
-	
-	arrayRampasCercanas = marcadoresIncluidos(poligonos,reducirCantidadDeMarcadoresARectangulo(perimetro[0],perimetro[2]));
-	$.each(arrayRampasCercanas, function(indice,marcador){
-		marcador.setMap(map);
-	});
+
+	if(servidorActivado === true){
+		mostrarRampasCercanasConInfoDelServidor(poligonos, perimetro[0], perimetro[2]);
+
+	}else{
+		arrayRampasCercanas = marcadoresIncluidos(poligonos,reducirCantidadDeMarcadoresARectangulo(perimetro[0],perimetro[2]));
+		$.each(arrayRampasCercanas, function(indice,marcador){
+			marcador.setMap(map);
+		});	
+	}
 }
+
+function mostrarRampasCercanasConInfoDelServidor(poligonos, minimo, maximo){
+	var listaDeMarcadores = [];
+	var unaLatLng = {};
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Rampas/ruta/" + minimo.lat() + "/" + minimo.lng() + "/" + maximo.lat() + "/" + maximo.lng() ,
+		statusCode: {
+			200: function (listaRampas){
+				console.log("Se encontraron las rampas que estaban dentro de ese rectangulo");
+				$.each(listaRampas, function(index, rampa){
+					unaLatLng = new google.maps.LatLng(rampa.latitud,rampa.longitud);
+					unaLatLng.tieneInformacion = rampa.tieneInformacion;
+					unaLatLng.tieneRampas = rampa.tieneRampas; 
+					unaLatLng.buenEstado = rampa.buenEstado;
+					unaLatLng.crucesAccesibles = rampa.crucesAccesibles;
+					unaLatLng.reportada = rampa.reportada;
+					listaDeMarcadores.push(unaLatLng);
+				});
+				arrayRampasCercanas = marcadoresIncluidos(poligonos,listaDeMarcadores);
+				$.each(arrayRampasCercanas, function(indice,marcador){
+					marcador.setMap(map);
+				});
+			},
+			404: function () { 
+				console.log("Hubo un error al tratar de encontrar las rampas cercanas");
+			}
+		}
+	});
+
+
+}
+
 
 function ocultarRampasCercanas(){
 	$.each(arrayRampasCercanas, function(indice,marcador){
@@ -211,8 +250,10 @@ function mostrarStreetView(lat, lng){
   }
 }
 
-/*MARTINCITO --> esta funcion traduce la latitud y longitud para mostrar la direccion completa y 
-	despues llama a una funcion que rellena posta el contenido del Infowindow.*/
+/*MARTINCITO --> esta funcion tarda un poco en mostrarse por pantalla.
+Armaria el contenido del infowindows antes de preguntarle a google por la direccion, 
+y eso lo agrego a lo ultimo. PENSARLO
+*/
 function rellenarInfoWindow(unInfoWindow, marcador){
 
 	geocoder.geocode({'latLng': marcador.getPosition()}, function(results, status) {
