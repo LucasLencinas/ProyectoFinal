@@ -12,37 +12,59 @@
       <h1>Carga Inicial</h1>
       <form>
         <input onclick="cargarDatos()" type="button" value="Cargar Datos"></Input>
+        <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></Input>
       </form>
     </body>
   
   <script>
-  function cargarDatos(){
-  
-  $.getScript( "barrios.js", function( data, textStatus, jqxhr ) {
-    console.log( JSON.stringify(textStatus )); // Success
-    console.log( JSON.stringify(jqxhr.status )); // 200
-    console.log( "Load was performed." );
-    console.log("A punto de cargar los datos en la base de datos...");    
-    //Le mando los datos
-    $.ajax({
-    type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(barrios),//Lo acabo de cargar con el pedido anterior
-      url: "/rampas/Rampas/admin/carga",
-      success: function (data) {
-        console.log("Success - Carga inicial OK - " + JSON.stringify(data));
-        var respuesta = confirm("Se cargaron los datos correctamente. Desea volver a la pagina principal?");
-        if(respuesta)
-          window.location.replace("index.html");
-      },
-      complete: function (jqXHR, textStatus) {
-        var resultado = "Complete - Carga inicial. ";
-        resultado += "Contenido jqHR:" + JSON.stringify(jqXHR) + ". ";
-        resultado += "Contenido textStatus:" + JSON.stringify(textStatus) + ". ";
-        console.log(resultado);
+
+function vaciarDatastore(){
+  $.ajax({
+    type: "GET",
+    contentType: "application/json",
+    url: "/rampas/Rampas/admin/deleteAll",
+    statusCode: {
+      200: function (){
+      alert("Success - Se borro todo lo de la base de de datos ");
       }
-    });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
+      alert("Hubo un error en el servidor");
+    }
   });
+
+}
+
+  function cargarDatos(){
+    cargarBarrio(0);
+  }
+
+  function cargarBarrio(posicion){
+    if (posicion === barrios.length){
+
+      console.log("Success - Carga inicial Finalizada");
+    }else{
+      console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar con el pedido anterior
+        url: "/rampas/Rampas/admin/carga",
+        statusCode: {
+          200: function (){
+          console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+          setTimeout(function(){
+            cargarBarrio(posicion + 1 );
+          },5000);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
+          console.log("Hubo un error en el servidor");
+        }
+      });
+    }
   }
   
   </script>

@@ -44,6 +44,17 @@ public class Rampas {
 		return Response.ok("",MediaType.APPLICATION_JSON).build();		
 	}
 	
+	@GET 
+	@Path("/admin/deleteAll")
+	@Produces("application/json")
+	public Response BorrarTodo() {
+		Setup.deleteAll();
+		
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();		
+	}
+	
+	
+	
 	@GET
 	@Path("/echo")
 	@Produces("application/json")

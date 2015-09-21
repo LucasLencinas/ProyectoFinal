@@ -90,15 +90,29 @@ public class Setup {
 		}
 	}
 	
+	/*Solo se ejecutaria una sola vez antes de la carga inicial.*/
+	public static void deleteAll(){
+		
+		ObjectifyService.register(BarrioBD.class);
+  	HandlerDS.deleteBarrios(HandlerDS.getBarrios());
+  		
+    ObjectifyService.register(Rampa.class);
+  	HandlerDS.deleteRampas(HandlerDS.getRampas());
+        
+		ObjectifyService.register(Usuario.class);
+  	HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
+	}
 	
+	
+	/*Solo es un setup de barrios y rampas. No de usuarios por ahora*/
 	public static void setupConInfoInicial(ArrayList<Barrio> listaDeBarrios){
 		if(isSet == false) {
     	
 			ObjectifyService.register(BarrioBD.class);
-	  	HandlerDS.deleteBarrios(HandlerDS.getBarrios());
+	  	//HandlerDS.deleteBarrios(HandlerDS.getBarrios());
 	  		
 	    ObjectifyService.register(Rampa.class);
-	  	HandlerDS.deleteRampas(HandlerDS.getRampas());
+	  	//HandlerDS.deleteRampas(HandlerDS.getRampas());
 	  		
 	  	cargarBarriosYRampasConInfoInicial(listaDeBarrios);
 	        
@@ -110,13 +124,13 @@ public class Setup {
 			daniel = new Usuario("DanielOrdoñez");
 			martin = new Usuario("MartinSoifer");
 			
-	  	HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
+	  	/*HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
 	    HandlerDS.saveUsuario(federico);
 	    HandlerDS.saveUsuario(matias);
 	    HandlerDS.saveUsuario(lucas);
 	    HandlerDS.saveUsuario(daniel);
 	    HandlerDS.saveUsuario(martin);
-	    				    		
+	    	*/			    		
 			isSet = true;
 		}
 	}
