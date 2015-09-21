@@ -150,6 +150,7 @@ function cerrarTodoM(){
 var cerrar=document.createElement('li');
 var configuracion=document.createElement('li');
 var admin=document.createElement('li');
+var reportes=document.createElement('li');
 
 var loguear = document.getElementById("loguear");
 var registrar = document.getElementById("registrar");
@@ -157,14 +158,16 @@ var registrar = document.getElementById("registrar");
 cerrar.id='cerrar';
 configuracion.id='configuracion';
 admin.id='admin';
+reportes.id='reportes';
 
 cerrar.innerHTML="<a href='#' onclick='showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
 configuracion.innerHTML="<a href='#' onclick='showdlgboxModificarUsuario()'>Configuración</a>";
-admin.innerHTML="<a href='#' onclick='showdlgboxeliminarUsuarios()'>Admin Task</a>";
-
+admin.innerHTML="<a href='#' onclick='showdlgboxeliminarUsuarios()'>Usuarios</a>";
+reportes.innerHTML="<a href='#' >Reportadas</a>";
 
 document.getElementById("lista").appendChild(configuracion);
 document.getElementById("lista").appendChild(admin);
+document.getElementById("lista").appendChild(reportes);
 document.getElementById("lista").appendChild(cerrar);
 document.getElementById("lista").removeChild(loguear);
 document.getElementById("lista").removeChild(registrar);
@@ -190,6 +193,8 @@ var configuracion = document.getElementById("configuracion");
 document.getElementById("lista").removeChild(configuracion);
 var admin = document.getElementById("admin");
 document.getElementById("lista").removeChild(admin);
+var reportes = document.getElementById("reportes");
+document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
 }
 /**********************************************************************************************/
