@@ -1,6 +1,7 @@
 package com.utn.frba.rampas.endpoints;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-
 import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
@@ -22,13 +22,19 @@ import com.utn.frba.rampas.utils.Setup;
 @Path("/Usuarios")
 public class Usuarios {
 
-	@GET 
+
+	@POST 
 	@Path("/admin/carga")
-	@Produces("application/json")
-	public Response cargaInicial() {
-		Setup.setup();
+	@Consumes("application/json")
+	public Response cargaInicialRecibiendoScriptDeUsuarios(String usuarios_json) {
+		Gson parser = new Gson();
+		Usuario[] barrios = parser.fromJson(usuarios_json,Usuario[].class);
+		ArrayList<Usuario> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
+		Setup.setupDeUsuarios(listaBarrios);
+		
 		return Response.ok("",MediaType.APPLICATION_JSON).build();		
 	}
+	
 	
 	@POST
 	@Consumes("application/json")

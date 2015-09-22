@@ -1,17 +1,11 @@
 package com.utn.frba.rampas.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
 
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -133,6 +127,14 @@ public class Setup {
 	    	*/			    		
 	//		isSet = true;
 	//	}
+	}
+	
+	public static void setupDeUsuarios(ArrayList<Usuario> listaDeUsuarios){
+		
+		ObjectifyService.register(Usuario.class);
+		for (Usuario usuario : listaDeUsuarios) {
+			HandlerDS.saveUsuario(usuario);
+		}
 	}
 	
 	public static void cargarBarriosYRampasConInfoInicial(ArrayList<Barrio> listaDeBarrios){

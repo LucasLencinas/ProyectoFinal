@@ -6,12 +6,14 @@
     <title>Carga Inicial</title>
     <script src="jquery-2.1.4.min.js"></script>
     <script src="barrios.js"></script>
+    <script src="usuariosIniciales.js"></script>
       <script src="jquery.sprintf.js"></script>
   </head>
     <body>
       <h1>Carga Inicial</h1>
       <form>
-        <input onclick="cargarDatos()" type="button" value="Cargar Datos"></Input>
+        <input onclick="cargarDatosRampas()" type="button" value="Cargar Datos"></Input>
+        <input onclick="cargarDatosUsuarios()" type="button" value="Cargar Usuarios"></Input>
         <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></Input>
       </form>
       <div id="checkboxes"></div>
@@ -19,17 +21,7 @@
   <script>
 
 $(document).ready(function(){
-  var $button;
-  $.each(barrios, function(index, barrio){
-    $button = $('<input />',{ id: index,
-                              type: 'button', 
-                              value: barrio.nombre, 
-                              click: function(){cargarBarrio(index);}
-                            });
-    $("#checkboxes").append($button);
-    $button.css('cursor', 'pointer');
-    $("#checkboxes").append("<br>");
-  });
+
 });
 
 function vaciarDatastore(){
@@ -49,7 +41,7 @@ function vaciarDatastore(){
   });
 }
 
-  function cargarDatos(){
+  function cargarDatosRampas(){
     cargarBarrio(0);
   }
 
@@ -79,26 +71,23 @@ function vaciarDatastore(){
       });
    }
  }
-/*
-  function cargarBarrio(posicion){
-    console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
-    $.ajax({
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar con el pedido anterior
-      url: "/rampas/Rampas/admin/carga",
-      statusCode: {
-        200: function (){
-        alert("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
-        $("#"+posicion).prop('disabled', true);
-        $("#"+posicion).css('cursor', 'default');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-        console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
-      }
-    });
-  }
-  */
+
+function cargarDatosUsuarios(){
+  $.ajax({
+   type: "POST",
+   contentType: "application/json",
+   data: JSON.stringify(usuarios),
+   url: "/rampas/Usuarios/admin/carga",
+   statusCode: {
+     200: function (){
+     console.log("Success - Carga inicial - Usuario ");
+     }
+   },
+   error: function(jqXHR, textStatus, errorThrown){
+     console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+     console.log("Hubo un error en el servidor");
+    }
+  });
+}
   </script>
 </html>
