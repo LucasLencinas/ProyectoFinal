@@ -14,9 +14,23 @@
         <input onclick="cargarDatos()" type="button" value="Cargar Datos"></Input>
         <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></Input>
       </form>
+      <div id="checkboxes"></div>
     </body>
-  
   <script>
+
+$(document).ready(function(){
+  var $button;
+  $.each(barrios, function(index, barrio){
+    $button = $('<input />',{ id: index,
+                              type: 'button', 
+                              value: barrio.nombre, 
+                              click: function(){cargarBarrio(index);}
+                            });
+    $("#checkboxes").append($button);
+    $button.css('cursor', 'pointer');
+    $("#checkboxes").append("<br>");
+  });
+});
 
 function vaciarDatastore(){
   $.ajax({
@@ -33,40 +47,58 @@ function vaciarDatastore(){
       alert("Hubo un error en el servidor");
     }
   });
-
 }
 
   function cargarDatos(){
     cargarBarrio(0);
   }
 
-  function cargarBarrio(posicion){
-    if (posicion === barrios.length){
 
-      console.log("Success - Carga inicial Finalizada");
-    }else{
-      console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
-      $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar con el pedido anterior
-        url: "/rampas/Rampas/admin/carga",
-        statusCode: {
-          200: function (){
-          console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
-          setTimeout(function(){
-            cargarBarrio(posicion + 1 );
-          },5000);
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
-          console.log("Hubo un error en el servidor");
+  function cargarBarrio(posicion){
+   if (posicion === barrios.length){
+     console.log("Success - Carga inicial Finalizada");
+   }else{
+     console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
+     $.ajax({
+       type: "POST",
+       contentType: "application/json",
+       data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
+       url: "/rampas/Rampas/admin/carga",
+       statusCode: {
+         200: function (){
+         console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+         setTimeout(function(){
+           cargarBarrio(posicion + 1 );
+         },5000);
+         }
+       },
+       error: function(jqXHR, textStatus, errorThrown){
+         console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+         console.log("Hubo un error en el servidor");
         }
       });
-    }
+   }
+ }
+/*
+  function cargarBarrio(posicion){
+    console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar con el pedido anterior
+      url: "/rampas/Rampas/admin/carga",
+      statusCode: {
+        200: function (){
+        alert("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+        $("#"+posicion).prop('disabled', true);
+        $("#"+posicion).css('cursor', 'default');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
+      }
+    });
   }
-  
+  */
   </script>
-
 </html>

@@ -106,7 +106,7 @@ public class Setup {
 	
 	/*Solo es un setup de barrios y rampas. No de usuarios por ahora*/
 	public static void setupConInfoInicial(ArrayList<Barrio> listaDeBarrios){
-		if(isSet == false) {
+		//if(isSet == false) {
     	
 			ObjectifyService.register(BarrioBD.class);
 	  	//HandlerDS.deleteBarrios(HandlerDS.getBarrios());
@@ -117,13 +117,13 @@ public class Setup {
 	  	cargarBarriosYRampasConInfoInicial(listaDeBarrios);
 	        
 			ObjectifyService.register(Usuario.class);
-	        
+	  /*      
 	    federico = new Usuario("Federico","Diaz","fedee_vpc@hotmail.com","federico");
 	  	matias = new Usuario("Matias","Dionisi","matiasdionisi22@hotmail.com","matias");
 			lucas = new Usuario("Lucas","Lencinas","lllencinas@gmail.com","lucas");
 			daniel = new Usuario("DanielOrdoñez");
 			martin = new Usuario("MartinSoifer");
-			
+		*/
 	  	/*HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
 	    HandlerDS.saveUsuario(federico);
 	    HandlerDS.saveUsuario(matias);
@@ -131,8 +131,8 @@ public class Setup {
 	    HandlerDS.saveUsuario(daniel);
 	    HandlerDS.saveUsuario(martin);
 	    	*/			    		
-			isSet = true;
-		}
+	//		isSet = true;
+	//	}
 	}
 	
 	public static void cargarBarriosYRampasConInfoInicial(ArrayList<Barrio> listaDeBarrios){
