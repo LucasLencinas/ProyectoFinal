@@ -55,14 +55,14 @@ public class DataStoreTest {
     	HandlerDS.saveBarrio(almagro);
     	HandlerDS.saveBarrio(balvanera);
     	
-        medranoYcordoba = new Rampa(-34.59777071095415,-58.42014310000002,"Almagro",false,false,false,false,false);
-  		medranoYtucuman = new Rampa(-34.59816741095431,-58.42018889999997,"Almagro",true,false,false,false,false);
-  		medranoYlavalle = new Rampa(-34.59896381095469,-58.420347900000024,"Almagro",true,true,false,false,false);
-  		medranoYrocamora = new Rampa(-34.59950261095487,-58.420448299999975,"Almagro",true,true,false,true,false);
-  		medranoYrauch = new Rampa(-34.60001371095508,-58.42052460000002,"Almagro",true,true,true,false,false);
-  		medranoYguardiaVieja = new Rampa(-34.600685110955375,-58.42059330000001,"Almagro",true,true,true,true,false);
-  		medranoYhumahuaca = new Rampa(-34.60191351095585,-58.4207993,"Almagro",true,true,true,true,true);
-  		medranoYcorrientes = new Rampa(-34.60316471095638,-58.420967099999984,"Almagro", true,true,true,true,false);
+        medranoYcordoba = new Rampa(-34.59777071095415,-58.42014310000002,"Almagro",false,false,false,false,false,"");
+  		medranoYtucuman = new Rampa(-34.59816741095431,-58.42018889999997,"Almagro",true,false,false,false,false,"");
+  		medranoYlavalle = new Rampa(-34.59896381095469,-58.420347900000024,"Almagro",true,true,false,false,false,"");
+  		medranoYrocamora = new Rampa(-34.59950261095487,-58.420448299999975,"Almagro",true,true,false,true,false,"");
+  		medranoYrauch = new Rampa(-34.60001371095508,-58.42052460000002,"Almagro",true,true,true,false,false,"");
+  		medranoYguardiaVieja = new Rampa(-34.600685110955375,-58.42059330000001,"Almagro",true,true,true,true,false,"");
+  		medranoYhumahuaca = new Rampa(-34.60191351095585,-58.4207993,"Almagro",true,true,true,true,true,"Nueva");
+  		medranoYcorrientes = new Rampa(-34.60316471095638,-58.420967099999984,"Almagro", true,true,true,true,false,"");
         
   		HandlerDS.saveRampa(medranoYcordoba);
         HandlerDS.saveRampa(medranoYtucuman);

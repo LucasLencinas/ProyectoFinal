@@ -28,54 +28,54 @@ public class CargarRampasTest {
 	private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
-  @Before
-  public void setUp() {
-      helper.setUp();
-      Setup.setupTest(); // Solo hacer el registro de las clases para el DataStore
-  }
+	@Before
+	public void setUp() {
+		helper.setUp();
+		Setup.setupTest(); // Solo hacer el registro de las clases para el DataStore
+	}
 
-  @After
-  public void tearDown() {
-      helper.tearDown();
-  }
+	@After
+	public void tearDown() {
+		helper.tearDown();
+	}
+	
 	@Ignore
 	@Test
 	public void cargarArchivoConRampasTest(){
 		int id = 0;
-	  Gson gson = new Gson();  
-	  ListadoIntersecciones listado = new ListadoIntersecciones();
-	  try {  
-	    
-	  	Barrio barrio;
-	  	BarrioBD barrioBD;
-	  	Punto punto;
-	  	Rampa rampa;
-		  System.out.println("Reading JSON from a file");  
-		  System.out.println("----------------------------");  
+		Gson gson = new Gson();  
+		ListadoIntersecciones listado = new ListadoIntersecciones();
+		try {  
+			Barrio barrio;
+			BarrioBD barrioBD;
+			Punto punto;
+			Rampa rampa;
+			System.out.println("Reading JSON from a file");  
+			System.out.println("----------------------------");  
 		     
-		  BufferedReader br = new BufferedReader(new FileReader("D:\\workspace\\rampas\\rampas\\src\\main\\webapp\\barriosParaJava.js"));  
+			BufferedReader br = new BufferedReader(new FileReader("D:\\workspace\\rampas\\rampas\\src\\main\\webapp\\barriosParaJava.js"));  
 		     
-		  //convert the json string back to object  
-		  listado = gson.fromJson(br, ListadoIntersecciones.class);  
+			//convert the json string back to object  
+			listado = gson.fromJson(br, ListadoIntersecciones.class);  
 		   
-		  for (int i = 0; i < listado.getBarrios().size() ; i++) {
-		  	barrio = listado.getBarrios().get(i);
-		  	barrioBD = new BarrioBD(barrio.getNombre(), barrio.getPoligono().getCoordinates());
-		  	HandlerDS.saveBarrio(barrioBD);
-		  	for(int j = 0; j < barrio.getCalles().size(); j++){
-		  		punto = barrio.getCalles().get(j);
-		  		rampa = new Rampa(punto.getCoordenadas().get(0), 
+			for (int i = 0; i < listado.getBarrios().size() ; i++) {
+				barrio = listado.getBarrios().get(i);
+				barrioBD = new BarrioBD(barrio.getNombre(), barrio.getPoligono().getCoordinates());
+				HandlerDS.saveBarrio(barrioBD);
+				for(int j = 0; j < barrio.getCalles().size(); j++){
+					punto = barrio.getCalles().get(j);
+					rampa = new Rampa(punto.getCoordenadas().get(0), 
 		  				punto.getCoordenadas().get(1), barrio.getNombre(), punto.getTieneInformacion(), 
-		  				punto.getTieneRampa(), punto.getBuenEstado(), punto.getCrucesAccesibles(), punto.getReportada());
-		  		HandlerDS.saveRampa(rampa);
-		  	}
+		  				punto.getTieneRampa(), punto.getBuenEstado(), punto.getCrucesAccesibles(), punto.getReportada(),"Nueva");
+					HandlerDS.saveRampa(rampa);
+				}
 			} 
 		  
-	  } catch (IOException e) {  
-	   e.printStackTrace();  
-	  }
+		} catch (IOException e) {  
+			e.printStackTrace();  
+		}
 	  
-	  assertEquals(HandlerDS.getRampas().size(),id,0);
+		assertEquals(HandlerDS.getRampas().size(),id,0);
 	  
 	}
 

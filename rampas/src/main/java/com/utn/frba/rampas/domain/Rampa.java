@@ -20,25 +20,24 @@ public class Rampa implements Serializable {
 	@Expose private boolean buenEstado;
 	@Expose private boolean crucesAccesibles;
 	@Expose private boolean reportada;
+	@Expose private String reportes;
 	
 	/* Es necesario este constructor para que funcione el GSON */
 	public Rampa () { }
 	
-	public Rampa(double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
+	public Rampa(double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean crucesAccesibles, boolean reportada, String reportes) {
 		setLatitud(latitud);
 		setLongitud(longitud);
 		setBarrio(barrio);
 		setTieneInformacion(tieneInformacion);
 		setTieneRampas(tieneRampas);
 		setBuenEstado(buenEstado);
-		setTodosCrucesAccesibles(todosCrucesAccesibles);
+		setCrucesAccesibles(crucesAccesibles);
 		setReportada(reportada);
-		if(tieneRampas)
-			System.out.println("Adentro del constructor de RampaR, tieneRampas == true.");
-			
+		setReportes(reportes);
 	}
 	
-	public Rampa(Long id, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean todosCrucesAccesibles, boolean reportada) {
+	public Rampa(Long id, double latitud, double longitud, String barrio, boolean tieneInformacion, boolean tieneRampas, boolean buenEstado, boolean crucesAccesibles, boolean reportada, String reportes) {
 		setId(id);
 		setLatitud(latitud);
 		setLongitud(longitud);
@@ -46,8 +45,9 @@ public class Rampa implements Serializable {
 		setTieneInformacion(tieneInformacion);
 		setTieneRampas(tieneRampas);
 		setBuenEstado(buenEstado);
-		setTodosCrucesAccesibles(todosCrucesAccesibles);
+		setCrucesAccesibles(crucesAccesibles);
 		setReportada(reportada);
+		setReportes(reportes);
 	}	
 	
 	public long getId() {
@@ -106,12 +106,12 @@ public class Rampa implements Serializable {
 		this.buenEstado = buenEstado;
 	}
 
-	public boolean getTodosCrucesAccesibles() {
+	public boolean getCrucesAccesibles() {
 		return crucesAccesibles;
 	}
 	
-	public void setTodosCrucesAccesibles(boolean todosCrucesAccesibles) {
-		this.crucesAccesibles = todosCrucesAccesibles;
+	public void setCrucesAccesibles(boolean crucesAccesibles) {
+		this.crucesAccesibles = crucesAccesibles;
 	}
 
 	public boolean getReportada() {
@@ -122,8 +122,16 @@ public class Rampa implements Serializable {
 		this.reportada = reportada;
 	}	
 	
+	public String getReportes() {
+		return reportes;
+	}
+	
+	public void setReportes(String reportes) {
+		this.reportes = reportes;
+	}
+	
 	public boolean esRoja() {
-		if ((getTieneInformacion() && getTieneRampas() && !getTodosCrucesAccesibles() && !getBuenEstado() && !getReportada()) ||
+		if ((getTieneInformacion() && getTieneRampas() && !getCrucesAccesibles() && !getBuenEstado() && !getReportada()) ||
 			(getTieneInformacion() && !getTieneRampas()) ||
 			!getTieneInformacion() || 
 			 getReportada()) {
@@ -135,7 +143,7 @@ public class Rampa implements Serializable {
 	public boolean esNaranja() {
 		if (getTieneInformacion() &&
 			getTieneRampas() &&
-			getTodosCrucesAccesibles() &&
+			getCrucesAccesibles() &&
 		   !getBuenEstado() &&
 		   !getReportada()) {
 			return true;
@@ -146,7 +154,7 @@ public class Rampa implements Serializable {
 	public boolean esAmarilla() {
 		if (getTieneInformacion() &&
 			getTieneRampas() &&
-		   !getTodosCrucesAccesibles() &&
+		   !getCrucesAccesibles() &&
 			getBuenEstado() &&
 		   !getReportada()) {
 			return true;
@@ -157,7 +165,7 @@ public class Rampa implements Serializable {
 	public boolean esVerde() {
 		if (getTieneInformacion() &&
 			getTieneRampas() &&
-			getTodosCrucesAccesibles() &&
+			getCrucesAccesibles() &&
 			getBuenEstado() &&
 		   !getReportada()) {
 			return true;

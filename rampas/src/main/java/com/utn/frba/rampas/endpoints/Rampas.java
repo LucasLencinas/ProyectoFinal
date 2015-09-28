@@ -31,8 +31,7 @@ public class Rampas {
 	@Produces("application/json")
 	public Response cargaInicial() {
 		Setup.setup();
-		
-		return Response.ok("",MediaType.APPLICATION_JSON).build();		
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();		
 	}
 	
 	@POST 
@@ -52,23 +51,19 @@ public class Rampas {
 	@Produces("application/json")
 	public Response BorrarTodo() {
 		Setup.deleteAll();
-		
 		return Response.ok("{}",MediaType.APPLICATION_JSON).build();		
 	}
-	
-	
 	
 	@GET
 	@Path("/echo")
 	@Produces("application/json")
 	public Response echoMessage(){
 		ObjectifyService.register(BarrioBD.class);
-    ObjectifyService.register(Rampa.class);
+		ObjectifyService.register(Rampa.class);
 		ObjectifyService.register(Usuario.class);
 		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
 	}
 	
-
 	@POST
 	@Consumes("application/json")
 	public Response saveRampa(String rampa_json) {

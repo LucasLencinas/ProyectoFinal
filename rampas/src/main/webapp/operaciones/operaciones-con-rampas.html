@@ -13,7 +13,7 @@
   <script src="../jquery-2.1.4.min.js"></script>
 </head>
 <body>
-  <h1>Operaciones con Rampas <button onclick="cargarDatos()">Cargar Datos</button></h1>
+  <h1>Operaciones con Rampas <button onclick="cargarDatos()" id="cargarBoton">Cargar Datos</button></h1>
 
 
 <table border="1"><!--style="width:800px"-->
@@ -34,15 +34,14 @@
     Coordenadas: </br>
     - Lat: <input type="textbox" id="nuevaLat"></br>
     - Lng: <input type="textbox" id="nuevaLng"></br>
-    Tiene Informacion: <input type="checkbox" id="nuevaTieneInformacion"></br>
-    Tiene Rampa: <input type="checkbox" id="nuevaTieneRampas"></br>
-    Buen Estado: <input type="checkbox" id="nuevaBuenEstado"></br>
-    Cruces Accesibles: <input type="checkbox" id="nuevaTodosCrucesAccesibles"></br>
-    Reportada: <input type="checkbox" id="nuevaReportada"></br>
     Barrio: <input type="textbox" id="nuevaBarrio"></br>
+    Tiene Informacion: <input type="checkbox" id="nuevaTieneInformacion"></br>
+    Tiene Rampas: <input type="checkbox" id="nuevaTieneRampas"></br>
+    Buen Estado: <input type="checkbox" id="nuevaBuenEstado"></br>
+    Cruces Accesibles: <input type="checkbox" id="nuevaCrucesAccesibles"></br>
   </div>
 </td>
-<td><button onclick="nuevaRampa(generarRampaDesdeLosInputDeNuevaRampa())" id="nuevaBoton">Nueva</button></td>
+<td><button onclick="nuevaRampa(generarRampaDesdeLosInputDeNuevaRampa())" id="nuevaBoton" disabled>Nueva</button></td>
 <td>
   <div id="resultadoNuevaRampa">
     Todavia no se dio de alta una rampa.<br>
@@ -59,7 +58,7 @@
     - Lng: <input type="textbox" id="buscarPorUbicacionLng"></br>
   </div>
 </td>
-<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())" id="buscarBoton">Buscar</button></td>
+<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())" id="buscarBoton" disabled>Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampaPorUbicacion">
     Todavia no se busco rampa por Ubicacion.<br>
@@ -68,28 +67,28 @@
 </tr>
 
 <tr>
-<td>Modificar/Reportar/Desreportar/Borrar Rampa</td>
+<td>Modificar/Reportar/Borrar Rampa</td>
 <td>
   <div>
     Id: <input type="textbox" id="modificarId" disabled></br>
     Coordenadas: </br>
     - Lat: <input type="textbox" id="modificarLat" disabled></br>
     - Lng: <input type="textbox" id="modificarLng" disabled></br>
+    Barrio: <input type="textbox" id="modificarBarrio"></br>
     Tiene Informacion: <input type="checkbox" id="modificarTieneInformacion"></br>
     Tiene Rampa: <input type="checkbox" id="modificarTieneRampas"></br>
     Buen Estado: <input type="checkbox" id="modificarBuenEstado"></br>
-    Cruces Accesibles: <input type="checkbox" id="modificarTodosCrucesAccesibles"></br>
+    Cruces Accesibles: <input type="checkbox" id="modificarCrucesAccesibles"></br>
     Reportada: <input type="checkbox" id="modificarReportada" disabled></br>
-    Barrio: <input type="textbox" id="modificarBarrio"></br>
+    Reportes: <input type="textbox" id="modificarReportes" disabled></br>
   </div>
 </td>
 <td><button onclick="modificarRampa(generarRampaDesdeLosInputDeModificarRampa())" id="modificarBoton" disabled>Modificar</button>
     <button onclick="reportarRampa(generarRampaDesdeLosInputDeReportarRampa())" id="reportarBoton" disabled>Reportar</button>
-    <button onclick="desreportarRampa(generarRampaDesdeLosInputDeDesreportarRampa())" id="desreportarBoton" disabled>Desreportar</button>
     <button onclick="borrarRampa(generarRampaDesdeLosInputDeBorrarRampa())" id="borrarBoton" disabled>Borrar</button>
 <td>
   <div id="resultadoModificarRampa">
-    Todavia no se modifico/reporto/desreporto/borro una rampa.<br>
+    Todavia no se modifico/reporto/borro una rampa.<br>
   </div>
 </td>
 </tr>
@@ -102,7 +101,7 @@
     Cantidad: <input type="textbox" id="buscarCantidad" value="10"></br>
   </div>
 </td>
-<td><button onclick="buscarRampasPorBarrio($('#buscarBarrio').val(),$('#buscarCantidad').val())">Buscar</button></td>
+<td><button onclick="buscarRampasPorBarrio($('#buscarBarrio').val(),$('#buscarCantidad').val())" id="barrioBoton" disabled>Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampasPorBarrio">
     Todavia no se busco rampas por barrio.<br>
