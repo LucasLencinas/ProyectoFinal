@@ -173,5 +173,9 @@ public class Rampa implements Serializable {
 		return false;
 	}
 	
+	public boolean estaReportada() {
+		return getReportada();
+	}
+	
 }
 

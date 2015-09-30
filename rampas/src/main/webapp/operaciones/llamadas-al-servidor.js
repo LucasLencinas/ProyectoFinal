@@ -13,6 +13,7 @@ function cargarDatos(){
 	      $("#nuevaBoton").prop("disabled",false);
 	      $("#buscarBoton").prop("disabled",false);
 	      $("#barrioBoton").prop("disabled",false);
+	      $("#reportadasBoton").prop("disabled",false);
 	  },
 	  error: function (jqXHR, textStatus, errorThrown) {
 	      var resultado = "Error - Carga inicial. ";
@@ -55,6 +56,7 @@ function limpiarHTMLRampas() {
 	$('#resultadoBuscarRampaPorUbicacion').html("Todavia no se busco rampa por Ubicacion.");
 	$('#resultadoModificarRampa').html("Todavia no se modifico/reporto/borro una rampa.");
 	$('#resultadoBuscarRampasPorBarrio').html("Todavia no se busco rampas por barrio.");
+	$('#resultadoBuscarRampasReportadas').html("Todavia no se busco rampas reportadas.");
 }
 
 /** ----- NUEVA RAMPA ----- **/
@@ -279,9 +281,33 @@ function borrarRampa(rampa){
 	});
 }
 
+/** ----- BUSCAR RAMPAS REPORTADAS ----- **/
+
+function buscarRampasReportadas(cantidad){
+	console.log("A punto de buscar rampas reportadas...");
+	$.ajax({
+		type:"GET",
+		dataType: "json",
+		url: "/rampas/Rampas/reportadas",
+		success: function(rampas){
+			limpiarHTMLRampas();
+			if(rampas.length > 10){ //Para que no me muestre las 500 rampas
+				rampas = rampas.slice(0, 11);
+			}
+			$('#resultadoBuscarRampasReportadas').html(JSON.stringify(rampas));
+		},
+		statusCode: {
+			404: function () { 
+				limpiarHTMLRampas();
+				$('#resultadoBuscarRampasReportadas').html("No se ha encontrado ninguna rampa con ese barrio.");
+			}
+		}
+	});
+}
+
 /** ----- BUSCAR RAMPAS POR BARRIO ----- **/
 
-function buscarRampasPorBarrio(barrio,cantidad){
+function buscarRampasPorBarrio(barrio){
 	console.log("A punto de buscar rampas por barrio...");
 	$.ajax({
 		type:"GET",

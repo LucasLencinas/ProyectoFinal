@@ -131,6 +131,32 @@ public class Rampas {
 			return Response.ok(new Gson().toJson(unaRampa),MediaType.APPLICATION_JSON).build();		
 		}
 	}
+		
+	@GET 
+	@Path("/ruta/{latmin}/{lngmin}/{latmax}/{lngmax}")
+	@Produces("application/json")
+	public Response loadRampaByRuta(@PathParam("latmin") String latmin, @PathParam("lngmin") String lngmin, @PathParam("latmax") String latmax, @PathParam("lngmax") String lngmax) {
+		ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(Double.parseDouble(latmin),Double.parseDouble(lngmin),Double.parseDouble(latmax),Double.parseDouble(lngmax));
+		if (rampasRuta == null || rampasRuta.size() == 0) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			return Response.ok(new Gson().toJson(rampasRuta),MediaType.APPLICATION_JSON).build();		
+		}
+	}
+
+	@GET 
+	@Path("/reportadas")
+	@Produces("application/json")
+	public Response loadRampasReportadas() {
+		ArrayList<Rampa> rampas = HandlerDS.getRampasReportadas();
+		if (rampas == null || rampas.size() == 0) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			return Response.ok(new Gson().toJson(rampas),MediaType.APPLICATION_JSON).build();		
+		}
+	}	
 	
 	@GET 
 	@Path("/barrios/{barrio}")
@@ -145,17 +171,4 @@ public class Rampas {
 		}
 	}
 	
-	@GET 
-	@Path("/ruta/{latmin}/{lngmin}/{latmax}/{lngmax}")
-	@Produces("application/json")
-	public Response loadRampaByRuta(@PathParam("latmin") String latmin, @PathParam("lngmin") String lngmin, @PathParam("latmax") String latmax, @PathParam("lngmax") String lngmax) {
-		ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(Double.parseDouble(latmin),Double.parseDouble(lngmin),Double.parseDouble(latmax),Double.parseDouble(lngmax));
-		if (rampasRuta == null || rampasRuta.size() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).build();		
-		}
-		else {
-			return Response.ok(new Gson().toJson(rampasRuta),MediaType.APPLICATION_JSON).build();		
-		}
-	}
-
 }

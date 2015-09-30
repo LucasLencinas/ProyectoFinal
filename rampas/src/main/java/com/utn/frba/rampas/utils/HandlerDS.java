@@ -359,6 +359,32 @@ public class HandlerDS {
 		}
 	}
 
+	public static ArrayList<Rampa> getRampasReportadas() {
+		System.out.print("Buscar Rampas reportadas: ");
+		ArrayList<Rampa> rampasReportadas = new ArrayList<Rampa>();
+		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
+		try {
+			rampasDS = ofy().load().type(Rampa.class).list();
+		} 
+		catch(Exception ex) {
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
+			return null;
+		}
+		for (Rampa unaRampa:rampasDS) 
+			if (unaRampa.estaReportada()) {
+				rampasReportadas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");		
+			}
+		if (rampasReportadas.size() == 0) {
+			System.out.println("No hay rampas reportadas");
+			return null;
+		}
+		else {
+			System.out.println(" ");
+			return rampasReportadas;
+		}
+	}
+	
 	public static ArrayList<Rampa> getRampasByBarrio(String barrio) {
 		System.out.print("Buscar Rampas por Barrio: ");
 		ArrayList<Rampa> rampasBarrio = new ArrayList<Rampa>();

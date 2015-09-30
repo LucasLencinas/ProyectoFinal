@@ -188,6 +188,12 @@ public class DataStoreTest {
   	}
 
     @Test
+    public void getRampasReportadas() {
+    	ArrayList<Rampa> rampasReportadas = HandlerDS.getRampasReportadas();
+    	assertEquals(rampasReportadas.get(0).getId(),medranoYhumahuaca.getId(),0);
+  	}
+    
+    @Test
     public void getRampasByBarrio() {
     	ArrayList<Rampa> rampasBarrio = HandlerDS.getRampasByBarrio("Almagro");
     	assertEquals(rampasBarrio.get(0).getId(),medranoYcordoba.getId(),0);

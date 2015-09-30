@@ -94,11 +94,24 @@
 </tr>
 
 <tr>
+<td>Buscar/Consultar Rampas reportadas </td>
+<td>
+  <div>
+  </div>
+</td>
+<td><button onclick="buscarRampasReportadas()" id="reportadasBoton" disabled>Buscar</button></td>
+<td>
+  <div id="resultadoBuscarRampasReportadas">
+    Todavia no se busco rampas reportadas.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
 <td>Buscar/Consultar Rampas por Barrio </td>
 <td>
   <div>
     Barrio: <input type="textbox" id="buscarBarrio" value="Almagro"></br>
-    Cantidad: <input type="textbox" id="buscarCantidad" value="10"></br>
   </div>
 </td>
 <td><button onclick="buscarRampasPorBarrio($('#buscarBarrio').val(),$('#buscarCantidad').val())" id="barrioBoton" disabled>Buscar</button></td>
