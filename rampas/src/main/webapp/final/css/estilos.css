@@ -58,6 +58,8 @@ ul li a {
 	.xbotones{
 		float:right;
 		margin:8px 10px;
+		min-width:120px;
+		height:32px;
 	}
 	.xbotones ul li ul{
 		display:none;
@@ -68,12 +70,11 @@ ul li a {
 		z-index:400;
 	}
 	.xbotones ul  li  a  {
-		padding: 5px 27px;
+		padding: 5px 35px;
+		margin: auto;
 	}
 	.xbotones ul li ul li a{
-		padding: 5px 20px;
-		max-width:109px;
-		max-height:34px;
+		padding: 5px 27px;
 	}
 	.xbotones ul li a{
 		display:block;

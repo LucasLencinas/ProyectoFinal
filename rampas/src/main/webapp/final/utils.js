@@ -294,7 +294,7 @@ function armarContenidoDelInfoWindows(marcador){
 	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
 	marcadorActual = marcador;
 /*	botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
-		"onclick='modificarRampa(marcadorActual);'>";
+		"onclick='modificarRampa(marcadorActual)'>";
 */		
 	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 		"onclick='reportarRampa(marcadorActual)'>";

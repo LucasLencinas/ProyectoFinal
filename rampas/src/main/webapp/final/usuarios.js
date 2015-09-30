@@ -35,22 +35,3 @@ function eliminar(){
 		alert(ue);
 }
 
-function altaRampa(){
-	cerrarTodo();
-	var crucesAccesibles =  document.getElementById("crucesAccesiblesA").checked;
-	var buenEstado =  document.getElementById("buenEstadoA").checked;
-	
-	alerta("La Rampa se dio de Alta</br>"+ crucesAccesibles + " " +  buenEstado + " " +  ubicacion);
-}	
-function modRampa(){
-	cerrarTodo();
-	var crucesAccesibles =  document.getElementById("crucesAccesiblesM").checked;
-	var buenEstado =  document.getElementById("buenEstadoM").checked;
-	
-	alerta("La Rampa se Modifico</br>"+ crucesAccesibles + " " +  buenEstado + " " +  ubicacion.stringDireccion);
-}
-function repRampa(){
-	cerrarTodo();
-	var mt =  $("#selectMotivo").prop("value");
-	alerta("La Rampa fue reportada por </br>"+ mt +  ubicacion.stringDireccion,"REPOR");
-}

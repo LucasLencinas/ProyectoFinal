@@ -19,6 +19,7 @@
 		<script src="index.js"></script>
 		<script src="utils.js"></script>
 				<script src="usuarios.js"></script>
+				  <script src="llamadas-al-servidor.js"></script>
 	</head>
 		<body>
 			<header>
@@ -29,10 +30,10 @@
 						</div>
 						<div class="xbotones" >
 							<ul>
-								<li><a id="sesion" href="#" onclick="showSesion()">Sesión</a>
-									<ul id="lista" >
-										<li id="loguear"><a href="#" onclick="showdlgboxIniciar()">Loguear</a></li>
-										<li id="registrar"><a href="#" onclick="showdlgboxRegistro()">Registrar</a></li>
+								<li ><a id="sesion" href="#" onclick="showSesion()"   >Sesión</a>
+									<ul id="lista"  >
+										<li id="loguear"><a href="#" onclick="hideSesion(); showdlgboxIniciar()">Loguear</a></li>
+										<li id="registrar"><a href="#" onclick="hideSesion(); showdlgboxRegistro()">Registrar</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -106,11 +107,11 @@
 		</form>
 		<form>
 			<input id="nombre" type="text" placeholder="Email" ></input>
-			<input type="password" placeholder="Contraseña" ></input>		
+			<input id="pass" type="password" placeholder="Contraseña" ></input>		
 		</form>
 	</div>
     <div class="dlg-footer dlg-footerIniciarMail">
-        <button onclick="cerrarTodoM()">Iniciar</button>
+        <button onclick="iniciarSesion()">Iniciar</button>
         <button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>

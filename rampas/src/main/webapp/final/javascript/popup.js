@@ -83,6 +83,7 @@ document.getElementById("buenEstadoM").checked=checked=marcador.buenEstado;
 ubicacion=marcador;	
 	dlgboxModificarRampa.style.display = "block";
 	centrar(dlgboxModificarRampa);
+	ubicacion=bru(marcador.getPosition().lat(),marcador.getPosition().lng());//GLOBAL
 }
 function showdlgboxAlerta(mensaje,titulo){
 	var tituloAlerta = document.getElementById("tituloAlerta");
@@ -120,6 +121,8 @@ document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
 document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
 	ubicacion=marcador;	
 	centrar(dlgboxReportarRampa);
+	ubicacion=bru(marcador.getPosition().lat(),marcador.getPosition().lng());//GLOBAL
+
 }
 function activarPersonalizada(){
 	var motivoPersonalizado = document.getElementById("motivoPersonalizado");
@@ -160,10 +163,10 @@ configuracion.id='configuracion';
 admin.id='admin';
 reportes.id='reportes';
 
-cerrar.innerHTML="<a href='#' onclick='showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
-configuracion.innerHTML="<a href='#' onclick='showdlgboxModificarUsuario()'>Configuración</a>";
-admin.innerHTML="<a href='#' onclick='showdlgboxeliminarUsuarios()'>Usuarios</a>";
-reportes.innerHTML="<a href='#' >Reportadas</a>";
+cerrar.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
+configuracion.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxModificarUsuario()'>Configuración</a>";
+admin.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxeliminarUsuarios()'>Usuarios</a>";
+reportes.innerHTML="<a href='#' onclick='hideSesion()'>Reportadas</a>";
 
 document.getElementById("lista").appendChild(configuracion);
 document.getElementById("lista").appendChild(admin);
@@ -241,4 +244,28 @@ function enMovimiento(event){
 function finMovimiento(event){
 	document.removeEventListener("mousemove", enMovimiento, true);
 	document.removeEventListener("mouseup", finMovimiento, true); 
+}
+//Esto es para hacer click con el celular y que se muestre/oculte.. 
+function  showSesion() {
+	var lista = document.getElementById("lista");
+	if (	lista.style.display == "block")
+		lista.style.display = "";
+		else lista.style.display = "block";
+}
+function hideSesion(){
+	document.getElementById("lista").style.display = "";
+}
+//Iniciar Sesion
+function iniciarSesion(){
+	var autenticado=autenticar();
+	cerrarTodo();
+	if(autenticado)
+		cerrarTodoM();
+		else alerta("El Email o la contraseña es invalida","Error Autenticación");
+}
+function autenticar(){
+	//document.getElementById("pass")
+	if(	document.getElementById("nombre").value == 'pepe')
+		return true
+	else return false;
 }
