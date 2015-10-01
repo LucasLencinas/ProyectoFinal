@@ -167,7 +167,7 @@ reportes.id='reportes';
 cerrar.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
 configuracion.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxModificarUsuario()'>Configuración</a>";
 admin.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxeliminarUsuarios()'>Usuarios</a>";
-reportes.innerHTML="<a href='#' onclick='hideSesion()'>Reportadas</a>";
+reportes.innerHTML="<a href='#' onclick='hideSesion(); buscarRampasReportadas()'>Reportadas</a>";
 
 document.getElementById("lista").appendChild(configuracion);
 document.getElementById("lista").appendChild(admin);

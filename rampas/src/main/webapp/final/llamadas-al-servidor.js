@@ -175,6 +175,46 @@ function actualizarMarcadorRampa(marcador,rampa,borrar){//marcador o LatLng | ra
 	unMarcador.setMap(map);
 	arrayRampasCercanas.push(unMarcador);//GLOBAL
 }
+/** ----- BUSCAR RAMPAS REPORTADAS ----- **/
+
+function buscarRampasReportadas(){
+	console.log("A punto de buscar rampas reportadas...");
+	$.ajax({
+		type:"GET",
+		dataType: "json",
+		url: "/rampas/Rampas/reportadas",
+		success: function(rampas){
+			mostraMarcadoresReportados(rampas);
+		},
+		statusCode: {
+			404: function () { 
+			alert("No se ha encontrado ninguna rampa REPORTADA.");
+			}
+		}
+	});
+}
+function mostraMarcadoresReportados(rampasReportadas){
+		borrarRutasPrevias();
+		ocultarRampasCercanas();
+		borrarBarriosPrevios();
+		
+		$.each(rampasReportadas, function(indice, punto){
+			if(typeof (punto.coordenadas) === 'undefined')
+				latlng = new google.maps.LatLng(punto.latitud,punto.longitud);
+			else
+				latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+
+			unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
+			unMarcador.tieneInformacion = punto.tieneInformacion;
+			unMarcador.tieneRampas = punto.tieneRampas; 
+			unMarcador.buenEstado = punto.buenEstado;
+			unMarcador.crucesAccesibles = punto.crucesAccesibles;
+			unMarcador.reportada = punto.reportada;
+			unMarcador.setMap(map);
+			arrayRampasCercanas.push(unMarcador);//USO EL MISMO VECTOR GLOBAL  crucesBarrioElegido
+		});			
+}
+
 /** ----- BUSCAR RAMPAS POR BARRIO ----- **/
 
 function buscarRampasPorBarrio(barrio,cantidad){
