@@ -13,8 +13,8 @@ function altaRampa(){
 	rampa.reportada = true;
 	rampa.reportes = "Nueva";
 	nuevaRampa(rampa);
+		actualizarMarcadorRampa(ubicacion,rampa,false);
 }
-
 function nuevaRampa(rampa){
 	console.log("A punto de guardar una rampa...");
 	$.ajax({
@@ -36,6 +36,8 @@ function nuevaRampa(rampa){
 /** ----- MODIFICAR RAMPA ----- **/
 
 function modRampa(){
+	var marcador = ubicacion;
+	ubicacion = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
 	cerrarTodo();
 	var rampa = {};
 	rampa=ubicacion;//Esto es variable Global
@@ -47,6 +49,7 @@ function modRampa(){
 	rampa.reportes = "";
 	
 	modificarRampaa(rampa);
+		actualizarMarcadorRampa(marcador,rampa,true);
 }
 
 function modificarRampaa(rampa){
@@ -72,7 +75,8 @@ function modificarRampaa(rampa){
 function repRampa(){
 	cerrarTodo();
 	var rampa = {};
-	rampa=ubicacion;//Esto es variable Global
+	var marcador = ubicacion;
+	rampa = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
 
 	var mt =$("#selectMotivo").prop("value");
 	if (rampa.peportes == "")
@@ -92,6 +96,8 @@ function repRampa(){
 
 	rampa.reportada = true;
 	reportarRampaa(rampa);
+			actualizarMarcadorRampa(marcador,rampa,true);
+
 }
 
 function reportarRampaa(rampa){
@@ -135,22 +141,6 @@ function bru(latitud, longitud){
 
 
 /** ----- BORRAR RAMPA ----- **/
-
-function generarRampaDesdeLosInputDeBorrarRampa(){
-	var rampa = {};
-	rampa.id = rampaTotal.id
-	rampa.latitud = rampaTotal.latitud;
-	rampa.longitud = rampaTotal.longitud;
-	rampa.barrio = rampaTotal.barrio;
-	rampa.tieneInformacion = rampaTotal.tieneInformacion;
-	rampa.tieneRampas = rampaTotal.tieneRampas;
-	rampa.buenEstado = rampaTotal.buenEstado;
-	rampa.crucesAccesibles = rampaTotal.crucesAccesibles;
-	rampa.reportada = rampaTotal.reportada;
-	rampa.reportes = rampaTotal.reportes;
-	return rampa;
-}
-
 function borrarRampa(rampa){
 	console.log("A punto de borrar una rampa...");
 	$.ajax({
@@ -159,18 +149,32 @@ function borrarRampa(rampa){
 		data: JSON.stringify(rampa),
 		url: "/rampas/Rampas",
 		success: function (data) {
-			limpiarHTMLRampas();
-			$('#resultadoModificarRampa').html("Se borro la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+			alert("Se borro la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
 		},
 		statusCode: {
 			409: function () { 
-				limpiarHTMLRampas();
-				$('#resultadoModificarRampa').html("Hubo un error al desreportar la rampa en la base de datos.");
+				alert("Hubo un error al desreportar la rampa en la base de datos.");
 			}
 		}
 	});
 }
-
+function actualizarMarcadorRampa(marcador,rampa,borrar){//marcador o LatLng | rampa | bool (borrar Marcador)
+	var unMarcador;
+	var latLng;
+	if(borrar)
+	 {marcador.setMap(null);
+	  latLng=marcador.getPosition();
+	 }
+	 else latLng=marcador;
+	unMarcador = crearMarcadorConColor(latLng, calcularColorSegunRampa(rampa).icono, listenerClickEnMarcador);
+	unMarcador.tieneInformacion = rampa.tieneInformacion;
+	unMarcador.tieneRampas = rampa.tieneRampas; 
+	unMarcador.buenEstado = rampa.buenEstado;
+	unMarcador.crucesAccesibles = rampa.crucesAccesibles;
+	unMarcador.reportada = rampa.reportada;
+	unMarcador.setMap(map);
+	arrayRampasCercanas.push(unMarcador);//GLOBAL
+}
 /** ----- BUSCAR RAMPAS POR BARRIO ----- **/
 
 function buscarRampasPorBarrio(barrio,cantidad){
@@ -198,25 +202,16 @@ function buscarRampasPorBarrio(barrio,cantidad){
 /** ---------- USUARIO ---------- **/
 
 /** ----- NUEVO USUARIO POR MAIL ----- **/
-/*
-function generarRampaDesdeLosInputDeNuevoUsuarioMail(){
-	var usuario = {};
-	usuario.nombre = $("#nuevoNombre").val();
-	usuario.apellido = $("#nuevoApellido").val();
-	usuario.mail = $("#nuevoMail").val();
-	usuario.contraseña = $("#nuevoContrasenia").val();
-	return usuario;
-}
 
 function nuevoUsuarioMail(usuario){
 	console.log("A punto de guardar un usuario...");
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
-		data: JSON.stringify(rampa),
+		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
-			$('#resultadoNuevoUsuarioMail').html("Se dio de alta el usuario: " + JSON.stringify(rampa) + "-- " + data.toString());
+			alert("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete: function (jqXHR, textStatus) {
 			var resultado = "Complete - Nuevo Usuario. ";
@@ -226,12 +221,12 @@ function nuevoUsuarioMail(usuario){
 		},
 		statusCode: {
 			409: function () { 
-				$('#resultadoNuevoUsuarioMail').html("Hubo un error al grabar el usuario en la base de datos.");
+				alert("Hubo un error al grabar el usuario en la base de datos.");
 			}
 		}
 	});
 }
-*/
+
 /** ----- NUEVO USUARIO POR FACEBOOK ----- **/
 /*
 function generarRampaDesdeLosInputDeNuevoUsuarioFacebook(){
@@ -265,6 +260,44 @@ function nuevoUsuarioFacebook(usuario){
 }
 */
 /** ----- BUSCAR USUARIO POR MAIL ----- **/
+function autenticar(mail,pass){
+	var encontro = false;
+	console.log("A punto de buscar usuario por mail...");
+	$.ajax({
+		async:false, //Si no lo hago sincronico resulve mal
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Usuarios/mail/" + mail,
+		success: function (usuario) {
+			encontro = (usuario.contraseña == pass);
+		},
+		statusCode: {
+			404: function () { 
+			
+			}
+		}
+	});
+return encontro;
+}
+function existeUsuarioRegistrado(mail){
+	var encontro = false;
+	console.log("A punto de buscar usuario por mail...");
+	$.ajax({
+		async:false, //Si no lo hago sincronico resulve mal
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Usuarios/mail/" + mail,
+		success: function (usuario) {
+			encontro=true;
+		},
+		statusCode: {
+			404: function () { 
+			
+			}
+		}
+	});
+return encontro;
+}
 /*
 function limpiarHTMLUsuarios() {
 	$("#modificarNombre").val("");

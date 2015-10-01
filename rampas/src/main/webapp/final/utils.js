@@ -293,18 +293,22 @@ function armarContenidoDelInfoWindows(marcador){
 	
 	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
 	marcadorActual = marcador;
-/*	botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
+	botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
 		"onclick='modificarRampa(marcadorActual)'>";
-*/		
+		
+	botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
+		"onclick='eliminarRampa(marcadorActual)'>";
+		
+		
 	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 		"onclick='reportarRampa(marcadorActual)'>";
 	var contenido = '';
 	if(marcador.tieneInformacion){
-	contenido = $.sprintf( "<div>Direccion: %s </br>%s</br> %s</br> %s</br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
-		tieneRampas, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s </br>%s</br> %s</br> %s</br></br> %s %s </br> %s %s</br>%s</div>", marcador.stringDireccion, 
+		tieneRampas, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,botonEliminar,imagen);
 	}else{
-	contenido = $.sprintf( "<div>Direccion: %s </br>%s </br></br></br></br> %s %s %s </br>%s</div>", marcador.stringDireccion, 
-		tieneInformacion, botonStreetView,botonModificar,botonReportar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s </br>%s </br></br></br></br> %s %s </br> %s %s</br>%s</div>", marcador.stringDireccion, 
+		tieneInformacion, botonStreetView,botonModificar,botonReportar,botonEliminar,imagen);
 	}
 	return contenido;
 }
@@ -319,6 +323,13 @@ function reportarRampa(marcador){
 /* MARTINCITO --> Esta funcion se llama cuando se hace click en Modificar en el InfoWindow de cada marcador*/
 function modificarRampa(marcador){
 	showdlgboxModificarRampa(marcador);
+}
+
+function eliminarRampa(marcador){
+if (confirm("ELIMINAR RAMPA")){
+	borrarRampa(bru(marcador.getPosition().lat(),marcador.getPosition().lng()));
+	marcador.setMap(null);
+	}
 }
 
 /**Funciones para saber colores de rampas y rutas**/

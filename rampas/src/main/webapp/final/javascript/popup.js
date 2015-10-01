@@ -78,12 +78,13 @@ ubicacion=latLng;
 }
 function showdlgboxModificarRampa(marcador){
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
-document.getElementById("crucesAccesiblesM").checked=marcador.crucesAccesibles;
-document.getElementById("buenEstadoM").checked=checked=marcador.buenEstado;
-ubicacion=marcador;	
+	document.getElementById("tieneRampaM").checked=marcador.tieneRampas;
+	document.getElementById("crucesAccesiblesM").checked=marcador.crucesAccesibles;
+	document.getElementById("buenEstadoM").checked=checked=marcador.buenEstado;
+	tieneRampaCheck('M');
+ubicacion=marcador;	//GLOBAL
 	dlgboxModificarRampa.style.display = "block";
 	centrar(dlgboxModificarRampa);
-	ubicacion=bru(marcador.getPosition().lat(),marcador.getPosition().lng());//GLOBAL
 }
 function showdlgboxAlerta(mensaje,titulo){
 	var tituloAlerta = document.getElementById("tituloAlerta");
@@ -117,12 +118,12 @@ var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstacu
 					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
 				});
 	dlgboxReportarRampa.style.display = "block";
-document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
-document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
-	ubicacion=marcador;	
+	document.getElementById("tieneRampaR").checked=marcador.tieneRampas;
+	document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
+	document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
+	tieneRampaCheck('R');
+	ubicacion=marcador;	//GLOBAL
 	centrar(dlgboxReportarRampa);
-	ubicacion=bru(marcador.getPosition().lat(),marcador.getPosition().lng());//GLOBAL
-
 }
 function activarPersonalizada(){
 	var motivoPersonalizado = document.getElementById("motivoPersonalizado");
@@ -257,15 +258,31 @@ function hideSesion(){
 }
 //Iniciar Sesion
 function iniciarSesion(){
-	var autenticado=autenticar();
-	cerrarTodo();
-	if(autenticado)
-		cerrarTodoM();
+	var nombre = document.getElementById("nombre").value;
+	var pass = document.getElementById("pass").value;
+	if(autenticar(nombre,pass))
+		{cerrarTodoM();}
 		else alerta("El Email o la contraseña es invalida","Error Autenticación");
 }
-function autenticar(){
-	//document.getElementById("pass")
-	if(	document.getElementById("nombre").value == 'pepe')
-		return true
-	else return false;
+//Registrar Mail
+function registrarMail(){
+	if (document.getElementById("pass1R").value != document.getElementById("pass2R").value)
+		{alert("Las contraseñas no coinciden");}
+		else{
+			var mail = document.getElementById("emailR").value;
+			if (existeUsuarioRegistrado(mail))
+			{alert("Ya existe un usuario Registrado con esa Direccion Email");}
+			else{
+				var usuario = {};
+				usuario.nombre = document.getElementById("nombreR").value;
+				usuario.apellido = document.getElementById("apellidoR").value;
+				usuario.mail = document.getElementById("emailR").value;
+				usuario.contraseña = document.getElementById("pass1R").value;
+				usuario.usuarioPropio = true;
+				alert();
+				nuevoUsuarioMail(usuario);
+				cerrarTodo();
+			}
+		}
+			
 }

@@ -86,15 +86,15 @@
 			<label>Confirmar<br>Contraseña:</label>			
 		</form>
 		<form>
-			<input type="text" placeholder="Nombre" ></input>
-			<input type="text" placeholder="Apellido" ></input>
-			<input type="text" placeholder="Email" ></input>
-			<input type="password" placeholder="Contraseña" ></input>
-			<input type="password" placeholder="Contraseña" ></input>			
+			<input id="nombreR" type="text" placeholder="Nombre" ></input>
+			<input id="apellidoR" type="text" placeholder="Apellido" ></input>
+			<input id="emailR" type="text" placeholder="Email" ></input>
+			<input id="pass1R" type="password" placeholder="Contraseña" ></input>
+			<input id="pass2R" type="password" placeholder="Contraseña" ></input>			
 		</form>
 	</div>
     <div class="dlg-footer">
-        <button onclick="cerrarTodo()">Registrar</button>
+        <button onclick="registrarMail()">Registrar</button>
         <button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
@@ -106,7 +106,7 @@
 			<label>Contraseña:</label>	
 		</form>
 		<form>
-			<input id="nombre" type="text" placeholder="Email" ></input>
+			<input id="nombre" type="email" placeholder="Email" ></input>
 			<input id="pass" type="password" placeholder="Contraseña" ></input>		
 		</form>
 	</div>
