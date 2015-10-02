@@ -105,6 +105,7 @@ function showdlgboxModificarUsuario(){
 	var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
 	whitebg.style.display = "block";
 	dlgboxModificarUsuario.style.display = "block";
+	////
 	centrar(dlgboxModificarUsuario);
 }
 function showdlgboxReportarRampa(marcador){
@@ -200,6 +201,7 @@ document.getElementById("lista").removeChild(admin);
 var reportes = document.getElementById("reportes");
 document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
+	idSesion=-1;//GLOBAL Sesion
 }
 /**********************************************************************************************/
 function centrar (box){
@@ -270,7 +272,7 @@ function registrarMail(){
 		{alert("Las contraseñas no coinciden");}
 		else{
 			var mail = document.getElementById("emailR").value;
-			if (existeUsuarioRegistrado(mail))
+			if (existeUsuarioRegistrado(mail,idSesion))
 			{alert("Ya existe un usuario Registrado con esa Direccion Email");}
 			else{
 				var usuario = {};
@@ -279,10 +281,35 @@ function registrarMail(){
 				usuario.mail = document.getElementById("emailR").value;
 				usuario.contraseña = document.getElementById("pass1R").value;
 				usuario.usuarioPropio = true;
-				alert();
 				nuevoUsuarioMail(usuario);
 				cerrarTodo();
 			}
 		}
-			
+}
+function modificarMail(){
+	if (document.getElementById("pass1M").value != document.getElementById("pass2M").value)
+		{alert("Las contraseñas no coinciden");}
+		else{
+			var mail = document.getElementById("emailM").value;
+			if (existeUsuarioRegistrado(mail,idSesion))
+			{alert("Ya existe un usuario Registrado con esa Direccion Email");}
+			else{
+				var usuario = {};
+				usuario.id = idSesion;
+				usuario.nombre = document.getElementById("nombreM").value;
+				usuario.apellido = document.getElementById("apellidoM").value;
+				usuario.mail = document.getElementById("emailM").value;
+				usuario.contraseña = document.getElementById("pass1M").value;
+				usuario.usuarioPropio = true;
+				modificarUsuarioMail(usuario);
+				cerrarTodo();
+			}
+		}
+}
+function autocompletarModificar(usuario){
+	document.getElementById("nombreM").value = usuario.nombre ;
+	document.getElementById("apellidoM").value = usuario.apellido;
+	document.getElementById("emailM").value = usuario.mail;
+	document.getElementById("pass1M").value = usuario.contraseña;	//MUY Bisarro que se autocomplete
+	document.getElementById("pass2M").value = usuario.contraseña;
 }

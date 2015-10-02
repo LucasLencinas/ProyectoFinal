@@ -299,6 +299,7 @@ function nuevoUsuarioFacebook(usuario){
 	});
 }
 */
+var idSesion = -1;									//Sesion cerrada
 /** ----- BUSCAR USUARIO POR MAIL ----- **/
 function autenticar(mail,pass){
 	var encontro = false;
@@ -309,7 +310,9 @@ function autenticar(mail,pass){
 		dataType: "json",
 		url: "/rampas/Usuarios/mail/" + mail,
 		success: function (usuario) {
-			encontro = (usuario.contraseña == pass);
+			encontro = (usuario.contraseña == pass);//Esto se deberia hacer en dentro del query
+			idSesion=usuario.id;					//identificador Usuario para poder Modificar
+			autocompletarModificar(usuario);
 		},
 		statusCode: {
 			404: function () { 
@@ -319,7 +322,7 @@ function autenticar(mail,pass){
 	});
 return encontro;
 }
-function existeUsuarioRegistrado(mail){
+function existeUsuarioRegistrado(mail,idUsuario){
 	var encontro = false;
 	console.log("A punto de buscar usuario por mail...");
 	$.ajax({
@@ -328,7 +331,7 @@ function existeUsuarioRegistrado(mail){
 		dataType: "json",
 		url: "/rampas/Usuarios/mail/" + mail,
 		success: function (usuario) {
-			encontro=true;
+			encontro=(usuario.id != idUsuario);//true Existe usuario (registrar)|(modificar) NO se puede usar
 		},
 		statusCode: {
 			404: function () { 
@@ -375,18 +378,8 @@ function buscarUsuarioPorMail(mail){
 }
 */
 /** ----- MODIFICAR USUARIO ----- **/
-/*
-function generarRampaDesdeLosInputDeModificarUsuario(){
-	var usuario = {};
-	usuario.id = $("modificarId").val();
-	usuario.nombre = $("#modificarNombre").val();
-	usuario.apellido = $("#modificarApellido").val();
-	usuario.mail = $("#modificarMail").val();
-	usuario.contraseña = $("#modificarContrasenia").val();
-	return usuario;
-}
 
-function modificarUsuario(usuario){
+function modificarUsuarioMail(usuario){
 	console.log("A punto de modificar un usuario...");
 	$.ajax({
 		type: "PUT",
@@ -394,9 +387,7 @@ function modificarUsuario(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
-			$('#resultadoModificarUsuario').html("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
-			$("#modificarBoton").prop("disabled",true);
-			$("#borrarBoton").prop("disabled",true);
+			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete: function (jqXHR, textStatus) {
 			var resultado = "Complete - Modificar Usuario. ";
@@ -406,12 +397,12 @@ function modificarUsuario(usuario){
 		},
 		statusCode: {
 			409: function () { 
-				$('#resultadoModificarUsuario').html("Hubo un error al modificar el usuario en la base de datos.");
+				alert("Hubo un error al modificar el usuario en la base de datos.");
 			}
 		}
 	});
 }
-*/
+
 /** ----- BUSCAR USUARIO POR FACEBOOK ----- **/
 /*
 function buscarUsuarioPorFacebook(facebook){
