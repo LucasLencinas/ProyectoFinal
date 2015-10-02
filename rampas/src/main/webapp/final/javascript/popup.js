@@ -100,12 +100,16 @@ function showdlgboxAlerta(mensaje,titulo){
 function alerta(mensaje,titulo){
 	showdlgboxAlerta(mensaje,titulo);
 }
+function cerrardlgboxAlerta(){
+	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
+	dlgboxAlerta.style.display = "none";
+}
 function showdlgboxModificarUsuario(){
 	var whitebg = document.getElementById("white-background");
 	var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
 	whitebg.style.display = "block";
 	dlgboxModificarUsuario.style.display = "block";
-	////
+	autocompletarModificar(unUsuario);	//GLOBAL
 	centrar(dlgboxModificarUsuario);
 }
 function showdlgboxReportarRampa(marcador){
@@ -150,7 +154,7 @@ function tieneRampaCheck(accion){ //Modificar(M) Alta(A) Reportar(R)
 function cerrarTodoM(){
 	cerrarTodo();
 	var sesion = document.getElementById("nombre");
-	document.getElementById("sesion").innerHTML = sesion.value;
+	document.getElementById("sesion").innerHTML = unUsuario.nombre;		//GLOBAL
 	
 var cerrar=document.createElement('li');
 var configuracion=document.createElement('li');
@@ -201,6 +205,7 @@ document.getElementById("lista").removeChild(admin);
 var reportes = document.getElementById("reportes");
 document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
+	unUsuario={};
 	idSesion=-1;//GLOBAL Sesion
 }
 /**********************************************************************************************/
@@ -301,6 +306,7 @@ function modificarMail(){
 				usuario.mail = document.getElementById("emailM").value;
 				usuario.contraseña = document.getElementById("pass1M").value;
 				usuario.usuarioPropio = true;
+				unUsuario=usuario;			//GLOBAL
 				modificarUsuarioMail(usuario);
 				cerrarTodo();
 			}
