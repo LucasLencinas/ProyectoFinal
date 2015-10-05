@@ -38,7 +38,7 @@ var iconShadow = new google.maps.MarkerImage('imagenes/msmarker.shadow.png',
       new google.maps.Point(16, 32));
 	  
   var iconShape = {
-	coord: [19,0, 24,5, 24,12, 23,13, 23,14, 20,17, 20,18, 19,19,19,20, 18,21, 
+		coord: [19,0, 24,5, 24,12, 23,13, 23,14, 20,17, 20,18, 19,19,19,20, 18,21, 
 			18,22, 17,23, 17,26, 16,27, 16,31, 14,31, 14,26, 13,25,13,23, 
 			12,22, 12,20, 10,18, 10,17, 7,14, 7,13, 6,12, 6,6, 7,5, 7,4, 11,0],
     type: 'poly'
@@ -99,9 +99,7 @@ function initialize() {
 	originMarker = crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/disability2.png",null,null,null,new google.maps.Size(28, 32)),null);
 	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),null);
 	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
-	
-	
-	
+		
 }//Fin initialize
 
 function llenarSelectOptions(){
@@ -149,13 +147,14 @@ function buscarRampasPorBarrio(){
 	var unCruce;
 	var unMarcador;
 	barrioElegido = $("#selectBarrios").prop("selectedIndex");
+	var barrio = $("#selectBarrios option:selected").text();
 
 	if(servidorActivado === true){
-		console.log("A punto de buscar rampas porbarrio ...");
+		console.log("A punto de buscar rampas del barrio: " + barrio);
 		$.ajax({
 		    type:"GET",
 		    dataType: "json",
-		    url: "/rampas/Rampas/barrios/" + $("#selectBarrios option:selected").text(),
+		    url: "/rampas/Rampas/barrios/" + barrio,
 		    success: function(rampas){
 		      mostraMarcadoresDelBarrio(barriosDelSelect[barrioElegido].limites,rampas);
 		    },
@@ -167,43 +166,43 @@ function buscarRampasPorBarrio(){
 		});		
 	}else{	
 		mostraMarcadoresDelBarrio(barrios[barrioElegido].poligono.coordinates, barrios[barrioElegido].calles);		
+	}
 }
 
 function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
-		var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(stringCoordenadas);
+	var coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(stringCoordenadas);
 
-		var poligonoBarrioElegido= new google.maps.Polygon({
-			paths: coordenadasBarrioElegido
-		});
-		poligonoBarrioElegido.setMap(map);
+	var poligonoBarrioElegido= new google.maps.Polygon({
+		paths: coordenadasBarrioElegido
+	});
+	poligonoBarrioElegido.setMap(map);
 
-		var  polilinea =
-		new google.maps.Polyline({
-			path:coordenadasBarrioElegido
-		});
-		borrarRutasPrevias();
-		ocultarRampasCercanas();
-		borrarBarriosPrevios();
-		polilinea.setMap(map);
-		polilineaAnterior = polilinea;
-		
-		$.each(rampasDelBarrio, function(indice, punto){
-			if(typeof (punto.coordenadas) === 'undefined')
-				latlng = new google.maps.LatLng(punto.latitud,punto.longitud);
-			else
-				latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
+	var  polilinea =
+	new google.maps.Polyline({
+		path:coordenadasBarrioElegido
+	});
+	borrarRutasPrevias();
+	ocultarRampasCercanas();
+	borrarBarriosPrevios();
+	polilinea.setMap(map);
+	polilineaAnterior = polilinea;
+	
+	$.each(rampasDelBarrio, function(indice, punto){
+		if(typeof (punto.coordenadas) === 'undefined')
+			latlng = new google.maps.LatLng(punto.latitud,punto.longitud);
+		else
+			latlng = new google.maps.LatLng(punto.coordenadas[0],punto.coordenadas[1]);
 
-			unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
-			unMarcador.tieneInformacion = punto.tieneInformacion;
-			unMarcador.tieneRampas = punto.tieneRampas; 
-			unMarcador.buenEstado = punto.buenEstado;
-			unMarcador.crucesAccesibles = punto.crucesAccesibles;
-			unMarcador.reportada = punto.reportada;
-			unMarcador.setMap(map);
-			crucesBarrioElegido.push(unMarcador);
-		});			
-		poligonoBarrioElegido.setMap(null);
-	}
+		unMarcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(punto).icono, listenerClickEnMarcador);
+		unMarcador.tieneInformacion = punto.tieneInformacion;
+		unMarcador.tieneRampas = punto.tieneRampas; 
+		unMarcador.buenEstado = punto.buenEstado;
+		unMarcador.crucesAccesibles = punto.crucesAccesibles;
+		unMarcador.reportada = punto.reportada;
+		unMarcador.setMap(map);
+		crucesBarrioElegido.push(unMarcador);
+	});			
+	poligonoBarrioElegido.setMap(null);
 }
 
 function coordenadasDesdeStringDeBarrio(stringBarrio){
@@ -336,16 +335,25 @@ function habilitarBotonDeRuta(idRuta){
 
 
 function marcadoresIncluidos(poligonos,subconjuntoDeMarcadores){
-	var latlng;
+	var latlng;//Es la Rampa que trae la base de datos
+	var tempLatLng;//Es un LatLng
 	var marcador;
 	var color;
 	var incluidos = [];
 	$.each(subconjuntoDeMarcadores, function(index,latlng){
+
 		function poligonoContienePunto(poligono, indice,array){
-			return google.maps.geometry.poly.containsLocation(latlng, poligono);
+			return google.maps.geometry.poly.containsLocation(tempLatLng, poligono);
 		}
+		//Otra negrada porque a esta funcion le llega un subconjuntoDeMarcadores que pueden ser
+		//Los que llegan de la BD o de un analisis que no tiene los mismo campos.
+		if(latlng.latitud === undefined)
+			tempLatLng =latlng;
+		else
+			tempLatLng = new google.maps.LatLng(latlng.latitud, latlng.longitud);	
+
 		if(poligonos.some(poligonoContienePunto)){
-			marcador = crearMarcadorConColor(latlng, calcularColorSegunRampa(latlng).icono, listenerClickEnMarcador);
+			marcador = crearMarcadorConColor(tempLatLng, calcularColorSegunRampa(latlng).icono, listenerClickEnMarcador);
 			marcador.tieneInformacion = latlng.tieneInformacion;
 			marcador.tieneRampas = latlng.tieneRampas; 
 			marcador.buenEstado = latlng.buenEstado;
@@ -375,9 +383,21 @@ function dibujarRutas(respuesta){
 	});
 	//Esto lo hago porque sino, tengo problemas en la funcion reducirCantidadDeMarcadoresARectangulo
 	//Ya que minimo y maximo no tienen las funciones lat() y lng()
-	minimo = new google.maps.LatLng(minimo.lat, minimo.lng);
-	maximo = new google.maps.LatLng(maximo.lat, maximo.lng);
+	minimo = new google.maps.LatLng(minimo.lat - 0.00015, minimo.lng - 0.00015);
+	maximo = new google.maps.LatLng(maximo.lat + 0.00015, maximo.lng + 0.00015);
+
+/*Inicio - Para saber cual es el rectangulo en el que buscar las rampas
+
+	new google.maps.Polygon({
+		paths: [minimo,
+						new google.maps.LatLng(minimo.lat(), maximo.lng()),
+						maximo,
+						new google.maps.LatLng(maximo.lat(),minimo.lng())],
+		map:map
+	});
 	
+	Fin - Para saber cual es el rectangulo en el que buscar las rampas*/
+
 	if(servidorActivado === true){
 		armarRutaConDatosDelServidor(respuesta, minimo,maximo);
 	}else{//Sino armo la ruta con la informacion que tengo en los array de barrios.

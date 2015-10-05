@@ -215,7 +215,7 @@ function mostraMarcadoresReportados(rampasReportadas){
 		});			
 }
 
-/** ----- BUSCAR RAMPAS POR BARRIO ----- **/
+/** ----- BUSCAR RAMPAS POR BARRIO ----- 
 
 function buscarRampasPorBarrio(barrio,cantidad){
 	console.log("A punto de buscar rampas por barrio...");
@@ -238,6 +238,7 @@ function buscarRampasPorBarrio(barrio,cantidad){
 		}
 	});
 }
+**/
 
 /** ---------- USUARIO ---------- **/
 
