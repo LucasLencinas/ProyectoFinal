@@ -20,6 +20,7 @@
 		<script src="utils.js"></script>
 				<script src="usuarios.js"></script>
 				  <script src="llamadas-al-servidor.js"></script>
+				  <script src="facebook.js"></script>
 	</head>
 		<body>
 			<header>
@@ -65,14 +66,14 @@
     <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxIniciar');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Iniciar Sesión</p></div>
     <div class="dlg-footerRegistro">
         <button class="email" onclick="showdlgboxIniciarMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
-        <button class="facebook" onclick="cerrarTodo()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+        <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
 	</div>
 </div>
 <div id="dlgboxRegistro" class="dlgbox dlgboxRegistro no_seleccion">
     <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistro');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
     <div class="dlg-footerRegistro">
         <button class="email" onclick="showdlgboxRegistroMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
-        <button class="facebook" onclick="cerrarTodo()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+        <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
 	</div>
 </div>
 <div id="dlgboxRegistroMail" class="dlgbox dlgboxRegistroMail no_seleccion" >
@@ -86,9 +87,9 @@
 			<label>Confirmar<br>Contraseña:</label>			
 		</form>
 		<form>
-			<input id="nombreR" type="text" placeholder="Nombre" ></input>
-			<input id="apellidoR" type="text" placeholder="Apellido" ></input>
-			<input id="emailR" type="text" placeholder="Email" ></input>
+			<input id="nombreR" type="text" name="nombre" placeholder="Nombre" ></input>
+			<input id="apellidoR" type="text" name="apellido" placeholder="Apellido" ></input>
+			<input id="emailR" type="text" name="email" placeholder="Email" ></input>
 			<input id="pass1R" type="password" placeholder="Contraseña" ></input>
 			<input id="pass2R" type="password" placeholder="Contraseña" ></input>			
 		</form>
@@ -106,7 +107,7 @@
 			<label>Contraseña:</label>	
 		</form>
 		<form>
-			<input id="nombre" type="email" placeholder="Email" ></input>
+			<input id="nombre" type="email" name="email" placeholder="Email" ></input>
 			<input id="pass" type="password" placeholder="Contraseña" ></input>		
 		</form>
 	</div>
@@ -205,9 +206,9 @@
 			<label>Confirmar<br>Contraseña:</label>			
 		</form>
 		<form>
-			<input id="nombreM" type="text" placeholder="Nombre" ></input>
-			<input id="apellidoM" type="text" placeholder="Apellido" ></input>
-			<input id="emailM" type="email" placeholder="Email" ></input>
+			<input id="nombreM" type="text" name="nombre" placeholder="Nombre" ></input>
+			<input id="apellidoM" type="text" name="apellido" placeholder="Apellido" ></input>
+			<input id="emailM" type="email" name="email" placeholder="Email" ></input>
 			<input id="pass1M" type="password" placeholder="Contraseña" ></input>
 			<input id="pass2M" type="password" placeholder="Contraseña" ></input>			
 		</form>

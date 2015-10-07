@@ -301,7 +301,7 @@ function nuevoUsuarioFacebook(usuario){
 }
 */
 var idSesion = -1;									//Sesion cerrada
-var unUsuario;										//Usuario GLOBAL
+var unUsuario={};										//Usuario GLOBAL
 /** ----- BUSCAR USUARIO POR MAIL ----- **/
 function autenticar(mail,pass){
 	var encontro = false;

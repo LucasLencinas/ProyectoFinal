@@ -205,6 +205,8 @@ document.getElementById("lista").removeChild(admin);
 var reportes = document.getElementById("reportes");
 document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
+	if (!unUsuario.usuarioPropio)
+		logoutFacebook();
 	unUsuario={};
 	idSesion=-1;//GLOBAL Sesion
 }
@@ -286,8 +288,11 @@ function registrarMail(){
 				usuario.mail = document.getElementById("emailR").value;
 				usuario.contraseña = document.getElementById("pass1R").value;
 				usuario.usuarioPropio = true;
+				unUsuario=usuario;
+				cerrarTodoM();
 				nuevoUsuarioMail(usuario);
 				cerrarTodo();
+				//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto
 			}
 		}
 }
