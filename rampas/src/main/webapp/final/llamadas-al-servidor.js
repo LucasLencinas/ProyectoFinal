@@ -428,14 +428,17 @@ function buscarUsuarioPorFacebook(facebook){
 }
 */
 /** ----- BUSCAR USUARIOS ----- **/
-/*
+
 function buscarUsuarios(){
+
 	console.log("A punto de buscar usuarios...");
 	$.ajax({
+			async:false, //Si no lo hago sincronico resulve mal
 		type: "GET",
 		dataType: "json",
 		url: "/rampas/Usuarios/usuarios",
 		success: function (usuarios) {
+			listarUsuarios(usuarios);
 			$('#resultadoBuscarUsuarios').html(JSON.stringify(usuarios));
 		},
 		statusCode: {
@@ -445,4 +448,3 @@ function buscarUsuarios(){
 		}
 	});
 }
-*/

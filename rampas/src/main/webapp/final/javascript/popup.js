@@ -61,7 +61,7 @@ function showdlgboxCerrarSesion(){
 function showdlgboxeliminarUsuarios(){
 	var whitebg = document.getElementById("white-background");
 	var dlgboxeliminarUsuarios = document.getElementById("dlgboxeliminarUsuarios");
-	listarUsuarios();
+	buscarUsuarios();
 	whitebg.style.display = "block";
 	dlgboxeliminarUsuarios.style.display = "block";
 	centrar(dlgboxeliminarUsuarios);
