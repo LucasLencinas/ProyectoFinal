@@ -364,22 +364,21 @@ public class HandlerDS {
 		ArrayList<Rampa> rampasReportadas = new ArrayList<Rampa>();
 		Iterable<Rampa> rampasDS = new ArrayList<Rampa>() ;
 		try {
-			rampasDS = ofy().load().type(Rampa.class).list();
+			rampasDS = ofy().load().type(Rampa.class).filter("reportada",true).list();
 		} 
 		catch(Exception ex) {
 			System.out.println("Error - " + ex.getLocalizedMessage()); 
 			return null;
 		}
-		for (Rampa unaRampa:rampasDS) 
-			if (unaRampa.estaReportada()) {
-				rampasReportadas.add(unaRampa);
-				System.out.print(unaRampa.getId() + " ");		
-			}
-		if (rampasReportadas.size() == 0) {
+		if (rampasDS == null) {
 			System.out.println("No hay rampas reportadas");
 			return null;
 		}
 		else {
+			for (Rampa unaRampa:rampasDS) {
+				rampasReportadas.add(unaRampa);
+				System.out.print(unaRampa.getId() + " ");	
+			}
 			System.out.println(" ");
 			return rampasReportadas;
 		}

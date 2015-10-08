@@ -19,7 +19,7 @@ public class Rampa implements Serializable {
 	@Expose private boolean tieneRampas;
 	@Expose private boolean buenEstado;
 	@Expose private boolean crucesAccesibles;
-	@Expose private boolean reportada;
+	@Expose @Index private boolean reportada;
 	@Expose private String reportes;
 	
 	/* Es necesario este constructor para que funcione el GSON */
