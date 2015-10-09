@@ -10,10 +10,17 @@ function cargarDatos(){
 		  alert("Success - Carga inicial OK");
 	      console.log("Success - Carga inicial OK");
 	      $("#cargarBoton").prop("disabled",true);
+	      // Operaciones con Rampas
 	      $("#nuevaBoton").prop("disabled",false);
 	      $("#buscarBoton").prop("disabled",false);
 	      $("#barrioBoton").prop("disabled",false);
 	      $("#reportadasBoton").prop("disabled",false);
+	      // Operaciones con Usuarios
+	      $("#nuevoUsuarioMailBoton").prop("disabled",false);
+	      $("#nuevoUsuarioFacebookBoton").prop("disabled",false);
+	      $("#buscarUsuarioMailBoton").prop("disabled",false);
+	      $("#buscarUsuarioFacebookBoton").prop("disabled",false);
+	      $("#buscarUsuariosBoton").prop("disabled",false);
 	  },
 	  error: function (jqXHR, textStatus, errorThrown) {
 	      var resultado = "Error - Carga inicial. ";
@@ -53,10 +60,10 @@ function limpiarHTMLRampas() {
 	$("#reportarBoton").prop("disabled",true);
 	$("#borrarBoton").prop("disabled",true);
 	$('#resultadoNuevaRampa').html("Todavia no se dio de alta una rampa.");
-	$('#resultadoBuscarRampaPorUbicacion').html("Todavia no se busco rampa por Ubicacion.");
+	$('#resultadoBuscarRampa').html("Todavia no se busco una rampa.");
 	$('#resultadoModificarRampa').html("Todavia no se modifico/reporto/borro una rampa.");
-	$('#resultadoBuscarRampasPorBarrio').html("Todavia no se busco rampas por barrio.");
-	$('#resultadoBuscarRampasReportadas').html("Todavia no se busco rampas reportadas.");
+	$('#resultadoBuscarRampasPorBarrio').html("Todavia no se buscaron rampas por barrio.");
+	$('#resultadoBuscarRampasReportadas').html("Todavia no se buscaron rampas reportadas.");
 }
 
 /** ----- NUEVA RAMPA ----- **/
@@ -89,23 +96,23 @@ function nuevaRampa(rampa){
 		statusCode: {
 			409: function () { 
 				limpiarHTMLRampas();
-				$('#resultadoNuevaRampa').html("Hubo un error al grabar la rampa en la base de datos.");
+				$('#resultadoNuevaRampa').html("Hubo un error al guardar la rampa en la base de datos.");
 			}
 		}
 	});
 }
 
-/** ----- BUSCAR RAMPA POR UBICACION ----- **/
+/** ----- BUSCAR RAMPA ----- **/
 
-function buscarRampaPorUbicacion(latitud, longitud){
-	console.log("A punto de buscar rampas por ubicacion...");
+function buscarRampa(latitud, longitud){
+	console.log("A punto de buscar rampa...");
 	$.ajax({
 		type: "GET",
 		dataType: "json",
 		url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
 		success: function (rampa) {
 			limpiarHTMLRampas();
-			$('#resultadoBuscarRampaPorUbicacion').html(JSON.stringify(rampa));
+			$('#resultadoBuscarRampa').html(JSON.stringify(rampa));
 			rampaTotal = rampa;
 			$("#modificarId").val(rampa.id);
 			$("#modificarLat").val(rampa.latitud);
@@ -124,7 +131,7 @@ function buscarRampaPorUbicacion(latitud, longitud){
 		statusCode: {
 			404: function () { 
 				limpiarHTMLRampas();
-				$('#resultadoBuscarRampaPorUbicacion').html("No se ha encontrado ninguna rampa en esa ubicacion.");
+				$('#resultadoBuscarRampa').html("No se ha encontrado ninguna rampa.");
 			}
 		}
 	});
@@ -248,7 +255,7 @@ function reportarRampa(rampa){
 
 function generarRampaDesdeLosInputDeBorrarRampa(){
 	var rampa = {};
-	rampa.id = rampaTotal.id
+	rampa.id = rampaTotal.id;
 	rampa.latitud = rampaTotal.latitud;
 	rampa.longitud = rampaTotal.longitud;
 	rampa.barrio = rampaTotal.barrio;
@@ -275,7 +282,7 @@ function borrarRampa(rampa){
 		statusCode: {
 			409: function () { 
 				limpiarHTMLRampas();
-				$('#resultadoModificarRampa').html("Hubo un error al desreportar la rampa en la base de datos.");
+				$('#resultadoModificarRampa').html("Hubo un error al borrar la rampa en la base de datos.");
 			}
 		}
 	});
@@ -331,12 +338,46 @@ function buscarRampasPorBarrio(barrio){
 
 /** ---------- USUARIO ---------- **/
 
+var usuarioTotal = {}
+
+/** ----- HTML ----- **/
+
+function limpiarHTMLUsuarios() {
+	$("#nuevoNombreMail").val(""); 
+	$("#nuevoApellidoMail").val("");
+	$("#nuevoMail").val("");
+	$("#nuevoContrasenia").val("");
+	$("#nuevoNombreFacebook").val("");
+	$("#nuevoApellidoFacebook").val("");
+	$("#nuevoFacebook").val("");
+	$("#modificarIdMail").val("");
+	$("#modificarNombreMail").val("");
+	$("#modificarApellidoMail").val("");
+	$("#modificarMail").val("");
+	$("#modificarContrasenia").val("");
+	$("#modificarIdFacebook").val("");
+	$("#modificarNombreFacebook").val("");
+	$("#modificarApellidoFacebook").val("");
+	$("#modificarFacebook").val("");
+	$("#modificarUsuarioMailBoton").prop("disabled",true);
+	$("#borrarUsuarioMailBoton").prop("disabled",true);
+	$("#modificarUsuarioFacebookBoton").prop("disabled",true);
+	$("#borrarUsuarioFacebookBoton").prop("disabled",true);
+	$('#resultadoNuevoUsuarioMail').html("Todavia no se dio de alta un usuario por mail.");
+	$('#resultadoBuscarUsuarioMail').html("Todavia no se busco un usuario por mail.");
+	$('#resultadoModificarUsuarioMail').html("Todavia no se modifico/borro un usuario por mail.");
+	$('#resultadoNuevoUsuarioFacebook').html("Todavia no se dio de alta un usuario por facebook.");
+	$('#resultadoBuscarUsuarioFacebook').html("Todavia no se busco un usuario por facebook.");
+	$('#resultadoModificarUsuarioFacebook').html("Todavia no se modifico/borro un usuario por facebook.");
+	$('#resultadoBuscarUsuarios').html("Todavia no se buscaron usuarios.");
+}
+
 /** ----- NUEVO USUARIO POR MAIL ----- **/
 
-function generarRampaDesdeLosInputDeNuevoUsuarioMail(){
+function generarUsuarioDesdeLosInputDeNuevoUsuarioMail(){
 	var usuario = {};
-	usuario.nombre = $("#nuevoNombre").val();
-	usuario.apellido = $("#nuevoApellido").val();
+	usuario.nombre = $("#nuevoNombreMail").val();
+	usuario.apellido = $("#nuevoApellidoMail").val();
 	usuario.mail = $("#nuevoMail").val();
 	usuario.contraseña = $("#nuevoContrasenia").val();
 	return usuario;
@@ -347,20 +388,110 @@ function nuevoUsuarioMail(usuario){
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
-		data: JSON.stringify(rampa),
+		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
-			$('#resultadoNuevoUsuarioMail').html("Se dio de alta el usuario: " + JSON.stringify(rampa) + "-- " + data.toString());
-		},
-		complete: function (jqXHR, textStatus) {
-			var resultado = "Complete - Nuevo Usuario. ";
-			resultado += "Contenido jqHR:" + jqXHR + ". ";
-			resultado += "Contenido textStatus:" + textStatus + ". ";
-			alert(resultado);
+			limpiarHTMLUsuarios();
+			$('#resultadoNuevoUsuarioMail').html("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		statusCode: {
 			409: function () { 
-				$('#resultadoNuevoUsuarioMail').html("Hubo un error al grabar el usuario en la base de datos.");
+				limpiarHTMLUsuarios();
+				$('#resultadoNuevoUsuarioMail').html("Hubo un error al guardar el usuario en la base de datos.");
+			}
+		}
+	});
+}
+
+/** ----- BUSCAR USUARIO POR MAIL ----- **/
+
+function buscarUsuarioMail(mail){
+	console.log("A punto de buscar usuario por mail...");
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Usuarios/mail/" + mail,
+		success: function (usuario) {
+			limpiarHTMLUsuarios();
+			$('#resultadoBuscarUsuarioMail').html(JSON.stringify(usuario));
+			usuarioTotal = usuario;
+			$("#modificarIdMail").val(usuario.id);
+			$("#modificarNombreMail").val(usuario.nombre);
+			$("#modificarApellidoMail").val(usuario.apellido);
+			$("#modificarMail").val(usuario.mail);
+			$("#modificarContrasenia").val(usuario.contraseña)
+			$("#modificarUsuarioMailBoton").prop("disabled",false);
+			$("#borrarUsuarioMailBoton").prop("disabled",false);
+		},
+		statusCode: {
+			404: function () { 
+				limpiarHTMLUsuarios();
+				$('#resultadoBuscarUsuarioMail').html("No se ha encontrado ningun usuario con ese mail.");
+			
+			}
+		}
+	});
+}
+
+/** ----- MODIFICAR USUARIO POR MAIL ----- **/
+
+function generarUsuarioDesdeLosInputDeModificarUsuarioMail(){
+	var usuario = {};
+	usuario.id = $("#modificarIdMail").val();
+	usuario.nombre = $("#modificarNombreMail").val();
+	usuario.apellido = $("#modificarApellidoMail").val();
+	usuario.mail = $("#modificarMail").val();
+	usuario.contraseña = $("#modificarContrasenia").val();
+	return usuario;
+}
+
+function modificarUsuarioMail(usuario){
+	console.log("A punto de modificar un usuario por mail...");
+	$.ajax({
+		type: "PUT",
+		contentType: "application/json",
+		data: JSON.stringify(usuario),
+		url: "/rampas/Usuarios",
+		success: function (data) {
+			limpiarHTMLUsuarios();
+			$('#resultadoModificarUsuarioMail').html("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		statusCode: {
+			409: function () { 
+				limpiarHTMLUsuarios();
+				$('#resultadoModificarUsuarioMail').html("Hubo un error al modificar el usuario en la base de datos.");
+			}
+		}
+	});
+}
+
+/** ----- BORRAR USUARIO POR MAIL ----- **/
+
+function generarUsuarioDesdeLosInputDeBorrarUsuarioMail(){
+	var usuario = {};
+	usuario.id = usuarioTotal.id;
+	usuario.nombre = usuarioTotal.nombre;
+	usuario.apellido = usuarioTotal.apellido;
+	usuario.mail = usuarioTotal.mail;
+	usuario.contraseña = usuarioTotal.contraseña;
+	return usuario;
+}
+
+function borrarUsuarioMail(usuario){
+	console.log("A punto de borrar un usuario por mail...");
+	$.ajax({
+		type: "DELETE",
+		contentType: "application/json",
+		data: JSON.stringify(usuario),
+		url: "/rampas/Usuarios",
+		success: function (data) {
+			limpiarHTMLUsuarios();
+			$('#resultadoModificarUsuarioMail').html("Se borro el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		statusCode: {
+			409: function () { 
+				limpiarHTMLUsuarios();
+				$('#resultadoModificarUsuarioMail').html("Hubo un error al borrar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -368,9 +499,11 @@ function nuevoUsuarioMail(usuario){
 
 /** ----- NUEVO USUARIO POR FACEBOOK ----- **/
 
-function generarRampaDesdeLosInputDeNuevoUsuarioFacebook(){
+function generarUsuarioDesdeLosInputDeNuevoUsuarioFacebook(){
 	var usuario = {};
-	usuario.nombre = $("#nuevoFacebook").val();
+	usuario.nombre = $("#nuevoNombreFacebook").val();
+	usuario.apellido = $("#nuevoApellidoFacebook").val();
+	usuario.facebook = $("#nuevoFacebook").val();
 	return usuario;
 }
 
@@ -382,92 +515,13 @@ function nuevoUsuarioFacebook(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+			limpiarHTMLUsuarios();
 			$('#resultadoNuevoUsuarioFacebook').html("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
-		complete: function (jqXHR, textStatus) {
-			var resultado = "Complete - Nuevo Usuario. ";
-			resultado += "Contenido jqHR:" + jqXHR + ". ";
-			resultado += "Contenido textStatus:" + textStatus + ". ";
-			alert(resultado);
-		},
 		statusCode: {
 			409: function () { 
-				$('#resultadoNuevoUsuarioFacebook').html("Hubo un error al grabar el usuario en la base de datos.");
-			}
-		}
-	});
-}
-
-/** ----- BUSCAR USUARIO POR MAIL ----- **/
-
-function limpiarHTMLUsuarios() {
-	$("#modificarNombre").val("");
-	$("#modificarApellido").val("");
-	$("#modificarMail").val("");
-	$("#modificarContrasenia").val("");
-	$("#modificarBoton").prop("disabled",true);
-	$("#borrarBoton").prop("disabled",true);
-}
-
-function buscarUsuarioPorMail(mail){
-	console.log("A punto de buscar usuario por mail...");
-	$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "/rampas/Usuarios/mail/" + mail,
-		success: function (usuario) {
-			$('#resultadoBuscarUsuarioPorMail').html(JSON.stringify(usuario));
-			$("modificarId").val(usuario.id);
-			$("#modificarNombre").val(usuario.nombre);
-			$("#modificarApellido").val(usuario.apellido);
-			$("#modificarMail").val(usuario.mail);
-			$("#modificarContrasenia").val(usuario.contraseña);
-			$("#modificarBoton").prop("disabled",false);
-			$("#borrarBoton").prop("disabled",false);
-		},
-		statusCode: {
-			404: function () { 
-				limpiarHTML();
-				$('#resultadoBuscarUsuarioPorMail').html("No se ha encontrado ningun usuario con ese mail.");
-			
-			}
-		}
-	});
-}
-
-/** ----- MODIFICAR USUARIO ----- **/
-
-function generarRampaDesdeLosInputDeModificarUsuario(){
-	var usuario = {};
-	usuario.id = $("modificarId").val();
-	usuario.nombre = $("#modificarNombre").val();
-	usuario.apellido = $("#modificarApellido").val();
-	usuario.mail = $("#modificarMail").val();
-	usuario.contraseña = $("#modificarContrasenia").val();
-	return usuario;
-}
-
-function modificarUsuario(usuario){
-	console.log("A punto de modificar un usuario...");
-	$.ajax({
-		type: "PUT",
-		contentType: "application/json",
-		data: JSON.stringify(usuario),
-		url: "/rampas/Usuarios",
-		success: function (data) {
-			$('#resultadoModificarUsuario').html("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
-			$("#modificarBoton").prop("disabled",true);
-			$("#borrarBoton").prop("disabled",true);
-		},
-		complete: function (jqXHR, textStatus) {
-			var resultado = "Complete - Modificar Usuario. ";
-			resultado += "Contenido jqHR:" + jqXHR.toString() + ". ";
-			resultado += "Contenido textStatus:" + textStatus + ". ";
-			alert(resultado);
-		},
-		statusCode: {
-			409: function () { 
-				$('#resultadoModificarUsuario').html("Hubo un error al modificar el usuario en la base de datos.");
+				limpiarHTMLUsuarios();
+				$('#resultadoNuevoUsuarioFacebook').html("Hubo un error al guardar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -475,21 +529,89 @@ function modificarUsuario(usuario){
 
 /** ----- BUSCAR USUARIO POR FACEBOOK ----- **/
 
-function buscarUsuarioPorFacebook(facebook){
+function buscarUsuarioFacebook(facebook){
 	console.log("A punto de buscar usuario por facebook...");
 	$.ajax({
 		type: "GET",
 		dataType: "json",
 		url: "/rampas/Usuarios/facebook/" + facebook,
 		success: function (usuario) {
-			$('#resultadoBuscarUsuarioPorFacebook').html(JSON.stringify(usuario));
-			$("#borrarFacebookBoton").prop("disabled",false);
+			limpiarHTMLUsuarios();
+			$('#resultadoBuscarUsuarioFacebook').html(JSON.stringify(usuario));
+			usuarioTotal = usuario;
+			$("#modificarIdFacebook").val(usuario.id);
+			$("#modificarNombreFacebook").val(usuario.nombre);
+			$("#modificarApellidoFacebook").val(usuario.apellido);
+			$("#modificarFacebook").val(usuario.facebook);
+			$("#modificarUsuarioFacebookBoton").prop("disabled",false);
+			$("#borrarUsuarioFacebookBoton").prop("disabled",false);
 		},
 		statusCode: {
 			404: function () { 
-				$("#borrarFacebookBoton").prop("disabled",true);
-				$('#resultadoBuscarUsuarioPorFacebook').html("No se ha encontrado ningun usuario con ese facebook.");
-			
+				limpiarHTMLUsuarios();
+				$('#resultadoBuscarUsuarioFacebook').html("No se ha encontrado ningun usuario con ese facebook.");
+			}
+		}
+	});
+}
+
+/** ----- MODIFICAR USUARIO POR FACEBOOK ----- **/
+
+function generarUsuarioDesdeLosInputDeModificarUsuarioFacebook(){
+	var usuario = {};
+	usuario.id = $("#modificarIdFacebook").val();
+	usuario.nombre = $("#modificarNombreFacebook").val();
+	usuario.apellido = $("#modificarApellidoFacebook").val();
+	usuario.facebook = $("#modificarFacebook").val();
+	return usuario;
+}
+
+function modificarUsuarioFacebook(usuario){
+	console.log("A punto de modificar un usuario por facebook...");
+	$.ajax({
+		type: "PUT",
+		contentType: "application/json",
+		data: JSON.stringify(usuario),
+		url: "/rampas/Usuarios",
+		success: function (data) {
+			limpiarHTMLUsuarios();
+			$('#resultadoModificarUsuarioFacebook').html("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		statusCode: {
+			409: function () { 
+				limpiarHTMLUsuarios();
+				$('#resultadoModificarUsuarioFacebook').html("Hubo un error al modificar el usuario en la base de datos.");
+			}
+		}
+	});
+}
+
+/** ----- BORRAR USUARIO POR FACEBOOK ----- **/
+
+function generarUsuarioDesdeLosInputDeBorrarUsuarioFacebook(){
+	var usuario = {};
+	usuario.id = usuarioTotal.id;
+	usuario.nombre = usuarioTotal.nombre;
+	usuario.apellido = usuarioTotal.apellido;
+	usuario.facebook = usuarioTotal.facebook;
+	return usuario;
+}
+
+function borrarUsuarioFacebook(usuario){
+	console.log("A punto de borrar un usuario por facebook...");
+	$.ajax({
+		type: "DELETE",
+		contentType: "application/json",
+		data: JSON.stringify(usuario),
+		url: "/rampas/Usuarios",
+		success: function (data) {
+			limpiarHTMLUsuarios();
+			$('#resultadoModificarUsuarioFacebook').html("Se borro el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		statusCode: {
+			409: function () { 
+				limpiarHTMLUsuarios();
+				$('#resultadoModificarUsuarioFacebook').html("Hubo un error al borrar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -504,10 +626,12 @@ function buscarUsuarios(){
 		dataType: "json",
 		url: "/rampas/Usuarios/usuarios",
 		success: function (usuarios) {
+			limpiarHTMLUsuarios();
 			$('#resultadoBuscarUsuarios').html(JSON.stringify(usuarios));
 		},
 		statusCode: {
 			404: function () { 
+				limpiarHTMLUsuarios();
 				$('#resultadoBuscarUsuarios').html("No se ha encontrado ningun usuario.");
 			}
 		}

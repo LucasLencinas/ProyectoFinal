@@ -38,7 +38,17 @@ public class Usuario implements Serializable {
 		setUsuarioPropio(true);
 	}
 	
-	public Usuario(String facebook) {
+	public Usuario(String nombre, String apellido, String facebook) {
+		setNombre(nombre);
+		setApellido(apellido);
+		setFacebook(facebook);		
+		setUsuarioPropio(false);
+	}
+
+	public Usuario(Long id, String nombre, String apellido, String facebook) {
+		setId(id);
+		setNombre(nombre);
+		setApellido(apellido);
 		setFacebook(facebook);		
 		setUsuarioPropio(false);
 	}

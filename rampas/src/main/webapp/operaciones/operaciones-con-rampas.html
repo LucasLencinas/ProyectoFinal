@@ -15,7 +15,6 @@
 <body>
   <h1>Operaciones con Rampas <button onclick="cargarDatos()" id="cargarBoton">Cargar Datos</button></h1>
 
-
 <table border="1"><!--style="width:800px"-->
   <thead>
   <tr>
@@ -50,18 +49,18 @@
 </tr>
 
 <tr>
-<td>Buscar/Consultar Rampa por Ubicacion</td>
+<td>Buscar/Consultar Rampa</td>
 <td>
   <div>
     Coordenadas: </br>
-    - Lat: <input type="textbox" id="buscarPorUbicacionLat"></br>
-    - Lng: <input type="textbox" id="buscarPorUbicacionLng"></br>
+    - Lat: <input type="textbox" id="buscarLat"></br>
+    - Lng: <input type="textbox" id="buscarLng"></br>
   </div>
 </td>
-<td><button onclick="buscarRampaPorUbicacion($('#buscarPorUbicacionLat').val(),$('#buscarPorUbicacionLng').val())" id="buscarBoton" disabled>Buscar</button></td>
+<td><button onclick="buscarRampa($('#buscarLat').val(),$('#buscarLng').val())" id="buscarBoton" disabled>Buscar</button></td>
 <td>
-  <div id="resultadoBuscarRampaPorUbicacion">
-    Todavia no se busco rampa por Ubicacion.<br>
+  <div id="resultadoBuscarRampa">
+    Todavia no se busco una rampa.<br>
   </div>
 </td>
 </tr>
@@ -102,7 +101,7 @@
 <td><button onclick="buscarRampasReportadas()" id="reportadasBoton" disabled>Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampasReportadas">
-    Todavia no se busco rampas reportadas.<br>
+    Todavia no se buscaron rampas reportadas.<br>
   </div>
 </td>
 </tr>
@@ -117,7 +116,7 @@
 <td><button onclick="buscarRampasPorBarrio($('#buscarBarrio').val(),$('#buscarCantidad').val())" id="barrioBoton" disabled>Buscar</button></td>
 <td>
   <div id="resultadoBuscarRampasPorBarrio">
-    Todavia no se busco rampas por barrio.<br>
+    Todavia no se buscaron rampas por barrio.<br>
   </div>
 </td>
 </tr>

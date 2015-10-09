@@ -97,8 +97,8 @@ public class Setup {
 			federico = new Usuario("Federico","Diaz","fedee_vpc@hotmail.com","federico");
 			matias = new Usuario("Matias","Dionisi","matiasdionisi22@hotmail.com","matias");
 			lucas = new Usuario("Lucas","Lencinas","lllencinas@gmail.com","lucas");
-			daniel = new Usuario("DanielOrdoñez");
-			martin = new Usuario("MartinSoifer");
+			daniel = new Usuario("Daniel","Ordoñez","1234567890");
+			martin = new Usuario("Martin","Soifer","01234567890");
 			
 			HandlerDS.saveUsuario(federico);
 			HandlerDS.saveUsuario(matias);

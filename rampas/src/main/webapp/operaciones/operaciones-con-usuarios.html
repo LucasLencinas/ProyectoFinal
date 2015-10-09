@@ -13,7 +13,7 @@
   <script src="../jquery-2.1.4.min.js"></script>
 </head>
 <body>
-  <h1>Operaciones con Usuarios <button onclick="cargarDatos()">Cargar Datos</button></h1>
+  <h1>Operaciones con Usuarios <button onclick="cargarDatos()" id="cargarBoton">Cargar Datos</button></h1>
 
 <table border="1"><!--style="width:800px"-->
   <thead>
@@ -30,31 +30,16 @@
 <td>Nuevo Usuario por Mail</td>
 <td>
   <div>
-    Nombre: <input type="textbox" id="nuevoNombre"></br>
-    Apellido: <input type="textbox" id="nuevoApellido"></br>
+    Nombre: <input type="textbox" id="nuevoNombreMail"></br>
+    Apellido: <input type="textbox" id="nuevoApellidoMail"></br>
 	Mail: <input type="textbox" id="nuevoMail"></br>
     Contrasenia: <input type="textbox" id="nuevoContrasenia"></br>
   </div>
 </td>
-<td><button onclick="nuevoUsuarioMail(generarUsuarioDesdeLosInputDeNuevoUsuarioMail())">Nuevo</button></td>
+<td><button onclick="nuevoUsuarioMail(generarUsuarioDesdeLosInputDeNuevoUsuarioMail())" id="nuevoUsuarioMailBoton" disabled>Nuevo</button></td>
 <td>
   <div id="resultadoNuevoUsuarioMail">
-    Todavia no se dio de alta un Usuario por Mail.<br>
-  </div>
-</td>
-</tr>
-
-<tr>
-<td>Nuevo Usuario por Facebook</td>
-<td>
-  <div>
-	Facebook: <input type="textbox" id="nuevoFacebook"></br>
-  </div>
-</td>
-<td><button onclick="nuevoUsuarioFacebook(generarUsuarioDesdeLosInputDeNuevoUsuarioFacebook())">Nuevo</button></td>
-<td>
-  <div id="resultadoNuevoUsuarioFacebook">
-    Todavia no se dio de alta un Usuario por Facebook.<br>
+    Todavia no se dio de alta un usuario por mail.<br>
   </div>
 </td>
 </tr>
@@ -63,13 +48,13 @@
 <td>Buscar/Consultar Usuario por Mail</td>
 <td>
   <div>
-    Mail: <input type="textbox" id="buscarPorMail"></br>
+    Mail: <input type="textbox" id="buscarMail"></br>
   </div>
 </td>
-<td><button onclick="buscarUsuarioPorMail($('#buscarPorMail').val())">Buscar</button></td>
+<td><button onclick="buscarUsuarioMail($('#buscarMail').val())" id="buscarUsuarioMailBoton" disabled>Buscar</button></td>
 <td>
-  <div id="resultadoBuscarUsuarioPorMail">
-    Todavia no se busco Usuario por Mail.<br>
+  <div id="resultadoBuscarUsuarioMail">
+    Todavia no se busco un usuario por mail.<br>
   </div>
 </td>
 </tr>
@@ -78,18 +63,35 @@
 <td>Modificar/Borrar Usuario por Mail</td>
 <td>
   <div>
-    Id: <input type="textbox" id="modificarId" disabled></br>
-    Nombre: <input type="textbox" id="modificarNombre"></br>
-    Apellido: <input type="textbox" id="modificarApellido"></br>
+    Id: <input type="textbox" id="modificarIdMail" disabled></br>
+    Nombre: <input type="textbox" id="modificarNombreMail"></br>
+    Apellido: <input type="textbox" id="modificarApellidoMail"></br>
 	Mail: <input type="textbox" id="modificarMail"></br>
     Contrasenia: <input type="textbox" id="modificarContrasenia"></br>
   </div>
 </td>
-<td><button onclick="modificarUsuarioMail()" id="modificarBoton" disabled>Modificar</button>
-	<button onclick="borrarUsuarioMail()" id="borrarBoton" disabled>Borrar</button></td>
+<td><button onclick="modificarUsuarioMail(generarUsuarioDesdeLosInputDeModificarUsuarioMail())" id="modificarUsuarioMailBoton" disabled>Modificar</button>
+	<button onclick="borrarUsuarioMail(generarUsuarioDesdeLosInputDeBorrarUsuarioMail())" id="borrarUsuarioMailBoton" disabled>Borrar</button></td>
 <td>
-  <div id="resultadoModificarUsuario">
-    Todavia no se modifico/borro un Usuario.<br>
+  <div id="resultadoModificarUsuarioMail">
+    Todavia no se modifico/borro un usuario por mail.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Nuevo Usuario por Facebook</td>
+<td>
+  <div>
+    Nombre: <input type="textbox" id="nuevoNombreFacebook"></br>
+    Apellido: <input type="textbox" id="nuevoApellidoFacebook"></br>
+	Id Facebook: <input type="textbox" id="nuevoFacebook"></br>
+  </div>
+</td>
+<td><button onclick="nuevoUsuarioFacebook(generarUsuarioDesdeLosInputDeNuevoUsuarioFacebook())"id="nuevoUsuarioFacebookBoton" disabled>Nuevo</button></td>
+<td>
+  <div id="resultadoNuevoUsuarioFacebook">
+    Todavia no se dio de alta un usuario por facebook.<br>
   </div>
 </td>
 </tr>
@@ -98,14 +100,32 @@
 <td>Buscar/Consultar Usuario por Facebook </td>
 <td>
   <div>
-    Facebook: <input type="textbox" id="buscarPorFacebook"></br>
+    Facebook: <input type="textbox" id="buscarFacebook"></br>
   </div>
 </td>
-<td><button onclick="buscarUsuarioPorFacebook($('#buscarPorFacebook').val())">Buscar</button>
-	<button onclick="borrarUsuarioFacebook()" id="borrarFacebookBoton" disabled>Borrar</button></td>
+<td><button onclick="buscarUsuarioFacebook($('#buscarFacebook').val())" id="buscarUsuarioFacebookBoton" disabled>Buscar</button>
 <td>
-  <div id="resultadoBuscarUsuarioPorFacebook">
-    Todavia no se busco Usuario por Facebook.<br>
+  <div id="resultadoBuscarUsuarioFacebook">
+    Todavia no se busco un usuario por facebook.<br>
+  </div>
+</td>
+</tr>
+
+<tr>
+<td>Modificar/Borrar Usuario por Facebook</td>
+<td>
+  <div>
+    Id: <input type="textbox" id="modificarIdFacebook" disabled></br>
+    Nombre: <input type="textbox" id="modificarNombreFacebook"></br>
+    Apellido: <input type="textbox" id="modificarApellidoFacebook"></br>
+	Id Facebook: <input type="textbox" id="modificarFacebook" disabled></br>
+  </div>
+</td>
+<td><button onclick="modificarUsuarioFacebook(generarUsuarioDesdeLosInputDeModificarUsuarioFacebook())" id="modificarUsuarioFacebookBoton" disabled>Modificar</button>
+	<button onclick="borrarUsuarioFacebook(generarUsuarioDesdeLosInputDeBorrarUsuarioFacebook())" id="borrarUsuarioFacebookBoton" disabled>Borrar</button></td>
+<td>
+  <div id="resultadoModificarUsuarioFacebook">
+    Todavia no se modifico/borro un usuario por facebook.<br>
   </div>
 </td>
 </tr>
@@ -116,10 +136,10 @@
   <div>
   </div>
 </td>
-<td><button onclick="buscarUsuarios()">Buscar</button></td>
+<td><button onclick="buscarUsuarios()" id="buscarUsuariosBoton" disabled>Buscar</button></td>
 <td>
   <div id="resultadoBuscarUsuarios">
-    Todavia no se busco usuarios.<br>
+    Todavia no se buscaron usuarios.<br>
   </div>
 </td>
 </tr>
