@@ -19,13 +19,19 @@
         <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></input>
       </form>
       <div id="progressbar"></div>
+      <div id="divBorrarBarrios"><h3>Borrar Barrios</h3></div>
+      <div id="divAgregarBarrios"><h3>Agregar Barrios</h3></div>
+
     </body>
   <script>
 
 $(document).ready(function(){
+
   $( "#progressbar" ).progressbar({
     value: 0.016
   });
+  cargarBotonesDeBorradoDeBarrios();
+  cargarBotonesDeCargaDeBarrios();
 });
 
 function vaciarDatastore(){
@@ -47,6 +53,59 @@ function vaciarDatastore(){
 
   function cargarDatosRampas(){
     cargarBarrio(0);
+  }
+
+  function cargarBotonesDeBorradoDeBarrios(){
+    $.each(barrios, function(index,barrio){
+      $("#divBorrarBarrios").append($('<button/>', {
+        text: barrio.nombre, //set text 1 to 10
+        id: index,
+        click: function () {
+          console.log("Se hizo click sobre el barrio " + barrio.nombre);
+          $.ajax({
+             type: "DELETE",
+             contentType: "application/json",
+             url: "/rampas/Barrios/" + barrio.nombre,
+             statusCode: {
+               200: function (){
+               console.log("Success Borrado - Barrio " + barrio.nombre);
+               }
+             },
+             error: function(jqXHR, textStatus, errorThrown){
+              console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+              console.log("Hubo un error en el servidor");
+            }
+          });
+        }
+      }));
+    });
+  }
+
+  function cargarBotonesDeCargaDeBarrios(){
+    $.each(barrios, function(posicion,barrio){
+      $("#divAgregarBarrios").append($('<button/>', {
+        text: barrio.nombre, //set text 1 to 10
+        id: posicion,
+        click: function () {
+          console.log("Se hizo click sobre el barrio " + barrio.nombre);
+          $.ajax({
+             type: "POST",
+             contentType: "application/json",
+             data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
+             url: "/rampas/Rampas/admin/carga",
+             statusCode: {
+               200: function (){
+               console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+               }
+             },
+             error: function(jqXHR, textStatus, errorThrown){
+               console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+               console.log("Hubo un error en el servidor");
+              }
+          });
+        }
+      }));
+    });
   }
 
 
