@@ -37,16 +37,40 @@ function statusChangeCallback(response) {
 }
 
 function buscarUsuarioPorFacebook(response){
-var id = response.authResponse.userID;
-var uf={};
-	FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
-		//document.getElementById('status').innerHTML = response.first_name + id;
-		uf.nombre=response.first_name;	//GLOBAL
-		uf.usuarioPropio=false;
-		uf.facebook=id;
+	var id = response.authResponse.userID;
+	var uf={};
+	if(buscarUsuarioFacebook(id)){//Esta registrado
+			cerrarTodoM();
+		}
+		else{//No esta registrado en la BD
+			FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
+			uf.nombre=response.first_name;	//GLOBAL
+			uf.apellido=response.last_name
+			uf.usuarioPropio=false;
+			uf.facebook=id;
 			unUsuario=uf;
 			cerrarTodoM();
-    });
+			nuevoUsuarioFacebook(uf);
+			});
+		}
+}
+function sincronizarDatosConFacebook(){
+	FB.getLoginStatus(function(response) {
+	 if (response.status === 'connected') {
+		var id = response.authResponse.userID;
+		var uf={};
+		FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
+			uf.id=unUsuario;
+			uf.nombre=response.first_name;	//GLOBAL
+			uf.apellido=response.last_name
+			uf.usuarioPropio=false;
+			uf.facebook=id;
+			unUsuario=uf;
+			document.getElementById("sesion").innerHTML = unUsuario.nombre;	
+			modificarUsuarioFacebook(uf);
+			});
+	 }
+	});
 }
 
 function iniciarSesionFacebook(){

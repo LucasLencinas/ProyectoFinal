@@ -35,9 +35,12 @@ function limpiarTabla(tabla){
 function eliminar(){
 	var tabla = document.getElementById("usEliminar");
 	var ue =[];
+	var usEl={};
 		for (var j=i=0; i<tabla.rows.length;i++ ){
 			if(tabla.rows[i].cells[0].childNodes[0].checked)
 				{ue[j] = tabla.rows[i].cells[3].innerHTML;
+			usEl.id=tabla.rows[i].cells[3].innerHTML;
+			borrarUsuario(usEl);
 				tabla.deleteRow(i);
 				i--;
 				j++;}

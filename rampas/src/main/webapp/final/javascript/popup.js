@@ -105,12 +105,18 @@ function cerrardlgboxAlerta(){
 	dlgboxAlerta.style.display = "none";
 }
 function showdlgboxModificarUsuario(){
-	var whitebg = document.getElementById("white-background");
-	var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
-	whitebg.style.display = "block";
-	dlgboxModificarUsuario.style.display = "block";
-	autocompletarModificar(unUsuario);	//GLOBAL
-	centrar(dlgboxModificarUsuario);
+	if(unUsuario.usuarioPropio==true){
+		var whitebg = document.getElementById("white-background");
+		var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
+		whitebg.style.display = "block";
+		dlgboxModificarUsuario.style.display = "block";
+		autocompletarModificar(unUsuario);	//GLOBAL
+		centrar(dlgboxModificarUsuario);
+	}else{
+		if (confirm("sincronizar Datos Con Facebook?"))
+			sincronizarDatosConFacebook();
+			
+	}
 }
 function showdlgboxReportarRampa(marcador){
 var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]
