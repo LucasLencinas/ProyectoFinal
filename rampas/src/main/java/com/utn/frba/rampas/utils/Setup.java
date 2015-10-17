@@ -110,16 +110,22 @@ public class Setup {
 		}
 	}
 	
+	public static void setupClases() {
+		ObjectifyService.register(BarrioBD.class);
+		ObjectifyService.register(Rampa.class);
+		ObjectifyService.register(Usuario.class);
+	}
+	
 	/*Solo se ejecutaria una sola vez antes de la carga inicial.*/
 	public static void deleteAll(){
 		
-		ObjectifyService.register(BarrioBD.class);
+//		ObjectifyService.register(BarrioBD.class);
 		HandlerDS.deleteBarrios(HandlerDS.getBarrios());
   		
-		ObjectifyService.register(Rampa.class);
+//		ObjectifyService.register(Rampa.class);
 		HandlerDS.deleteRampas(HandlerDS.getRampas());
         
-		ObjectifyService.register(Usuario.class);
+//		ObjectifyService.register(Usuario.class);
 		HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
 	}
 	

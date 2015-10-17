@@ -31,7 +31,7 @@ public class CargarRampasTest {
 	@Before
 	public void setUp() {
 		helper.setUp();
-		Setup.setupTest(); // Solo hacer el registro de las clases para el DataStore
+		Setup.setupClases(); // Solo hacer el registro de las clases para el DataStore
 	}
 
 	@After

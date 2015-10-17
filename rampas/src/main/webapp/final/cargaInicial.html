@@ -14,25 +14,47 @@
     <body>
       <h1>Carga Inicial</h1>
       <form>
-        <input onclick="cargarDatosRampas()" type="button" value="Cargar Datos"></input>
-        <input onclick="cargarDatosUsuarios()" type="button" value="Cargar Usuarios"></input>
-        <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></input>
+        <input onclick="cargarDatosRampas()" type="button" value="Cargar Datos"></input></br></br>
+        <input onclick="cargarDatosUsuarios()" type="button" value="Cargar Usuarios"></input></br></br>
+        <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></input></br></br>
+
+		<label>Barrios Cargados: </label><select  id="selectBarriosCargados"> </select>
+        <input onclick="borrarBarrio()" type="button" value="Borrar Barrio"></input></br></br>
+ 		<label>Barrios Sin Cargar: </label><select  id="selectBarriosSinCargar"> </select>
+        <input onclick="cargarBarrio()" type="button" value="Cargar Barrio"></input></br></br>
+      
       </form>
       <div id="progressbar"></div>
-      <div id="divBorrarBarrios"><h3>Borrar Barrios</h3></div>
-      <div id="divAgregarBarrios"><h3>Agregar Barrios</h3></div>
-
     </body>
   <script>
 
 $(document).ready(function(){
-
-  $( "#progressbar" ).progressbar({
-    value: 0.016
-  });
-  cargarBotonesDeBorradoDeBarrios();
-  cargarBotonesDeCargaDeBarrios();
+	$( "#progressbar" ).progressbar({
+		value: 0.016
+	});
+	echo();
+//	cargarBotonesDeBorradoDeBarrios();
+//	cargarBotonesDeCargaDeBarrios();
 });
+
+function echo(){
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Rampas/echo",
+		statusCode: {
+			200: function(){
+				console.log("El servidor esta ACTIVADO");	
+				llenarSelectBarriosCargados()
+//				llenarSelectBarriosSinCargar();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + JSON.stringify(errorThrown) );
+			console.log("El servidor no esta ACTIVADO");
+		}
+	});
+}
 
 function vaciarDatastore(){
   $.ajax({
@@ -51,91 +73,90 @@ function vaciarDatastore(){
   });
 }
 
-  function cargarDatosRampas(){
-    cargarBarrio(0);
-  }
+//  function cargarDatosRampas(){
+//    cargarBarrio(0);
+//  }
 
-  function cargarBotonesDeBorradoDeBarrios(){
-    $.each(barrios, function(index,barrio){
-      $("#divBorrarBarrios").append($('<button/>', {
-        text: barrio.nombre, //set text 1 to 10
-        id: index,
-        click: function () {
-          console.log("Se hizo click sobre el barrio " + barrio.nombre);
-          $.ajax({
-             type: "DELETE",
-             contentType: "application/json",
-             url: "/rampas/Barrios/" + barrio.nombre,
-             statusCode: {
-               200: function (){
-               console.log("Success Borrado - Barrio " + barrio.nombre);
-               }
-             },
-             error: function(jqXHR, textStatus, errorThrown){
-              console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
-              console.log("Hubo un error en el servidor");
-            }
-          });
-        }
-      }));
-    });
-  }
+//  function cargarBotonesDeBorradoDeBarrios(){
+//    $.each(barrios, function(index,barrio){
+//      $("#divBorrarBarrios").append($('<button/>', {
+//        text: barrio.nombre, //set text 1 to 10
+//        id: index,
+//        click: function () {
+//          console.log("Se hizo click sobre el barrio " + barrio.nombre);
+//          $.ajax({
+//             type: "DELETE",
+//             contentType: "application/json",
+//             url: "/rampas/Barrios/" + barrio.nombre,
+//             statusCode: {
+//               200: function (){
+//               console.log("Success Borrado - Barrio " + barrio.nombre);
+//               }
+//             },
+//             error: function(jqXHR, textStatus, errorThrown){
+//              console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+//              console.log("Hubo un error en el servidor");
+//            }
+//          });
+ //       }
+//      }));
+//    });
+//  }
 
-  function cargarBotonesDeCargaDeBarrios(){
-    $.each(barrios, function(posicion,barrio){
-      $("#divAgregarBarrios").append($('<button/>', {
-        text: barrio.nombre, //set text 1 to 10
-        id: posicion,
-        click: function () {
-          console.log("Se hizo click sobre el barrio " + barrio.nombre);
-          $.ajax({
-             type: "POST",
-             contentType: "application/json",
-             data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
-             url: "/rampas/Rampas/admin/carga",
-             statusCode: {
-               200: function (){
-               console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
-               }
-             },
-             error: function(jqXHR, textStatus, errorThrown){
-               console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
-               console.log("Hubo un error en el servidor");
-              }
-          });
-        }
-      }));
-    });
-  }
+//  function cargarBotonesDeCargaDeBarrios(){
+//    $.each(barrios, function(posicion,barrio){
+//      $("#divAgregarBarrios").append($('<button/>', {
+//       text: barrio.nombre, //set text 1 to 10
+//        id: posicion,
+//        click: function () {
+//          console.log("Se hizo click sobre el barrio " + barrio.nombre);
+//          $.ajax({
+//             type: "POST",
+//             contentType: "application/json",
+//             data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
+//             url: "/rampas/Rampas/admin/carga",
+//             statusCode: {
+//               200: function (){
+//               console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+//               }
+//             },
+//             error: function(jqXHR, textStatus, errorThrown){
+//               console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+//               console.log("Hubo un error en el servidor");
+//              }
+//          });
+//        }
+//      }));
+//    });
+//  }
 
-
-  function cargarBarrio(posicion){
-   if (posicion === barrios.length){
-     console.log("Success - Carga inicial Finalizada");
-   }else{
-     console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
-     $.ajax({
-       type: "POST",
-       contentType: "application/json",
-       data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
-       url: "/rampas/Rampas/admin/carga",
-       statusCode: {
-         200: function (){
-         console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
-         $( "#progressbar" ).progressbar( "option", "value", 
-            $( "#progressbar" ).progressbar( "option", "value" ) + 2.083 );
-         setTimeout(function(){
-           cargarBarrio(posicion + 1 );
-         },3000);
-         }
-       },
-       error: function(jqXHR, textStatus, errorThrown){
-         console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
-         console.log("Hubo un error en el servidor");
-        }
-      });
-   }
- }
+//  function cargarBarrio(posicion){
+//   if (posicion === barrios.length){
+//     console.log("Success - Carga inicial Finalizada");
+//   }else{
+//     console.log("posicion: " + posicion +". Tamanio del array barrios: " + barrios.length);
+//     $.ajax({
+//       type: "POST",
+//       contentType: "application/json",
+//       data: JSON.stringify(new Array(barrios[posicion])),//Lo acabo de cargar
+//       url: "/rampas/Rampas/admin/carga",
+//       statusCode: {
+//         200: function (){
+//         console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+//         $( "#progressbar" ).progressbar( "option", "value", 
+//            $( "#progressbar" ).progressbar( "option", "value" ) + 2.083 );
+//         setTimeout(function(){
+//           cargarBarrio(posicion + 1 );
+//         },3000);
+//         }
+//       },
+//       error: function(jqXHR, textStatus, errorThrown){
+//         console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+//         console.log("Hubo un error en el servidor");
+//        }
+//      });
+//   }
+// }
 
 function cargarDatosUsuarios(){
   $.ajax({
@@ -154,5 +175,108 @@ function cargarDatosUsuarios(){
     }
   });
 }
+
+var barriosCargados = [];
+
+function llenarSelectBarriosCargados(){
+	$("#selectBarriosCargados").empty();
+	console.log("A punto de buscar barrios...");
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Barrios/barrios",
+		statusCode: {
+			200: function(barriosDS){
+				barriosCargados = barriosDS;
+				$.each(barriosDS, function (index, barrio) {
+					$("#selectBarriosCargados").append($('<option/>', { 
+						value: barrio.nombre,
+						text : barrio.nombre,
+					}));
+				});
+        		llenarSelectBarriosSinCargar();
+			},
+			404: function () { 
+				console.log("Hubo un problema al buscar los barrios...");
+			}
+		},
+	});		
+}
+
+function llenarSelectBarriosSinCargar(){
+	var cargado = false;
+	$("#selectBarriosSinCargar").empty();
+	$.each(barrios, function (posicion, barrioScript) {
+		cargado = false;
+		$.each(barriosCargados, function (index, barrioCargado) {
+			console.log("BarrioScript: " + barrioScript.nombre + " , BarrioCargado: " + barrioCargado.nombre);
+			if(barrioScript.nombre == barrioCargado.nombre){
+				cargado = true;
+			}
+		});		
+		if(!cargado){
+			$("#selectBarriosSinCargar").append($('<option/>', { 
+				value: barrioScript.nombre,
+				text : barrioScript.nombre, 
+			}));
+		}
+	});
+}
+
+function cargarBarrio(){
+	var posicion = null;
+	$.each(barrios, function (index, barrioScript) {
+		console.log("BarrioSelect: " + $("#selectBarriosSinCargar").prop("value") + " , BarrioScript: " + barrioScript.nombre + " , Posicion: " + index);
+		if ($("#selectBarriosSinCargar").prop("value") == barrioScript.nombre){
+			posicion = index;
+		}
+	});
+	if (posicion != null) {
+        console.log("Cargar Barrio: " + $("#selectBarriosSinCargar").prop("value"));
+		$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(barrios[posicion]),//Lo acabo de cargar
+			url: "/rampas/Barrios",
+			statusCode: {
+				200: function (){
+					console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+					$( "#progressbar" ).progressbar( "option", "value", 
+					$( "#progressbar" ).progressbar( "option", "value" ) + 2.083 );
+					llenarSelectBarriosCargados()
+//	        		llenarSelectBarriosSinCargar();
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log("Hubo un error en el servidor");
+					console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+				}
+			}
+		});
+	}
+	else {
+		console.log("No existe ese barrio en el script");
+	}
+}
+	  
+function borrarBarrio(){
+	console.log("Borrar barrio: " + $("#selectBarriosCargados").prop("value"));
+	$.ajax({
+		type: "DELETE",
+		contentType: "application/json",
+		url: "/rampas/Barrios/" + $("#selectBarriosCargados").prop("value"),
+		statusCode: {
+			200: function (){
+        		console.log("Success Borrado - Barrio " + $("#selectBarriosCargados").prop("value"));
+        		llenarSelectBarriosCargados()
+//        		llenarSelectBarriosSinCargar();
+			}
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log("Hubo un error en el servidor");
+        	console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+        }
+    });
+}
+
   </script>
 </html>

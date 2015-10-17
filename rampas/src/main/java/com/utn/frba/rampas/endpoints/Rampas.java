@@ -15,11 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-import com.googlecode.objectify.ObjectifyService;
+
 import com.utn.frba.rampas.domain.Barrio;
-import com.utn.frba.rampas.domain.BarrioBD;
 import com.utn.frba.rampas.domain.Rampa;
-import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
 
@@ -58,9 +56,7 @@ public class Rampas {
 	@Path("/echo")
 	@Produces("application/json")
 	public Response echoMessage(){
-		ObjectifyService.register(BarrioBD.class);
-		ObjectifyService.register(Rampa.class);
-		ObjectifyService.register(Usuario.class);
+		Setup.setupClases();
 		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
 	}
 	

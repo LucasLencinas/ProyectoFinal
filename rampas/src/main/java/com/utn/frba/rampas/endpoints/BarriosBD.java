@@ -1,9 +1,12 @@
 package com.utn.frba.rampas.endpoints;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -11,10 +14,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-
+import com.utn.frba.rampas.domain.Barrio;
 import com.utn.frba.rampas.domain.BarrioBD;
+import com.utn.frba.rampas.domain.Punto;
 import com.utn.frba.rampas.domain.Rampa;
-
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
 
@@ -27,6 +30,60 @@ public class BarriosBD {
 	public Response cargaInicial() {
 		Setup.setup();
 		return Response.ok("",MediaType.APPLICATION_JSON).build();		
+	}
+	
+	@POST
+	@Consumes("application/json")
+	public Response saveBarrio(String barrio_json) {
+		Gson parser = new Gson();
+		Barrio unBarrio = parser.fromJson(barrio_json,Barrio.class);
+		BarrioBD barrioBD;
+		Punto punto;
+		Rampa rampa;
+		 
+//		for (int i = 0; i < listaDeBarrios.size(); i++) {
+//			barrio = listaDeBarrios.get(i);
+			barrioBD = new BarrioBD(unBarrio.getNombre(), unBarrio.getPoligono().getCoordinates());
+			String estado = HandlerDS.saveBarrio(barrioBD);
+			if (estado == "OK") {
+				for(int j = 0; j < unBarrio.getCalles().size(); j++){
+					punto = unBarrio.getCalles().get(j);
+					rampa = new Rampa(punto.getCoordenadas().get(0), 
+							          punto.getCoordenadas().get(1), 
+							          unBarrio.getNombre(), 
+							          punto.getTieneInformacion(), 
+							          punto.getTieneRampa(),
+							          punto.getBuenEstado(),
+							          punto.getCrucesAccesibles(),
+							          punto.getReportada(),
+							          "Nueva");
+					estado = HandlerDS.saveRampa(rampa);
+					if (estado != "OK") {
+						return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
+					}
+				}
+				return Response.status(Response.Status.OK).build();
+			} 
+			else {
+				return Response.serverError().entity("Agregar Barrio: Error - " + estado).build();
+			}
+			
+//		}		
+		
+//		ArrayList<Barrio> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
+//		Setup.setupConInfoInicial(listaBarrios);
+		
+//		return Response.ok("",MediaType.APPLICATION_JSON).build();		
+		
+//		Gson parser = new Gson();
+//		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
+//		String estado = HandlerDS.saveRampa(unaRampa);
+//		if (estado == "OK") {
+//			return Response.status(Response.Status.OK).build();
+//		} 
+//		else {
+//			return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
+//		}
 	}
 	
 	@GET 
@@ -60,15 +117,24 @@ public class BarriosBD {
 	@Produces("application/json")
 	public Response deleteBarrioByNombre(@PathParam("barrio") String nombre) {
 		BarrioBD unBarrio = HandlerDS.getBarrioByNombre(nombre);
-		String barrioBorrado = HandlerDS.deleteBarrio(unBarrio);
-		ArrayList<Rampa> rampasDelBarrio = HandlerDS.getRampasByBarrio(nombre);
-		barrioBorrado= HandlerDS.deleteRampas(rampasDelBarrio);
-		if (barrioBorrado == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();		
+		String estado = HandlerDS.deleteBarrio(unBarrio);
+		if (estado == "OK") {
+			ArrayList<Rampa> rampasBarrio = HandlerDS.getRampasByBarrio(nombre);
+			if (rampasBarrio == null){
+				return Response.status(Response.Status.OK).build();
+			}
+			else {
+				estado = HandlerDS.deleteRampas(rampasBarrio);
+				if (estado == "OK") {
+					return Response.status(Response.Status.OK).build();
+				} 
+				else {
+					return Response.serverError().entity("Eliminar Rampas: Error - " + estado).build();
+				}			
+			}
 		}
 		else {
-			return Response.ok("",MediaType.APPLICATION_JSON).build();		
+			return Response.serverError().entity("Eliminar Barrio: Error - " + estado).build();
 		}
 	}
-	
 }
