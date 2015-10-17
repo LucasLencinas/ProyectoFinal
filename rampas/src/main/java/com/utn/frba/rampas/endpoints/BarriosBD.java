@@ -1,7 +1,6 @@
 package com.utn.frba.rampas.endpoints;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,12 +13,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
+
 import com.utn.frba.rampas.domain.Barrio;
 import com.utn.frba.rampas.domain.BarrioBD;
 import com.utn.frba.rampas.domain.Punto;
 import com.utn.frba.rampas.domain.Rampa;
 import com.utn.frba.rampas.utils.HandlerDS;
-import com.utn.frba.rampas.utils.Setup;
 
 @Path("/Barrios")
 public class BarriosBD {

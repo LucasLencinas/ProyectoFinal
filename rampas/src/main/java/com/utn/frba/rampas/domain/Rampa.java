@@ -3,6 +3,7 @@ package com.utn.frba.rampas.domain;
 import java.io.Serializable;
 
 import com.google.gson.annotations.Expose;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -129,53 +130,6 @@ public class Rampa implements Serializable {
 	public void setReportes(String reportes) {
 		this.reportes = reportes;
 	}
-	
-	public boolean esRoja() {
-		if ((getTieneInformacion() && getTieneRampas() && !getCrucesAccesibles() && !getBuenEstado() && !getReportada()) ||
-			(getTieneInformacion() && !getTieneRampas()) ||
-			!getTieneInformacion() || 
-			 getReportada()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean esNaranja() {
-		if (getTieneInformacion() &&
-			getTieneRampas() &&
-			getCrucesAccesibles() &&
-		   !getBuenEstado() &&
-		   !getReportada()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean esAmarilla() {
-		if (getTieneInformacion() &&
-			getTieneRampas() &&
-		   !getCrucesAccesibles() &&
-			getBuenEstado() &&
-		   !getReportada()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean esVerde() {
-		if (getTieneInformacion() &&
-			getTieneRampas() &&
-			getCrucesAccesibles() &&
-			getBuenEstado() &&
-		   !getReportada()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean estaReportada() {
-		return getReportada();
-	}
-	
+
 }
 

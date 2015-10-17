@@ -1,8 +1,8 @@
 
-/*atributos de un punto/intersecciones/rampa:
-	coordenadas
+/*Rampa:
+	Coordenadas
 	TieneInformacion
-	TieneRampa
+	TieneRampas
 	BuenEstado
 	CrucesAccesibles
 	Reportada

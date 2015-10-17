@@ -17,11 +17,9 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.utils.HandlerDS;
-import com.utn.frba.rampas.utils.Setup;
 
 @Path("/Usuarios")
 public class Usuarios {
-
 
 	@POST 
 	@Path("/admin/carga")
@@ -36,10 +34,6 @@ public class Usuarios {
 		else {
 			return Response.serverError().entity("Agregar Usuarios: Error - " + estado).build();
 		}				
-//		Usuario[] usuarios = parser.fromJson(usuarios_json,Usuario[].class);
-//		ArrayList<Usuario> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
-//		Setup.setupDeUsuarios(listaBarrios);
-//		return Response.ok("",MediaType.APPLICATION_JSON).build();		
 	}
 	
 	@POST

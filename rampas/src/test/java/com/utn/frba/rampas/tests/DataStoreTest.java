@@ -12,7 +12,6 @@ import com.utn.frba.rampas.domain.Usuario;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -45,7 +44,7 @@ public class DataStoreTest {
     public void setUp() {
         helper.setUp();
 
-        Setup.setupClases(); // Solo hacer el registro de las clases para el DataStore
+        Setup.setupClases(); 
         
     	agronomia = new BarrioBD("Agronomia","[[[[-58.47712,-34.59511],[-58.47788,-34.59709],[-58.47835,-34.59834],[-58.47858,-34.59897],[-58.47883,-34.59967],[-58.47975,-34.59928],[-58.48078,-34.59883],[-58.48213,-34.59825],[-58.48284,-34.59794],[-58.48298,-34.59789],[-58.483,-34.59788],[-58.48329,-34.5978],[-58.48346,-34.59776],[-58.48346,-34.59776],[-58.48485,-34.59763],[-58.48518,-34.59761],[-58.48613,-34.59754],[-58.48649,-34.59751],[-58.48668,-34.5975],[-58.48714,-34.59746],[-58.48735,-34.59745],[-58.4878,-34.59742],[-58.48782,-34.59741],[-58.48854,-34.59736],[-58.48953,-34.5973],[-58.49019,-34.59725],[-58.49122,-34.59718],[-58.49249,-34.5971],[-58.49282,-34.59707],[-58.49291,-34.59707],[-58.49342,-34.59703],[-58.49472,-34.59695],[-58.49678,-34.59681],[-58.49713,-34.59679],[-58.49718,-34.59682],[-58.49838,-34.59637],[-58.49955,-34.59593],[-58.49963,-34.5959],[-58.49979,-34.59585],[-58.50013,-34.59572],[-58.50071,-34.5955],[-58.50179,-34.5951],[-58.50276,-34.59474],[-58.50288,-34.5947],[-58.50318,-34.59458],[-58.50354,-34.59445],[-58.50308,-34.59438],[-58.50347,-34.59395],[-58.50331,-34.59386],[-58.50214,-34.59313],[-58.50193,-34.593],[-58.50082,-34.59232],[-58.49949,-34.59149],[-58.4982,-34.5907],[-58.49707,-34.59],[-58.49593,-34.5893],[-58.49559,-34.58909],[-58.49536,-34.58895],[-58.49479,-34.58859],[-58.49423,-34.58824],[-58.49389,-34.58803],[-58.49366,-34.58789],[-58.49254,-34.58718],[-58.49197,-34.58682],[-58.49141,-34.58647],[-58.49085,-34.58612],[-58.49029,-34.58576],[-58.48956,-34.5853],[-58.48897,-34.58493],[-58.48879,-34.58482],[-58.48819,-34.58544],[-58.48809,-34.58555],[-58.48744,-34.58622],[-58.48689,-34.5868],[-58.4868,-34.5869],[-58.4867,-34.58701],[-58.48654,-34.58718],[-58.48644,-34.58728],[-58.48611,-34.58763],[-58.48556,-34.58822],[-58.48549,-34.58829],[-58.48543,-34.58835],[-58.48508,-34.58873],[-58.48471,-34.58912],[-58.48471,-34.58912],[-58.48399,-34.58937],[-58.48365,-34.58949],[-58.4825,-34.58989],[-58.48201,-34.59006],[-58.48186,-34.59012],[-58.48146,-34.59025],[-58.48129,-34.5903],[-58.48118,-34.59033],[-58.48087,-34.59041],[-58.47954,-34.59075],[-58.47808,-34.59112],[-58.47782,-34.59119],[-58.4772,-34.59135],[-58.47648,-34.59156],[-58.47589,-34.59172],[-58.47598,-34.59195],[-58.47604,-34.59209],[-58.47613,-34.59236],[-58.47621,-34.59259],[-58.47669,-34.59393],[-58.47671,-34.59399],[-58.47671,-34.594],[-58.4769,-34.59453],[-58.47712,-34.59511]]]]");
     	almagro = new BarrioBD("Almagro","[[[[-58.36524,-34.60549],[-58.36523,-34.60549],[-58.36522,-34.60549],[-58.36521,-34.60549],[-58.3652,-34.60548],[-58.36519,-34.60548],[-58.36518,-34.60549],[-58.36459,-34.60544],[-58.36457,-34.60544],[-58.36456,-34.60544],[-58.36456,-34.60544],[-58.36455,-34.60544],[-58.36455,-34.60544],[-58.36454,-34.60544],[-58.36454,-34.60544],[-58.36453,-34.60545],[-58.36453,-34.60545],[-58.36453,-34.60546],[-58.36453,-34.60546],[-58.36452,-34.60547],[-58.36452,-34.60547],[-58.36439,-34.6067],[-58.36424,-34.60792],[-58.36386,-34.61121],[-58.36382,-34.61159],[-58.36382,-34.61159],[-58.36382,-34.6116],[-58.36382,-34.61161],[-58.36382,-34.61161],[-58.36382,-34.61162],[-58.36383,-34.61162],[-58.36383,-34.61163],[-58.36384,-34.61163],[-58.36384,-34.61163],[-58.36385,-34.61163],[-58.36386,-34.61163],[-58.36386,-34.61163],[-58.36388,-34.61164],[-58.36388,-34.61164],[-58.36452,-34.61169],[-58.36453,-34.61169],[-58.36453,-34.61169],[-58.36454,-34.61169],[-58.36455,-34.61169],[-58.36456,-34.6117],[-58.36456,-34.6117],[-58.36457,-34.61171],[-58.36457,-34.61171],[-58.36457,-34.61172],[-58.36457,-34.61172],[-58.36457,-34.61173],[-58.36457,-34.61174],[-58.36454,-34.612],[-58.36476,-34.61202],[-58.36479,-34.61175],[-58.36479,-34.61174],[-58.3648,-34.61173],[-58.3648,-34.61173],[-58.36481,-34.61172],[-58.36481,-34.61172],[-58.36482,-34.61172],[-58.36482,-34.61172],[-58.36483,-34.61171],[-58.36484,-34.61171],[-58.36485,-34.61171],[-58.36486,-34.61171],[-58.36517,-34.61174],[-58.36548,-34.61176],[-58.36549,-34.61176],[-58.3655,-34.61176],[-58.36551,-34.61177],[-58.36552,-34.61177],[-58.36553,-34.61177],[-58.36553,-34.61176],[-58.36554,-34.61176],[-58.36554,-34.61176],[-58.36555,-34.61175],[-58.36555,-34.61175],[-58.36556,-34.61174],[-58.36556,-34.61174],[-58.36556,-34.61173],[-58.36556,-34.61173],[-58.36556,-34.61172],[-58.36556,-34.61171],[-58.36562,-34.61121],[-58.36598,-34.60806],[-58.36613,-34.6067],[-58.36626,-34.60562],[-58.36626,-34.60561],[-58.36626,-34.6056],[-58.36626,-34.6056],[-58.36626,-34.60559],[-58.36625,-34.60558],[-58.36625,-34.60558],[-58.36625,-34.60558],[-58.36624,-34.60557],[-58.36624,-34.60557],[-58.36623,-34.60557],[-58.36622,-34.60557],[-58.36622,-34.60557],[-58.36621,-34.60557],[-58.3662,-34.60557],[-58.3662,-34.60557],[-58.3656,-34.60552],[-58.36559,-34.60552],[-58.36558,-34.60552],[-58.36557,-34.60552],[-58.36556,-34.60552],[-58.36556,-34.60551],[-58.36555,-34.60551],[-58.36555,-34.60551],[-58.36554,-34.6055],[-58.36553,-34.6055],[-58.36553,-34.6055],[-58.36553,-34.60549],[-58.36552,-34.60549],[-58.36552,-34.60548],[-58.36552,-34.60548],[-58.36552,-34.60548],[-58.36552,-34.60547],[-58.36552,-34.60546],[-58.36552,-34.60546],[-58.36552,-34.60545],[-58.36551,-34.60545],[-58.36554,-34.6052],[-58.36532,-34.60518],[-58.36529,-34.60543],[-58.36529,-34.60543],[-58.36529,-34.60544],[-58.36528,-34.60545],[-58.36528,-34.60546],[-58.36528,-34.60546],[-58.36527,-34.60547],[-58.36527,-34.60548],[-58.36526,-34.60548],[-58.36525,-34.60548],[-58.36525,-34.60548],[-58.36524,-34.60549]]]]");
@@ -73,11 +72,11 @@ public class DataStoreTest {
         HandlerDS.saveRampa(medranoYhumahuaca);
         HandlerDS.saveRampa(medranoYcorrientes);
         
-        federico = new Usuario("Federico","Diaz","fedee_vpc@hotmail.com","federico");
-  		matias = new Usuario("Matias","Dionisi","matiasdionisi22@hotmail.com","matias");
-		lucas = new Usuario("Lucas","Lencinas","lllencinas@gmail.com","lucas");
-		daniel = new Usuario("Daniel","Ordoñez","1234567890");
-		martin = new Usuario("Martin","Soifer","01234567890");
+        federico = new Usuario("Federico","Diaz","fedee_vpc@hotmail.com","federico",false);
+  		matias = new Usuario("Matias","Dionisi","matiasdionisi22@hotmail.com","matias",true);
+		lucas = new Usuario("Lucas","Lencinas","lllencinas@gmail.com","lucas",false);
+		daniel = new Usuario("Daniel","Ordoñez","1234567890",false);
+		martin = new Usuario("Martin","Soifer","0987654321",true);
 		
         HandlerDS.saveUsuario(federico);
         HandlerDS.saveUsuario(matias);
@@ -108,22 +107,6 @@ public class DataStoreTest {
     	assertEquals(unBarrio.getId(),agronomia.getId(),0);
     }
     
-    @Ignore
-    @Test
-    public void getBarrioByRampa() {
-    	String barrio = HandlerDS.getBarrioByRampa(medranoYcorrientes);
-    	assertTrue(barrio.equalsIgnoreCase(medranoYcorrientes.getBarrio()));
-    }    
-    
-    @Ignore
-    @Test
-    public void getBarrioByRampaEnArray() {
-    	assertTrue(almagro.contiene(medranoYcordoba));
-    }
-    
-    /**Todos los Tests de Rampas que se puedan hacer. Add, Delete, Get, Update**/
-    /**Hacer varias funciones del tipo findRampaByAlgo()...**/
-    
     /* Tests de Rampa */
     
     @Test
@@ -138,14 +121,7 @@ public class DataStoreTest {
     	assertEquals(rampas.get(6).getId(),medranoYhumahuaca.getId(),0);
     	assertEquals(rampas.get(7).getId(),medranoYcorrientes.getId(),0);
     }
-    
-    @Test
-    public void getRampaById() {
-    	Rampa unaRampa = HandlerDS.getRampaById(medranoYcordoba.getId());
-    	assertEquals(unaRampa.getLatitud(),medranoYcordoba.getLatitud(),0);
-    	assertEquals(unaRampa.getLongitud(),medranoYcordoba.getLongitud(),0);      	
-    }
-    
+        
     @Test
     public void getRampaByLatitudLongitud() {
     	Rampa unaRampa = HandlerDS.getRampaByLatitudLongitud(medranoYcordoba.getLatitud(),medranoYcordoba.getLongitud());
@@ -153,46 +129,6 @@ public class DataStoreTest {
    		assertEquals(unaRampa.getLongitud(),medranoYcordoba.getLongitud(),0);     	
     }
 
-    @Test
-    public void getRampasbyRuta() {
-    	ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(-34.6000,-58.4204,-34.5980,-58.4202);
-    	assertEquals(rampasRuta.get(0).getId(),medranoYlavalle.getId(),0);
-    }
-    
-    @Test
-    public void getRampasRojas() {
-    	ArrayList<Rampa> rampasRojas = HandlerDS.getRampasRojas();
-    	assertEquals(rampasRojas.get(0).getId(),medranoYcordoba.getId(),0);
-    	assertEquals(rampasRojas.get(1).getId(),medranoYtucuman.getId(),0);
-    	assertEquals(rampasRojas.get(2).getId(),medranoYlavalle.getId(),0);
-    	assertEquals(rampasRojas.get(3).getId(),medranoYhumahuaca.getId(),0);
-    } 
-    
-    @Test
-    public void getRampasNaranjas() {
-    	ArrayList<Rampa> rampasNaranjas = HandlerDS.getRampasNaranjas();
-    	assertEquals(rampasNaranjas.get(0).getId(),medranoYrocamora.getId(),0);
-    }    
-
-    @Test
-    public void getRampasAmarillas() {
-    	ArrayList<Rampa> rampasAmarillas = HandlerDS.getRampasAmarillas();
-    	assertEquals(rampasAmarillas.get(0).getId(),medranoYrauch.getId(),0);
-    }     
-    
-    @Test
-    public void getRampasVerdes() {
-    	ArrayList<Rampa> rampasVerdes = HandlerDS.getRampasVerdes();
-    	assertEquals(rampasVerdes.get(0).getId(),medranoYguardiaVieja.getId(),0);
-    	assertEquals(rampasVerdes.get(1).getId(),medranoYcorrientes.getId(),0);
-  	}
-
-    @Test
-    public void getRampasReportadas() {
-    	ArrayList<Rampa> rampasReportadas = HandlerDS.getRampasReportadas();
-    	assertEquals(rampasReportadas.get(0).getId(),medranoYhumahuaca.getId(),0);
-  	}
-    
     @Test
     public void getRampasByBarrio() {
     	ArrayList<Rampa> rampasBarrio = HandlerDS.getRampasByBarrio("Almagro");
@@ -206,8 +142,18 @@ public class DataStoreTest {
     	assertEquals(rampasBarrio.get(7).getId(),medranoYcorrientes.getId(),0);
     }
     
-    /**Todos los Tests de Usuarios que se puedan hacer. Add, Delete, Get, Update**/
+    @Test
+    public void getRampasReportadas() {
+    	ArrayList<Rampa> rampasReportadas = HandlerDS.getRampasReportadas();
+    	assertEquals(rampasReportadas.get(0).getId(),medranoYhumahuaca.getId(),0);
+  	}
     
+    @Test
+    public void getRampasbyRuta() {
+    	ArrayList<Rampa> rampasRuta = HandlerDS.getRampasByRuta(-34.6000,-58.4204,-34.5980,-58.4202);
+    	assertEquals(rampasRuta.get(0).getId(),medranoYlavalle.getId(),0);
+    }
+        
     /* Tests de Usuario */
     
     @Test
@@ -221,13 +167,6 @@ public class DataStoreTest {
     }
     
     @Test
-    public void getUsuarioById() {
-		Usuario unUsuario = HandlerDS.getUsuarioById(federico.getId());
-    	assertTrue(unUsuario.getNombre().equalsIgnoreCase(federico.getNombre()));
-    	assertTrue(unUsuario.getApellido().equalsIgnoreCase(federico.getApellido()));
-	}
-    
-    @Test
     public void getUsuarioByEmail() {
 		Usuario unUsuario = HandlerDS.getUsuarioByMail(federico.getMail());
 		assertEquals(unUsuario.getId(),federico.getId(),0);
@@ -239,16 +178,6 @@ public class DataStoreTest {
 		assertEquals(unUsuario.getId(),daniel.getId(),0);
     }
     
-    /**Todos los Tests de Eventos que se puedan hacer. Add, Delete, Get, Update**/
-    @Test
-    public void getEventoById(){}
-
-    @Test
-    public void getEventoByIdUsuario(){}
-    
-    @Test
-    public void getEventoByTipoDeEvento(){}
-     
 }
 
 

@@ -3,6 +3,7 @@ package com.utn.frba.rampas.domain;
 import java.io.Serializable;
 
 import com.google.gson.annotations.Expose;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -16,41 +17,41 @@ public class Usuario implements Serializable {
 	@Expose @Index private String mail;
 	@Expose private String contraseña;
 	@Expose @Index private String facebook;
-	@Expose private boolean usuarioPropio;
+	@Expose private boolean administrador;
 
 	/* Es necesario este constructor para que funcione el GSON */
 	public Usuario() {	} 
 	
-	public Usuario(String nombre, String apellido, String mail, String contraseña) {
+	public Usuario(String nombre, String apellido, String mail, String contraseña, boolean administrador) {
 		setNombre(nombre);		
 		setApellido(apellido);
 		setMail(mail);
 		setContraseña(contraseña);
-		setUsuarioPropio(true);
+		setAdministrador(administrador);
 	}
 
-	public Usuario(Long id, String nombre, String apellido, String mail, String contraseña) {
+	public Usuario(Long id, String nombre, String apellido, String mail, String contraseña,boolean administrador) {
 		setId(id);
 		setNombre(nombre);		
 		setApellido(apellido);
 		setMail(mail);
 		setContraseña(contraseña);
-		setUsuarioPropio(true);
+		setAdministrador(administrador);
 	}
 	
-	public Usuario(String nombre, String apellido, String facebook) {
+	public Usuario(String nombre, String apellido, String facebook, boolean administrador) {
 		setNombre(nombre);
 		setApellido(apellido);
 		setFacebook(facebook);		
-		setUsuarioPropio(false);
+		setAdministrador(administrador);
 	}
 
-	public Usuario(Long id, String nombre, String apellido, String facebook) {
+	public Usuario(Long id, String nombre, String apellido, String facebook, boolean administrador) {
 		setId(id);
 		setNombre(nombre);
 		setApellido(apellido);
 		setFacebook(facebook);		
-		setUsuarioPropio(false);
+		setAdministrador(administrador);
 	}
 	
 	public long getId() {
@@ -101,12 +102,12 @@ public class Usuario implements Serializable {
 		this.facebook = facebook;
 	}
 
-	public boolean getUsuarioPropio() {
-		return usuarioPropio;
+	public boolean getAdministrador() {
+		return administrador;
 	}
 
-	public void setUsuarioPropio(boolean usuarioPropio) {
-		this.usuarioPropio = usuarioPropio;
+	public void setAdministrador(boolean administrador) {
+		this.administrador = administrador;
 	}
 	
 }

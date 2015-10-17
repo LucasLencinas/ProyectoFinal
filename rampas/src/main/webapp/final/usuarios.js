@@ -1,10 +1,10 @@
 ﻿var usuarios = 
 	[
-		{"nombre": "Federico", "apellido": "Diaz", "mail": "fedee_vpc@hotmail.com", "contraseña": "federico"},
-		{"nombre": "Matias", "apellido": "Dionisi", "mail": "matiasdionisi22@hotmail.com", "contraseña" : "matias"},
-		{"nombre": "Lucas", "apellido": "Lencinas", "mail": "lllencinas@gmail.com", "contraseña": "lucas"},
-		{"nombre": "Daniel", "apellido": "Ordoñez", "facebook": "1234567890"},
-		{"nombre": "Martin", "apellido": "Soifer", "facebook": "01234567890"}
+		{"nombre": "Federico", "apellido": "Diaz", "mail": "fedee_vpc@hotmail.com", "contraseña": "federico", "administrador": "false"},
+		{"nombre": "Matias", "apellido": "Dionisi", "mail": "matiasdionisi22@hotmail.com", "contraseña" : "matias", "administrador": "true"},
+		{"nombre": "Lucas", "apellido": "Lencinas", "mail": "lllencinas@gmail.com", "contraseña": "lucas", "administrador": "false"},
+		{"nombre": "Daniel", "apellido": "Ordoñez", "facebook": "1234567890", "administrador": "false"},
+		{"nombre": "Martin", "apellido": "Soifer", "facebook": "0987654321", "administrador": "true"}
 	]
 
 var ubicacion;	
