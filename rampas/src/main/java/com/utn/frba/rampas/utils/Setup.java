@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
 
+import javax.ws.rs.core.Response;
+
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
@@ -116,17 +118,34 @@ public class Setup {
 		ObjectifyService.register(Usuario.class);
 	}
 	
-	/*Solo se ejecutaria una sola vez antes de la carga inicial.*/
-	public static void deleteAll(){
+	public static boolean deleteAll(){
 		
-//		ObjectifyService.register(BarrioBD.class);
-		HandlerDS.deleteBarrios(HandlerDS.getBarrios());
-  		
-//		ObjectifyService.register(Rampa.class);
-		HandlerDS.deleteRampas(HandlerDS.getRampas());
-        
-//		ObjectifyService.register(Usuario.class);
-		HandlerDS.deleteUsuarios(HandlerDS.getUsuarios());
+		String estado;
+		ArrayList<BarrioBD> barrios = HandlerDS.getBarrios();
+		if (barrios != null){
+			estado = HandlerDS.deleteBarrios(barrios);
+			if (estado != "OK") {
+				return false;
+			} 
+		}
+		
+		ArrayList<Rampa> rampas = HandlerDS.getRampas();
+		if (rampas != null){
+			estado = HandlerDS.deleteRampas(rampas);
+			if (estado != "OK") {
+				return false;
+			} 
+		}
+		
+		ArrayList<Usuario> usuarios = HandlerDS.getUsuarios();
+		if (usuarios != null){
+			estado = HandlerDS.deleteUsuarios(usuarios);
+			if (estado != "OK") {
+				return false;
+			} 
+		}
+		
+		return true;
 	}
 	
 	/*Solo es un setup de barrios y rampas. No de usuarios por ahora*/

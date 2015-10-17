@@ -6,7 +6,7 @@
     <title>Carga Inicial</title>
     <script src="jquery-2.1.4.min.js"></script>
     <script src="barrios.js"></script>
-    <script src="usuariosIniciales.js"></script>
+    <script src="usuarios.js"></script>
     <script src="jquery.sprintf.js"></script>
     <script src="jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" href="jquery-ui.min.css">
@@ -14,14 +14,13 @@
     <body>
       <h1>Carga Inicial</h1>
       <form>
-        <input onclick="cargarDatosRampas()" type="button" value="Cargar Datos"></input></br></br>
-        <input onclick="cargarDatosUsuarios()" type="button" value="Cargar Usuarios"></input></br></br>
-        <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore"></input></br></br>
+        <input onclick="vaciarDatastore()" type="button" value="Vaciar Datastore" id="vaciarDatastoreBoton" disabled></input></br></br>
+        <input onclick="cargarUsuarios()" type="button" value="Cargar Usuarios" id="cargarUsuariosBoton" disabled></input></br></br>
 
 		<label>Barrios Cargados: </label><select  id="selectBarriosCargados"> </select>
-        <input onclick="borrarBarrio()" type="button" value="Borrar Barrio"></input></br></br>
+        <input onclick="borrarBarrio()" type="button" value="Borrar Barrio" id="borrarBarrioBoton" disabled></input></br></br>
  		<label>Barrios Sin Cargar: </label><select  id="selectBarriosSinCargar"> </select>
-        <input onclick="cargarBarrio()" type="button" value="Cargar Barrio"></input></br></br>
+        <input onclick="cargarBarrio()" type="button" value="Cargar Barrio" id="cargarBarrioBoton" disabled></input></br></br>
       
       </form>
       <div id="progressbar"></div>
@@ -38,6 +37,7 @@ $(document).ready(function(){
 });
 
 function echo(){
+	console.log("A punto de levantar servidor...");
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -45,32 +45,37 @@ function echo(){
 		statusCode: {
 			200: function(){
 				console.log("El servidor esta ACTIVADO");	
-				llenarSelectBarriosCargados()
-//				llenarSelectBarriosSinCargar();
+				llenarSelectBarriosCargados();
+				$("#vaciarDatastoreBoton").prop("disabled",false);
+				$("#cargarUsuariosBoton").prop("disabled",false);
+				$("#borrarBarrioBoton").prop("disabled",false);
+				$("#cargarBarrioBoton").prop("disabled",false);
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + JSON.stringify(errorThrown) );
 			console.log("El servidor no esta ACTIVADO");
+			console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + JSON.stringify(errorThrown) );
 		}
 	});
 }
 
 function vaciarDatastore(){
-  $.ajax({
-    type: "GET",
-    contentType: "application/json",
-    url: "/rampas/Rampas/admin/deleteAll",
-    statusCode: {
-      200: function (){
-      alert("Success - Se borro todo lo de la base de de datos ");
-      }
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
-      alert("Hubo un error en el servidor");
-    }
-  });
+	console.log("A punto de vaciar datastore...");
+	$.ajax({
+		type: "GET",
+    	dataType: "json",
+    	url: "/rampas/Rampas/admin/deleteAll",
+    	statusCode: {
+    		200: function (){
+    			console.log("Vaciar Datastore: Success");
+    			llenarSelectBarriosCargados();
+    		}
+		},
+	    error: function(jqXHR, textStatus, errorThrown){
+			console.log("Hubo un error en el servidor");
+	    	console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " +JSON.stringify(errorThrown) );
+	    }
+	});
 }
 
 //  function cargarDatosRampas(){
@@ -158,35 +163,40 @@ function vaciarDatastore(){
 //   }
 // }
 
-function cargarDatosUsuarios(){
-  $.ajax({
-   type: "POST",
-   contentType: "application/json",
-   data: JSON.stringify(usuarios),
-   url: "/rampas/Usuarios/admin/carga",
-   statusCode: {
-     200: function (){
-     console.log("Success - Carga inicial - Usuario ");
-     }
-   },
-   error: function(jqXHR, textStatus, errorThrown){
-     console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
-     console.log("Hubo un error en el servidor");
-    }
-  });
+function cargarUsuarios(){
+	console.log("A punto de cargar usuarios...");
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(usuarios),
+		url: "/rampas/Usuarios/admin/carga",
+		success: function (data) {
+			console.log("Cargar Usuarios: Success");
+		},
+		statusCode: {
+			409: function () { 
+				console.log("Hubo un error en el servidor");
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("Hubo un error en el servidor");
+			console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus));
+	    },
+	});
 }
 
 var barriosCargados = [];
 
 function llenarSelectBarriosCargados(){
-	$("#selectBarriosCargados").empty();
 	console.log("A punto de buscar barrios...");
+	$("#selectBarriosCargados").empty();
 	$.ajax({
 		type: "GET",
 		dataType: "json",
 		url: "/rampas/Barrios/barrios",
 		statusCode: {
 			200: function(barriosDS){
+	       		console.log("Buscar Barrios: Success");
 				barriosCargados = barriosDS;
 				$.each(barriosDS, function (index, barrio) {
 					$("#selectBarriosCargados").append($('<option/>', { 
@@ -195,9 +205,11 @@ function llenarSelectBarriosCargados(){
 					}));
 				});
         		llenarSelectBarriosSinCargar();
-			},
+ 			},
 			404: function () { 
 				console.log("Hubo un problema al buscar los barrios...");
+				barriosCargados = [];
+        		llenarSelectBarriosSinCargar();				
 			}
 		},
 	});		
@@ -209,7 +221,6 @@ function llenarSelectBarriosSinCargar(){
 	$.each(barrios, function (posicion, barrioScript) {
 		cargado = false;
 		$.each(barriosCargados, function (index, barrioCargado) {
-			console.log("BarrioScript: " + barrioScript.nombre + " , BarrioCargado: " + barrioCargado.nombre);
 			if(barrioScript.nombre == barrioCargado.nombre){
 				cargado = true;
 			}
@@ -225,26 +236,24 @@ function llenarSelectBarriosSinCargar(){
 
 function cargarBarrio(){
 	var posicion = null;
+	console.log("A punto de cargar barrio...");
 	$.each(barrios, function (index, barrioScript) {
-		console.log("BarrioSelect: " + $("#selectBarriosSinCargar").prop("value") + " , BarrioScript: " + barrioScript.nombre + " , Posicion: " + index);
 		if ($("#selectBarriosSinCargar").prop("value") == barrioScript.nombre){
 			posicion = index;
 		}
 	});
 	if (posicion != null) {
-        console.log("Cargar Barrio: " + $("#selectBarriosSinCargar").prop("value"));
-		$.ajax({
+ 		$.ajax({
 			type: "POST",
 			contentType: "application/json",
 			data: JSON.stringify(barrios[posicion]),//Lo acabo de cargar
 			url: "/rampas/Barrios",
 			statusCode: {
 				200: function (){
-					console.log("Success - Carga inicial - Barrio " + barrios[posicion].nombre);
+					console.log("Cargar Barrio: Success");
 					$( "#progressbar" ).progressbar( "option", "value", 
 					$( "#progressbar" ).progressbar( "option", "value" ) + 2.083 );
-					llenarSelectBarriosCargados()
-//	        		llenarSelectBarriosSinCargar();
+					llenarSelectBarriosCargados();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					console.log("Hubo un error en el servidor");
@@ -259,16 +268,15 @@ function cargarBarrio(){
 }
 	  
 function borrarBarrio(){
-	console.log("Borrar barrio: " + $("#selectBarriosCargados").prop("value"));
+	console.log("A punto de borrar barrio...");
 	$.ajax({
 		type: "DELETE",
 		contentType: "application/json",
 		url: "/rampas/Barrios/" + $("#selectBarriosCargados").prop("value"),
 		statusCode: {
 			200: function (){
-        		console.log("Success Borrado - Barrio " + $("#selectBarriosCargados").prop("value"));
+        		console.log("Borrar Barrio: Success");
         		llenarSelectBarriosCargados()
-//        		llenarSelectBarriosSinCargar();
 			}
         },
         error: function(jqXHR, textStatus, errorThrown){

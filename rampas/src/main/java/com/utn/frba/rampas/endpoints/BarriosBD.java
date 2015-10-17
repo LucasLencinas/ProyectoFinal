@@ -24,14 +24,6 @@ import com.utn.frba.rampas.utils.Setup;
 @Path("/Barrios")
 public class BarriosBD {
 
-	@GET 
-	@Path("/admin/carga")
-	@Produces("application/json")
-	public Response cargaInicial() {
-		Setup.setup();
-		return Response.ok("",MediaType.APPLICATION_JSON).build();		
-	}
-	
 	@POST
 	@Consumes("application/json")
 	public Response saveBarrio(String barrio_json) {
@@ -41,49 +33,30 @@ public class BarriosBD {
 		Punto punto;
 		Rampa rampa;
 		 
-//		for (int i = 0; i < listaDeBarrios.size(); i++) {
-//			barrio = listaDeBarrios.get(i);
-			barrioBD = new BarrioBD(unBarrio.getNombre(), unBarrio.getPoligono().getCoordinates());
-			String estado = HandlerDS.saveBarrio(barrioBD);
-			if (estado == "OK") {
-				for(int j = 0; j < unBarrio.getCalles().size(); j++){
-					punto = unBarrio.getCalles().get(j);
-					rampa = new Rampa(punto.getCoordenadas().get(0), 
-							          punto.getCoordenadas().get(1), 
-							          unBarrio.getNombre(), 
-							          punto.getTieneInformacion(), 
-							          punto.getTieneRampa(),
-							          punto.getBuenEstado(),
-							          punto.getCrucesAccesibles(),
-							          punto.getReportada(),
-							          "Nueva");
-					estado = HandlerDS.saveRampa(rampa);
-					if (estado != "OK") {
-						return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
-					}
+		barrioBD = new BarrioBD(unBarrio.getNombre(), unBarrio.getPoligono().getCoordinates());
+		String estado = HandlerDS.saveBarrio(barrioBD);
+		if (estado == "OK") {
+			for(int j = 0; j < unBarrio.getCalles().size(); j++){
+				punto = unBarrio.getCalles().get(j);
+				rampa = new Rampa(punto.getCoordenadas().get(0), 
+						          punto.getCoordenadas().get(1), 
+						          unBarrio.getNombre(), 
+						          punto.getTieneInformacion(), 
+						          punto.getTieneRampa(),
+						          punto.getBuenEstado(),
+						          punto.getCrucesAccesibles(),
+						          punto.getReportada(),
+						          "Nueva");
+				estado = HandlerDS.saveRampa(rampa);
+				if (estado != "OK") {
+					return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
 				}
-				return Response.status(Response.Status.OK).build();
-			} 
-			else {
-				return Response.serverError().entity("Agregar Barrio: Error - " + estado).build();
 			}
-			
-//		}		
-		
-//		ArrayList<Barrio> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
-//		Setup.setupConInfoInicial(listaBarrios);
-		
-//		return Response.ok("",MediaType.APPLICATION_JSON).build();		
-		
-//		Gson parser = new Gson();
-//		Rampa unaRampa = parser.fromJson(rampa_json,Rampa.class);
-//		String estado = HandlerDS.saveRampa(unaRampa);
-//		if (estado == "OK") {
-//			return Response.status(Response.Status.OK).build();
-//		} 
-//		else {
-//			return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();
-//		}
+			return Response.status(Response.Status.OK).build();
+		} 
+		else {
+			return Response.serverError().entity("Agregar Barrio: Error - " + estado).build();
+		}
 	}
 	
 	@GET 

@@ -1,6 +1,11 @@
 ﻿var usuarios = 
-	
-	[{"nombre": "Federico","apellido": "Diaz","qq": 1 },{"nombre": "Matias","apellido": "Dionisi","qq": 2 },{"nombre": "Lucas","apellido": "Lencinas","qq": 3 },{"nombre": "Daniel","apellido": "Ordoñez","qq": 4 },{"nombre": "Martin","apellido": "Soifer","qq": 5 }]
+	[
+		{"nombre": "Federico", "apellido": "Diaz", "mail": "fedee_vpc@hotmail.com", "contraseña": "federico"},
+		{"nombre": "Matias", "apellido": "Dionisi", "mail": "matiasdionisi22@hotmail.com", "contraseña" : "matias"},
+		{"nombre": "Lucas", "apellido": "Lencinas", "mail": "lllencinas@gmail.com", "contraseña": "lucas"},
+		{"nombre": "Daniel", "apellido": "Ordoñez", "facebook": "1234567890"},
+		{"nombre": "Martin", "apellido": "Soifer", "facebook": "01234567890"}
+	]
 
 var ubicacion;	
 function listarUsuarios(usuarios){

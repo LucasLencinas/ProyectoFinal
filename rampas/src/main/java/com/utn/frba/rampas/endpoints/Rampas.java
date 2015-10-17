@@ -24,6 +24,14 @@ import com.utn.frba.rampas.utils.Setup;
 @Path("/Rampas")
 public class Rampas {
 
+	@GET
+	@Path("/echo")
+	@Produces("application/json")
+	public Response echoMessage(){
+		Setup.setupClases();
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+	}	
+	
 	@GET 
 	@Path("/admin/carga")
 	@Produces("application/json")
@@ -48,16 +56,12 @@ public class Rampas {
 	@Path("/admin/deleteAll")
 	@Produces("application/json")
 	public Response BorrarTodo() {
-		Setup.deleteAll();
-		return Response.ok("{}",MediaType.APPLICATION_JSON).build();		
-	}
-	
-	@GET
-	@Path("/echo")
-	@Produces("application/json")
-	public Response echoMessage(){
-		Setup.setupClases();
-		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+		if (Setup.deleteAll()){
+			return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+		}
+		else {
+			return Response.serverError().entity("Eliminar Todo: Error").build();
+		}
 	}
 	
 	@POST

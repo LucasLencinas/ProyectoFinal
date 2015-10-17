@@ -425,6 +425,21 @@ public class HandlerDS {
 		return "OK";
 	}
 	
+	public static String saveUsuarios(ArrayList<Usuario> usuarios) {
+		System.out.print("Guardar Usuarios: ");
+		for (Usuario unUsuario:usuarios) {
+			try {
+				ofy().save().entity(unUsuario).now();
+			}
+			catch(Exception ex) {
+				System.out.println("Error - " + ex.getLocalizedMessage()); 
+				return ex.getLocalizedMessage();
+			}
+		}
+		System.out.println("OK"); 	
+		return "OK";
+	}
+	
 	public static String deleteUsuario(Usuario unUsuario) {
 		System.out.print("Borrar Usuario: " + unUsuario.getId());
 		try {

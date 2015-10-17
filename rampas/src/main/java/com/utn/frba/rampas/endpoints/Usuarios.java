@@ -28,13 +28,19 @@ public class Usuarios {
 	@Consumes("application/json")
 	public Response cargaInicialRecibiendoScriptDeUsuarios(String usuarios_json) {
 		Gson parser = new Gson();
-		Usuario[] barrios = parser.fromJson(usuarios_json,Usuario[].class);
-		ArrayList<Usuario> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
-		Setup.setupDeUsuarios(listaBarrios);
-		
-		return Response.ok("",MediaType.APPLICATION_JSON).build();		
+		ArrayList<Usuario> usuarios = new ArrayList<>(Arrays.asList(parser.fromJson(usuarios_json,Usuario[].class)));
+		String estado = HandlerDS.saveUsuarios(usuarios);
+		if (estado == "OK") {
+			return Response.status(Response.Status.OK).build();
+		} 
+		else {
+			return Response.serverError().entity("Agregar Usuarios: Error - " + estado).build();
+		}				
+//		Usuario[] usuarios = parser.fromJson(usuarios_json,Usuario[].class);
+//		ArrayList<Usuario> listaBarrios = new ArrayList<>(Arrays.asList(barrios));
+//		Setup.setupDeUsuarios(listaBarrios);
+//		return Response.ok("",MediaType.APPLICATION_JSON).build();		
 	}
-	
 	
 	@POST
 	@Consumes("application/json")
