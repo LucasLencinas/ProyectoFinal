@@ -275,7 +275,7 @@ function rellenarInfoWindow(unInfoWindow, marcador){
 function armarContenidoDelInfoWindows(marcador){
 	
 	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
-	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "";
+	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "";
 	
 	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
 	tieneRampas += marcador.tieneRampas? "Si" : "No";
@@ -289,26 +289,28 @@ function armarContenidoDelInfoWindows(marcador){
 	var imagen= "<img class='imagens' src=" + url +"/>";
 
 	botonStreetView = "<input type='button' id='streetview' value='StreetView' "+
-		"onclick='mostrarStreetView" +marcador.getPosition() + "'>";
+		"onclick='mostrarStreetView" +marcador.getPosition() + "' style='width:75px'>";
 	
 	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
 	marcadorActual = marcador;
-	botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
-		"onclick='modificarRampa(marcadorActual)'>";
+
+	if(unUsuario.administrador){
+		botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
+			"onclick='modificarRampa(marcadorActual)' style='width:75px'>";
 		
-	botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
-		"onclick='eliminarRampa(marcadorActual)'>";
-		
-		
-	botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
-		"onclick='reportarRampa(marcadorActual)'>";
+		botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
+			"onclick='eliminarRampa(marcadorActual)' style='width:75px'>";
+	}else{
+		botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
+			"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
+	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
-	contenido = $.sprintf( "<div>Direccion: %s </br>%s</br> %s</br> %s</br></br> %s %s </br> %s %s</br>%s</div>", marcador.stringDireccion, 
-		tieneRampas, estado ,accesibilidad,botonStreetView,botonModificar,botonReportar,botonEliminar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s</div>", marcador.stringDireccion, 
+		tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,imagen);
 	}else{
-	contenido = $.sprintf( "<div>Direccion: %s </br>%s </br></br></br></br> %s %s </br> %s %s</br>%s</div>", marcador.stringDireccion, 
-		tieneInformacion, botonStreetView,botonModificar,botonReportar,botonEliminar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br></br></br>%s %s %s</br>%s%s</div>", marcador.stringDireccion, 
+		tieneInformacion, botonStreetView,botonReportar,botonModificar,botonEliminar,imagen);
 	}
 	return contenido;
 }

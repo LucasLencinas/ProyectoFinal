@@ -136,6 +136,7 @@
 	padding:5px 5px;	
 	margin:5px;			
 	border-radius:5px;
+		width:calc(100% - 150px);
 }
 .etiqueta{
 	float:left;
@@ -145,7 +146,7 @@
 	width: 350px;
 }
 .dlg-footerIniciarMail  button    {
-	width:30%;
+	width:75px; /*30%*/
 }
 .dlg-footerIniciarMail      {
 	display:block;
@@ -196,4 +197,16 @@
 }
 input[type="checkbox"]:disabled + label {
 	color:#666666;
+}
+@media screen and (max-width:500px){
+	.dlgbox{
+		width:100%;
+	}
+
+
+}
+@media screen and (max-height:400px){
+	.dlgbox{
+		width:100%;
+	}
 }

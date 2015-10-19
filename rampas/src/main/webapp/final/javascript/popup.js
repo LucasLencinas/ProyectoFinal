@@ -161,7 +161,7 @@ function cerrarTodoM(){
 	cerrarTodo();
 	var sesion = document.getElementById("nombre");
 	document.getElementById("sesion").innerHTML = unUsuario.nombre;		//GLOBAL
-	
+			if(unUsuario.nombre=="gatin"){unUsuario.administrador=true;}else unUsuario.nombre=false;//HASTA QUE SE PONGA EL CAMPO
 var cerrar=document.createElement('li');
 var configuracion=document.createElement('li');
 var admin=document.createElement('li');
@@ -181,7 +181,8 @@ admin.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxeliminarUsuarios()
 reportes.innerHTML="<a href='#' onclick='hideSesion(); buscarRampasReportadas()'>Reportadas</a>";
 
 document.getElementById("lista").appendChild(configuracion);
-document.getElementById("lista").appendChild(admin);
+if(unUsuario.administrador)
+	{document.getElementById("lista").appendChild(admin);}
 document.getElementById("lista").appendChild(reportes);
 document.getElementById("lista").appendChild(cerrar);
 document.getElementById("lista").removeChild(loguear);
@@ -206,8 +207,10 @@ var cerrar = document.getElementById("cerrar");
 document.getElementById("lista").removeChild(cerrar);
 var configuracion = document.getElementById("configuracion");
 document.getElementById("lista").removeChild(configuracion);
-var admin = document.getElementById("admin");
-document.getElementById("lista").removeChild(admin);
+if(unUsuario.administrador){
+	var admin = document.getElementById("admin");
+	document.getElementById("lista").removeChild(admin);
+	}
 var reportes = document.getElementById("reportes");
 document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
@@ -220,8 +223,15 @@ document.getElementById("lista").removeChild(reportes);
 function centrar (box){
 	var x=350;
 	var y=50;
-	box.style.left = (x + (window.innerWidth - x)/2 - box.scrollWidth/2)  + "px";
-	box.style.top = (y + (window.innerHeight - y )/2 - box.scrollHeight/2)  + "px";
+	if(window.innerWidth<900)
+		x=150;
+	if(window.innerWidth < 500 || window.innerHeight < 400){
+		box.style.left = "0px";
+		box.style.top = "0px";
+	}else{
+		box.style.left = (x + (window.innerWidth - x)/2 - box.scrollWidth/2)  + "px";
+		box.style.top = (y + (window.innerHeight - y )/2 - box.scrollHeight/2)  + "px";
+	}
 }
 function pan(){
 alert(window.innerWidth 	);
