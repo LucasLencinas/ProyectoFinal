@@ -40,13 +40,12 @@ function buscarUsuarioPorFacebook(response){
 	var id = response.authResponse.userID;
 	var uf={};
 	if(buscarUsuarioFacebook(id)){//Esta registrado
-			cerrarTodoM();
+		cerrarTodoM();
 		}
 		else{//No esta registrado en la BD
 			FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
 			uf.nombre=response.first_name;	//GLOBAL
 			uf.apellido=response.last_name
-			uf.usuarioPropio=false;
 			uf.facebook=id;
 			unUsuario=uf;
 			cerrarTodoM();
@@ -63,7 +62,6 @@ function sincronizarDatosConFacebook(){
 			uf.id=unUsuario;
 			uf.nombre=response.first_name;	//GLOBAL
 			uf.apellido=response.last_name
-			uf.usuarioPropio=false;
 			uf.facebook=id;
 			unUsuario=uf;
 			document.getElementById("sesion").innerHTML = unUsuario.nombre;	

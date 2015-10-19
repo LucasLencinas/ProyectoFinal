@@ -105,7 +105,7 @@ function cerrardlgboxAlerta(){
 	dlgboxAlerta.style.display = "none";
 }
 function showdlgboxModificarUsuario(){
-	if(unUsuario.usuarioPropio==true){
+	if(typeof(unUsuario.facebook)=="undefined"){
 		var whitebg = document.getElementById("white-background");
 		var dlgboxModificarUsuario = document.getElementById("dlgboxModificarUsuario");
 		whitebg.style.display = "block";
@@ -161,7 +161,7 @@ function cerrarTodoM(){
 	cerrarTodo();
 	var sesion = document.getElementById("nombre");
 	document.getElementById("sesion").innerHTML = unUsuario.nombre;		//GLOBAL
-			if(unUsuario.nombre=="gatin"){unUsuario.administrador=true;}else unUsuario.nombre=false;//HASTA QUE SE PONGA EL CAMPO
+
 var cerrar=document.createElement('li');
 var configuracion=document.createElement('li');
 var admin=document.createElement('li');
@@ -214,7 +214,7 @@ if(unUsuario.administrador){
 var reportes = document.getElementById("reportes");
 document.getElementById("lista").removeChild(reportes);
 	document.getElementById("sesion").innerHTML = 'Sesión';
-	if (!unUsuario.usuarioPropio)
+	if (!(typeof(unUsuario.facebook)=="undefined"))
 		logoutFacebook();
 	unUsuario={};
 	idSesion=-1;//GLOBAL Sesion
@@ -303,7 +303,6 @@ function registrarMail(){
 				usuario.apellido = document.getElementById("apellidoR").value;
 				usuario.mail = document.getElementById("emailR").value;
 				usuario.contraseña = document.getElementById("pass1R").value;
-				usuario.usuarioPropio = true;
 				unUsuario=usuario;
 				cerrarTodoM();
 				nuevoUsuarioMail(usuario);
@@ -326,7 +325,6 @@ function modificarMail(){
 				usuario.apellido = document.getElementById("apellidoM").value;
 				usuario.mail = document.getElementById("emailM").value;
 				usuario.contraseña = document.getElementById("pass1M").value;
-				usuario.usuarioPropio = true;
 				unUsuario=usuario;			//GLOBAL
 				modificarUsuarioMail(usuario);
 				cerrarTodo();
