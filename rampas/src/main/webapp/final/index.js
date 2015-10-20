@@ -465,7 +465,9 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 
 /*Antes de ver las rampas cercanas o crar una nueva ruta, se ejecuta esto para que no se superponga nada*/
 function borrarRutasPrevias(){
-
+	destinationMarker.setMap(null);
+	originMarker.setMap(null);
+	
 	$.each(polilineas, function(index,polilinea){
 		polilinea.poly.setMap(null);
 		$.each(polilinea.figura,function(index, unPoligono){
