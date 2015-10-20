@@ -182,8 +182,9 @@ reportes.innerHTML="<a href='#' onclick='hideSesion(); buscarRampasReportadas()'
 
 document.getElementById("lista").appendChild(configuracion);
 if(unUsuario.administrador)
-	{document.getElementById("lista").appendChild(admin);}
-document.getElementById("lista").appendChild(reportes);
+	{document.getElementById("lista").appendChild(admin);
+	document.getElementById("lista").appendChild(reportes);}
+
 document.getElementById("lista").appendChild(cerrar);
 document.getElementById("lista").removeChild(loguear);
 document.getElementById("lista").removeChild(registrar);
@@ -210,9 +211,10 @@ document.getElementById("lista").removeChild(configuracion);
 if(unUsuario.administrador){
 	var admin = document.getElementById("admin");
 	document.getElementById("lista").removeChild(admin);
+	var reportes = document.getElementById("reportes");
+	document.getElementById("lista").removeChild(reportes);
 	}
-var reportes = document.getElementById("reportes");
-document.getElementById("lista").removeChild(reportes);
+
 	document.getElementById("sesion").innerHTML = 'Sesión';
 	if (!(typeof(unUsuario.facebook)=="undefined"))
 		logoutFacebook();
