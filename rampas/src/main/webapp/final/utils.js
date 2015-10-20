@@ -159,6 +159,7 @@ function setearListenerParaContextMenu(latLng, eventName){
 
 
 function rampasCercanas(latlng){	
+	borrarBarriosPrevios();
 	
 	$.each(arrayRampasCercanas, function(indice,marcador){
 		marcador.setMap(null);
