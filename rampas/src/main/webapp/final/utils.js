@@ -276,12 +276,13 @@ function rellenarInfoWindow(unInfoWindow, marcador){
 function armarContenidoDelInfoWindows(marcador){
 	
 	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
-	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "",botonVerReportes = "";
+	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",reportada= "Reportada: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "",botonVerReportes = "";
 	
 	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
 	tieneRampas += marcador.tieneRampas? "Si" : "No";
 	estado += marcador.buenEstado? "Si" : "No" ;	//Se podria cambiar por un tilde y una cruz mas adelante
 	accesibilidad += marcador.crucesAccesibles? "Si" : "No";
+	reportada += marcador.reportada? "Si" : "No";
 	
 	var coordenada = String(marcador.getPosition());
 	coordenada=coordenada.substring(1, coordenada.length-1);
@@ -312,11 +313,11 @@ function armarContenidoDelInfoWindows(marcador){
 	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
-		tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+		reportada, tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}else{
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br></br></br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
-		tieneInformacion, botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br></br></br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+		tieneInformacion,reportada, botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}
 	return contenido;
 }
