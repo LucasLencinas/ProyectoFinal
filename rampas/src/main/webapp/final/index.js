@@ -263,7 +263,12 @@ function crearContextMenu(){
 		}
 		else{
 			$('#ocultar_rampas_cercanas_item').show();
-			$('#nueva_rampa_item').show();
+			if(unUsuario.id){//Si esta logueado
+				$('#nueva_rampa_item').show();
+			}else{
+				$('#nueva_rampa_item').hide();
+			}
+			
 		}
 	});
 	return contextMenu;
