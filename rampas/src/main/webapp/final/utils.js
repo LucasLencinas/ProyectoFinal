@@ -276,7 +276,7 @@ function rellenarInfoWindow(unInfoWindow, marcador){
 function armarContenidoDelInfoWindows(marcador){
 	
 	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
-	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "";
+	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "",botonVerReportes = "";
 	
 	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
 	tieneRampas += marcador.tieneRampas? "Si" : "No";
@@ -294,6 +294,7 @@ function armarContenidoDelInfoWindows(marcador){
 	
 	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
 	marcadorActual = marcador;
+	
 	if(unUsuario.id){
 		if(unUsuario.administrador){
 			botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
@@ -305,14 +306,17 @@ function armarContenidoDelInfoWindows(marcador){
 			botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 				"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
 		}
+		
+		botonVerReportes = "<input type='button' id='botonVerReportesRampa' value='Ver Reportes' "+
+				"onclick='verReportesRampa(marcadorActual)' style='width:75px'>";
 	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s</div>", marcador.stringDireccion, 
-		tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+		tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}else{
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br></br></br>%s %s %s</br>%s%s</div>", marcador.stringDireccion, 
-		tieneInformacion, botonStreetView,botonReportar,botonModificar,botonEliminar,imagen);
+	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br></br></br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+		tieneInformacion, botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}
 	return contenido;
 }
@@ -336,6 +340,8 @@ if (confirm("ELIMINAR RAMPA")){
 	}
 }
 
+function verReportesRampa(marcador){
+}
 /**Funciones para saber colores de rampas y rutas**/
 
 function colorDePolilinea(marcadores){
