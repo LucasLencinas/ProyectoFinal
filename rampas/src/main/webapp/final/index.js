@@ -187,6 +187,8 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 	polilinea.setMap(map);
 	polilineaAnterior = polilinea;
 	
+	var latlngbounds = new google.maps.LatLngBounds();//Para centrar (1)
+	
 	$.each(rampasDelBarrio, function(indice, punto){
 		if(typeof (punto.coordenadas) === 'undefined')
 			latlng = new google.maps.LatLng(punto.latitud,punto.longitud);
@@ -201,8 +203,12 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 		unMarcador.reportada = punto.reportada;
 		unMarcador.setMap(map);
 		crucesBarrioElegido.push(unMarcador);
+		latlngbounds.extend(latlng);//Para centrar (2)
 	});			
 	poligonoBarrioElegido.setMap(null);
+	map.setCenter(latlngbounds.getCenter());//Zoom para centrar (3)
+	map.setZoom(13);//Zoom
+
 }
 
 function coordenadasDesdeStringDeBarrio(stringBarrio){
