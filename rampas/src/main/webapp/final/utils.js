@@ -294,16 +294,17 @@ function armarContenidoDelInfoWindows(marcador){
 	
 	/*Esta asignacion es media forzosa porque a las funciones onclick si osi se le tiene que pasar una variable global*/
 	marcadorActual = marcador;
-
-	if(unUsuario.administrador){
-		botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
-			"onclick='modificarRampa(marcadorActual)' style='width:75px'>";
-		
-		botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
-			"onclick='eliminarRampa(marcadorActual)' style='width:75px'>";
-	}else{
-		botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
-			"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
+	if(unUsuario.id){
+		if(unUsuario.administrador){
+			botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
+				"onclick='modificarRampa(marcadorActual)' style='width:75px'>";
+			
+			botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
+				"onclick='eliminarRampa(marcadorActual)' style='width:75px'>";
+		}else{
+			botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
+				"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
+		}
 	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
