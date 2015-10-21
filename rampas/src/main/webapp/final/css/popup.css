@@ -210,3 +210,10 @@ input[type="checkbox"]:disabled + label {
 		width:100%;
 	}
 }
+#reportes {
+border: 1px solid #000;
+border-collapse: collapse;	
+}
+#reportes td{
+border: 1px solid #000;<!--width: 46%;-->
+}

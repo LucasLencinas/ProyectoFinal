@@ -339,8 +339,60 @@ if (confirm("ELIMINAR RAMPA")){
 	}
 }
 
-function verReportesRampa(marcador){
+var reporteRampa = [];
+function verReportesRampa(marcador){//medio mierda asi despues se ve bien como se muestra
+var repote = bru(marcador.getPosition().lat(),marcador.getPosition().lng());
+
+	reporteRampa = JSON.parse(repote.reportes);
+
+	var dlgboxReportes =document.getElementById("dlgboxReportes");
+	if(dlgboxReportes.style.display == "block")
+		dlgboxReportes.style.display = "none";
+		else dlgboxReportes.style.display = "block";
+	var elemento =document.getElementById("reportes");
+	mostrarReporte(reporteRampa,elemento)
 }
+
+
+function mostrarReporte(reporte,elemento){
+	var tabla = elemento;
+	limpiarTabla(tabla);
+	var unReporte = tabla.insertRow(tabla.rows.length);
+	var autor = unReporte.insertCell(0);
+	var rampa  = unReporte.insertCell(1);
+	var comentario = unReporte.insertCell(2);
+	unReporte.classList.add('centrado');
+	autor.innerHTML = "Autor";
+	rampa.innerHTML = "Reporte";
+	comentario.innerHTML = "Comentario";
+	unReporte.style.background = "#000";
+	unReporte.style.color = "#FAFAFA";
+
+	reporte.forEach( function(v,k){
+		unReporte = tabla.insertRow(tabla.rows.length);
+		autor = unReporte.insertCell(0);
+		rampa  = unReporte.insertCell(1);
+		comentario = unReporte.insertCell(2);
+		autor.innerHTML=v.autor;
+		rampa.innerHTML=	"Tiene Rampa: <b>"+ boolASiNo(v.rampa.tieneRampas)+
+						"</b><br>Rampas en Buen estado: <b>"+  boolASiNo(v.rampa.crucesAccesibles)+
+						"</b><br>Rampas en todas las esquinas: <b>"+  boolASiNo(v.rampa.buenEstado) + "</b>";
+		if (k % 2 == 0)
+			unReporte.style.background="#EFF8FB";
+			else unReporte.style.background = "#CEECF5";
+		if (v.modificada)
+			{unReporte.style.background="#E6E6E6";
+			unReporte.style.color="#585858"}
+		comentario.innerHTML=v.comentario;
+	});	
+}
+function boolASiNo(valor){
+	if(valor)
+	return "Si";
+	else return "No";
+}
+
+
 /**Funciones para saber colores de rampas y rutas**/
 
 function colorDePolilinea(marcadores){

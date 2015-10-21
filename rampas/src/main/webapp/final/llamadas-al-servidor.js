@@ -11,7 +11,10 @@ function altaRampa(){
 	rampa.buenEstado = document.getElementById("buenEstadoA").checked;
 	rampa.crucesAccesibles = document.getElementById("crucesAccesiblesA").checked;
 	rampa.reportada = true;
-	rampa.reportes = "Nueva";
+	//rampa.reportes = "Nueva";
+	var autor = unUsuario.nombre + " " + unUsuario.apellido;
+	var reportes = [{"autor": autor,"rampa": {"tieneRampas":rampa.tieneRampas,"crucesAccesibles":rampa.crucesAccesibles,"buenEstado":rampa.buenEstado},"modificada": false,"comentario":"Nueva" }];
+	rampa.reportes = JSON.stringify(reportes);
 	nuevaRampa(rampa);
 		actualizarMarcadorRampa(ubicacion,rampa,false);
 }
@@ -46,7 +49,11 @@ function modRampa(){
 	rampa.buenEstado = $("#buenEstadoM").is(':checked');
 	rampa.crucesAccesibles = $("#crucesAccesiblesM").is(':checked');
 	rampa.reportada = false;
-	rampa.reportes = "";
+	var reportes = JSON.parse(rampa.reportes);
+	$.each(reportes, function(index, unReporte){
+	unReporte.modificada=true;
+	});
+	rampa.reportes = JSON.stringify(reportes);
 	
 	modificarRampaa(rampa);
 		actualizarMarcadorRampa(marcador,rampa,true);
@@ -79,20 +86,19 @@ function repRampa(){
 	rampa = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
 
 	var mt =$("#selectMotivo").prop("value");
-	if (rampa.peportes == "")
-		rampa.reportes = rampa.reportes + "Motivo: " + mt
-		else rampa.reportes = rampa.reportes + ". Motivo: " + mt;
-	if (mt="Otros")
-		rampa.reportes = rampa.reportes + ": " + $("#motivoPersonalizado").prop("value");
-
-	if (ubicacion.tieneRampas != document.getElementById("tieneRampaR").checked)
-		rampa.reportes = rampa.reportes + " ; TieneRampas: " + document.getElementById("tieneRampaR").checked;
-
-	if (ubicacion.buenEstado != document.getElementById("buenEstadoR").checked)
-		rampa.reportes = rampa.reportes + " ; BuenEstado: " + document.getElementById("buenEstadoR").checked;
-
-	if (ubicacion.crucesAccesibles != document.getElementById("crucesAccesiblesR").checked) 
-		rampa.reportes = rampa.reportes + " ; CrucesAccesibles: " + document.getElementById("crucesAccesiblesR").checked;
+	if (mt=="Otros")
+		mt = $("#motivoPersonalizado").prop("value");
+	if (mt=="")
+		mt="Sin Comentarios";
+	
+	var tieneRampas = document.getElementById("tieneRampaR").checked;
+	var crucesAccesibles = document.getElementById("crucesAccesiblesR").checked;
+	var buenEstado = document.getElementById("buenEstadoR").checked;
+	
+	var autor = unUsuario.nombre + " " + unUsuario.apellido;
+	var reportes = JSON.parse(rampa.reportes);
+	reportes[reportes.length]={"autor": autor,"rampa": {"tieneRampas":tieneRampas,"crucesAccesibles":crucesAccesibles,"buenEstado":buenEstado},"modificada": false,"comentario":mt };
+	rampa.reportes = JSON.stringify(reportes);
 
 	rampa.reportada = true;
 	reportarRampaa(rampa);
