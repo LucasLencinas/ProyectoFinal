@@ -131,8 +131,6 @@ function setearListenerParaContextMenu(latLng, eventName){
 			break;
 		case 'descartar_ruta_click':
 			borrarRutasPrevias();
-			$("#inputHasta").val("");
-			$("#inputDesde").val("");
 			break;
 		case 'calcular_ruta_click':
 			calcularRutas();
