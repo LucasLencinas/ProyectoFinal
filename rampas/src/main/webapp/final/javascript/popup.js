@@ -340,3 +340,10 @@ function autocompletarModificar(usuario){
 	document.getElementById("pass1M").value = usuario.contraseña;	//MUY Bisarro que se autocomplete
 	document.getElementById("pass2M").value = usuario.contraseña;
 }
+function ordenarSelect(id_componente){ //codigo copiado
+	var selectToSort = jQuery('#' + id_componente);
+	var optionActual = selectToSort.val();
+	selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+		return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
+	})).val(optionActual);
+}

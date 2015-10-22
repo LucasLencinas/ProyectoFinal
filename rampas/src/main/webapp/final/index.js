@@ -139,6 +139,7 @@ function llenarSelectOptions(){
 			}));
 		});
 	}
+	ordenarSelect('selectBarrios');
 }
 
 
