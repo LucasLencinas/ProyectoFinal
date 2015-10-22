@@ -44,6 +44,8 @@ function modRampa(){
 	cerrarTodo();
 	var rampa = {};
 	rampa=ubicacion;//Esto es variable Global
+		if(rampa.reportes=="Nueva")//ESTO SE DEBERIA HACER CUANDO SE CARGA EN LA BASE DE DATOS
+			{rampa.reportes=JSON.stringify([{"autor": "Mas Rampas","rampa": {"tieneRampas":false,"crucesAccesibles":false,"buenEstado":false},"modificada": false,"comentario":"Nueva" }]);}
 	rampa.tieneInformacion = true;
 	rampa.tieneRampas = $("#tieneRampaM").is(':checked');
 	rampa.buenEstado = $("#buenEstadoM").is(':checked');
@@ -84,7 +86,8 @@ function repRampa(){
 	var rampa = {};
 	var marcador = ubicacion;
 	rampa = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
-
+		if(rampa.reportes=="Nueva")//ESTO SE DEBERIA HACER CUANDO SE CARGA EN LA BASE DE DATOS
+		{rampa.reportes=JSON.stringify([{"autor": "Mas Rampas","rampa": {"tieneRampas":false,"crucesAccesibles":false,"buenEstado":false},"modificada": false,"comentario":"Nueva" }]);	}
 	var mt =$("#selectMotivo").prop("value");
 	if (mt=="Otros")
 		mt = $("#motivoPersonalizado").prop("value");
