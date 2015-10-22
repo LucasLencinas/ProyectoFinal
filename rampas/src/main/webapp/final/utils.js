@@ -305,9 +305,10 @@ function armarContenidoDelInfoWindows(marcador){
 			botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
 				"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
 		}
-		
-		botonVerReportes = "<input type='button' id='botonVerReportesRampa' value='Ver Reportes' "+
-				"onclick='verReportesRampa(marcadorActual)' style='width:75px'>";
+		if(marcador.reportada){	
+			botonVerReportes = "<input type='button' id='botonVerReportesRampa' value='Ver Reportes' "+
+					"onclick='verReportesRampa(marcadorActual)' style='width:75px'>";
+		}
 	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
