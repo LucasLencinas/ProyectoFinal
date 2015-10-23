@@ -433,7 +433,7 @@ function calcularColorSegunRampa(punto){
 	if(punto.tieneInformacion == false)
 		return	colores.ROJO;
 	if(punto.reportada == true)
-		return colores.ROJO;
+		return colores.GRIS;
 	if(punto.tieneRampas == false)
 		return colores.ROJO;
 	if(punto.buenEstado == false && punto.crucesAccesibles == false)
@@ -489,8 +489,8 @@ function crearPoligono(puntos){
 		puntosDer.push(puntoDer);
 		puntosIzq.push(puntoIzq);
 	}
-//Ahora me quedo el ultimo punto del array, entonces
-//le agrego un poco mas de longitud y cierro el poligono
+	//Ahora me quedo el ultimo punto del array, entonces
+	//le agrego un poco mas de longitud y cierro el poligono
 	punto = new google.maps.LatLng(puntos[i].lat()+direccion.lat, puntos[i].lng()+ direccion.lng);
 	//Agrego puntos a los costados y los agrego a las listas
 	puntoIzq = restarNormal(punto,direccion);
