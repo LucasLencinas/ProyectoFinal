@@ -409,7 +409,8 @@ function boolASiNo(valor){
 
 /**Funciones para saber colores de rampas y rutas**/
 
-function colorDePolilinea(marcadores){
+//function colorDePolilinea(marcadores){
+function colorDePolilinea(polilinea){
 	var porcentaje, puntajeCamino = 0;
 	function puntajeRampa(marcador){
 		if(marcador.tieneInformacion == false)
@@ -428,11 +429,12 @@ function colorDePolilinea(marcadores){
 			return colores.VERDE;
 	}
 	
-	$.each(marcadores, function(index,marcador){
+	$.each(polilinea.marcadores, function(index,marcador){
 		
 		puntajeCamino += puntajeRampa(marcador).puntaje;
 	});
-	porcentaje = puntajeCamino/(colores.VERDE.puntaje * marcadores.length);
+	porcentaje = puntajeCamino/(colores.VERDE.puntaje * polilinea.marcadores.length);
+	polilinea.puntaje = porcentaje*100;
 	if(porcentaje <= 0.40)
 		return colores.ROJO.valor;
 	if(porcentaje > 0.40 && porcentaje <= 0.60 )

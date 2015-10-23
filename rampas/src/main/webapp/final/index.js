@@ -418,7 +418,8 @@ function dibujarRutas(respuesta){
 			checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
 			polilineas[i] = crearPolilinea(checkpointsRuta);
 			polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, subconjuntoDeMarcadores);
-			color = colorDePolilinea(polilineas[i].marcadores);
+			//color = colorDePolilinea(polilineas[i].marcadores);
+			color = colorDePolilinea(polilineas[i]);
 			polilineas[i].poly.setOptions({strokeColor: color})
 			habilitarBotonDeRuta(i);
 		}
@@ -461,10 +462,19 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 					checkpointsRuta = agruparCheckpoints(respuesta.routes[i]);
 					polilineas[i] = crearPolilinea(checkpointsRuta);
 					polilineas[i].marcadores = marcadoresIncluidos(polilineas[i].figura, listaRampas);
-					color = colorDePolilinea(polilineas[i].marcadores);
+					//color = colorDePolilinea(polilineas[i].marcadores);
+					color = colorDePolilinea(polilineas[i]);
 					polilineas[i].poly.setOptions({strokeColor: color})
-					habilitarBotonDeRuta(i);
 				}
+				/*Ordeno las rutas por mejor estado.*/
+				polilineas.sort(function(poly1, poly2){
+					return poly2.puntaje - poly1.puntaje; //Descendiente
+				});
+
+				$.each(polilineas,function(index, unaPoly){
+					habilitarBotonDeRuta(index);	
+				});
+
 			},
 			404: function () { 
 				limpiarHTML();
