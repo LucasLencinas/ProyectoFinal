@@ -5,7 +5,13 @@ function altaRampa(){
 	var rampa = {};
 	rampa.latitud = ubicacion.lat();
 	rampa.longitud = ubicacion.lng();
-	rampa.barrio = "xxx";//ACA FALTA SABER COMO SACAR EL BARRIO	
+	rampa.barrio = obtenerBarrioDeUnaNuevaRampa(ubicacion);
+	/*
+	if (rampa.barrio == null)
+	MARTINCITO --> No se que se deberia hacer aca. 
+	Que funcion se tendria que llamar para cancelar todo?
+	 o este chequeo se tendria que hacer antes?
+	*/
 	rampa.tieneInformacion = true;
 	rampa.tieneRampas = document.getElementById("tieneRampaA").checked;
 	rampa.buenEstado = document.getElementById("buenEstadoA").checked;

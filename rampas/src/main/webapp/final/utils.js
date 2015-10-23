@@ -153,6 +153,21 @@ function setearListenerParaContextMenu(latLng, eventName){
 }
 
 
+function  obtenerBarrioDeUnaNuevaRampa(latlng){
+
+	var coordenadasBarrioElegido, poligonoBarrioElegido;
+	//barriosDelSelect--> Cada item es {id, nombre, limites}
+	$.each(barriosDelSelect, function(indice,barrio){
+		coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barrio.limites);
+		poligonoBarrioElegido= new google.maps.Polygon({
+			paths: coordenadasBarrioElegido
+		});
+		if(google.maps.geometry.poly.containsLocation(tempLatLng, poligonoBarrioElegido))
+			return barrio.nombre;
+	});
+	return null;
+}
+
 
 function rampasCercanas(latlng){	
 	borrarBarriosPrevios();
