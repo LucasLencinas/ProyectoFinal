@@ -287,8 +287,10 @@ function hideSesion(){
 function iniciarSesion(){
 	var nombre = document.getElementById("nombre").value;
 	var pass = document.getElementById("pass").value;
-	if(autenticar(nombre,pass))
-		{cerrarTodoM();}
+	if(autenticar(nombre,pass)){
+		cerrarTodoM();
+		mostrarMensajeBienvenida(unUsuario.nombre);
+	}
 		else alerta("El Email o la contraseña es invalida","Error Autenticación");
 }
 //Registrar Mail
@@ -307,7 +309,8 @@ function registrarMail(){
 				usuario.contraseña = document.getElementById("pass1R").value;
 				unUsuario=usuario;
 				cerrarTodoM();
-				nuevoUsuarioMail(usuario);
+				nuevoUsuarioMail(usuario.nombre);
+				mostrarMensajeBienvenida(unUsuario.nombre);
 				cerrarTodo();
 				//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto
 			}
@@ -346,4 +349,11 @@ function ordenarSelect(id_componente){ //codigo copiado
 	selectToSort.html(selectToSort.children('option').sort(function (a, b) {
 		return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
 	})).val(optionActual);
+}
+function mostrarMensajeBienvenida(nombre){
+	var dlgboxBienvenidos = document.getElementById("dlgboxBienvenidos");
+	var textoBienvenidos = document.getElementById("textoBienvenidos");
+	textoBienvenidos.innerHTML="Hola "+ nombre + "... Bienvenido a Mas Rampas";
+	dlgboxBienvenidos.style.display = "block";
+	setTimeout(function(){dlgboxBienvenidos.style.display = "none";}, 2000);
 }

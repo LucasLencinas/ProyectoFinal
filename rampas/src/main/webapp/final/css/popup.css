@@ -198,18 +198,34 @@
 input[type="checkbox"]:disabled + label {
 	color:#666666;
 }
+#dlgboxBienvenidos{
+		padding: 30px 30px 30px 30px;
+		left: 50%;
+		top:50%;
+}
+#dlgboxBienvenidos p{
+		font-weight:bold;
+}
 @media screen and (max-width:500px){
 	.dlgbox{
 		width:100%;
 	}
-
+	#dlgboxBienvenidos{
+		left: 0;
+		top:50%;
+	}
 
 }
 @media screen and (max-height:400px){
 	.dlgbox{
 		width:100%;
 	}
+	#dlgboxBienvenidos{
+		left: 0;
+		top:50%;
+	}
 }
+
 #reportes {
 border: 1px solid #000;
 border-collapse: collapse;	
