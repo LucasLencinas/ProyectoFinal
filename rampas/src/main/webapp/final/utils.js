@@ -162,7 +162,7 @@ function  obtenerBarrioDeUnaNuevaRampa(latlng){
 		poligonoBarrioElegido= new google.maps.Polygon({
 			paths: coordenadasBarrioElegido
 		});
-		if(google.maps.geometry.poly.containsLocation(tempLatLng, poligonoBarrioElegido))
+		if(google.maps.geometry.poly.containsLocation(latlng, poligonoBarrioElegido))
 			return barrio.nombre;
 	});
 	return null;
