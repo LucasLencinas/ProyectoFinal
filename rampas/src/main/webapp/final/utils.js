@@ -207,6 +207,7 @@ function rampasCercanas(latlng){
 function mostrarRampasCercanasConInfoDelServidor(poligonos, minimo, maximo){
 	var listaDeMarcadores = [];
 	var unaLatLng = {};
+	mostrarLoading();
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -227,6 +228,7 @@ function mostrarRampasCercanasConInfoDelServidor(poligonos, minimo, maximo){
 				$.each(arrayRampasCercanas, function(indice,marcador){
 					marcador.setMap(map);
 				});
+				ocultarLoading();
 			},
 			404: function () { 
 				console.log("Hubo un error al tratar de encontrar las rampas cercanas");

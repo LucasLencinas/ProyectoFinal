@@ -152,12 +152,14 @@ function buscarRampasPorBarrio(){
 	var barrio = $("#selectBarrios option:selected").text();
 
 	if(servidorActivado === true){
+		mostrarLoading();
 		console.log("A punto de buscar rampas del barrio: " + barrio);
 		$.ajax({
 		    type:"GET",
 		    dataType: "json",
 		    url: "/rampas/Rampas/barrios/" + barrio,
 		    success: function(rampas){
+			  ocultarLoading();
 		      mostraMarcadoresDelBarrio(barriosDelSelect[barrioElegido].limites,rampas);
 		    },
 		    statusCode: {
@@ -452,6 +454,7 @@ function latlngEstaDentroDeMiRectangulo(latlng,minimo,maximo){
 
 
 function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
+//	mostrarLoading();
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -475,7 +478,7 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 				$.each(polilineas,function(index, unaPoly){
 					habilitarBotonDeRuta(index);	
 				});
-
+				ocultarLoading();
 			},
 			404: function () { 
 				limpiarHTML();
@@ -516,6 +519,7 @@ function borrarBarriosPrevios(){
 
 /* MARTINCITO --> Esta es la funcion que inicia todo el proceso de calculo de Ruta*/
 function calcularRutas() {
+	mostrarLoading();
 	var desdeString = $("#inputDesde").val();
 	var hastaString = $("#inputHasta").val();
 

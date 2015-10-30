@@ -357,3 +357,9 @@ function mostrarMensajeBienvenida(nombre){
 	dlgboxBienvenidos.style.display = "block";
 	setTimeout(function(){dlgboxBienvenidos.style.display = "none";}, 2000);
 }
+function mostrarLoading(){
+	$('#loading').html('<img src="imagen/ajax-loader.gif"><br> cargando...');
+}
+function ocultarLoading(){
+	$('#loading').html('');
+}

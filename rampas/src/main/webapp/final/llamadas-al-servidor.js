@@ -25,6 +25,7 @@ function altaRampa(){
 		actualizarMarcadorRampa(ubicacion,rampa,false);
 }
 function nuevaRampa(rampa){
+	mostrarLoading();
 	console.log("A punto de guardar una rampa...");
 	$.ajax({
 		type: "POST",
@@ -32,7 +33,8 @@ function nuevaRampa(rampa){
 		data: JSON.stringify(rampa),
 		url: "/rampas/Rampas",
 		success: function (data) {
-					alerta("La Rampa se dio de Alta correctamente");
+			ocultarLoading();
+			alerta("La Rampa se dio de Alta correctamente");
 		},
 		statusCode: {
 			409: function () { 
@@ -68,6 +70,7 @@ function modRampa(){
 }
 
 function modificarRampaa(rampa){
+	mostrarLoading();
 	console.log("A punto de modificar una rampa...");
 	$.ajax({
 		type: "PUT",
@@ -75,6 +78,7 @@ function modificarRampaa(rampa){
 		data: JSON.stringify(rampa),
 		url: "/rampas/Rampas",
 		success: function (data) {
+			ocultarLoading();
 			alerta("Se modifico la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
 		},
 		statusCode: {
@@ -116,6 +120,7 @@ function repRampa(){
 }
 
 function reportarRampaa(rampa){
+	mostrarLoading();
 	console.log("A punto de reportar una rampa...");
 	$.ajax({
 		type: "PUT",
@@ -123,6 +128,7 @@ function reportarRampaa(rampa){
 		data: JSON.stringify(rampa),
 		url: "/rampas/Rampas",
 		success: function (data) {
+			ocultarLoading();
 			alerta("Se reporto la rampa Correctamente.","Exito");			
 		},
 		statusCode: {
@@ -135,6 +141,7 @@ function reportarRampaa(rampa){
 
 /** ----- BUSCAR RAMPA POR UBICACION ----- **/
 function bru(latitud, longitud){
+	mostrarLoading();
 	var r={};
 	console.log("A punto de buscar rampas por ubicacion...");
 	$.ajax({
@@ -143,6 +150,7 @@ function bru(latitud, longitud){
 		dataType: "json",
 		url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
 		success: function (rampa) {
+			ocultarLoading();
 			r=rampa;
 		},
 		statusCode: {
@@ -157,6 +165,7 @@ function bru(latitud, longitud){
 
 /** ----- BORRAR RAMPA ----- **/
 function borrarRampa(rampa){
+	mostrarLoading();
 	console.log("A punto de borrar una rampa...");
 	$.ajax({
 		type: "DELETE",
@@ -164,6 +173,7 @@ function borrarRampa(rampa){
 		data: JSON.stringify(rampa),
 		url: "/rampas/Rampas",
 		success: function (data) {
+			ocultarLoading();
 			alert("Se borro la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
 		},
 		statusCode: {
@@ -193,12 +203,14 @@ function actualizarMarcadorRampa(marcador,rampa,borrar){//marcador o LatLng | ra
 /** ----- BUSCAR RAMPAS REPORTADAS ----- **/
 
 function buscarRampasReportadas(){
+	mostrarLoading();
 	console.log("A punto de buscar rampas reportadas...");
 	$.ajax({
 		type:"GET",
 		dataType: "json",
 		url: "/rampas/Rampas/reportadas",
 		success: function(rampas){
+			ocultarLoading();
 			mostraMarcadoresReportados(rampas);
 		},
 		statusCode: {
@@ -260,6 +272,7 @@ function buscarRampasPorBarrio(barrio,cantidad){
 /** ----- NUEVO USUARIO POR MAIL ----- **/
 
 function nuevoUsuarioMail(usuario){
+	mostrarLoading();
 	console.log("A punto de guardar un usuario...");
 	$.ajax({
 		type: "POST",
@@ -267,6 +280,7 @@ function nuevoUsuarioMail(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+			ocultarLoading();
 			alert("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete: function (jqXHR, textStatus) {
@@ -285,6 +299,7 @@ function nuevoUsuarioMail(usuario){
 
 /** ----- NUEVO USUARIO POR FACEBOOK ----- **/
 function nuevoUsuarioFacebook(usuario){
+	mostrarLoading();
 	console.log("A punto de guardar un usuario...");
 	$.ajax({
 		type: "POST",
@@ -292,6 +307,7 @@ function nuevoUsuarioFacebook(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+				ocultarLoading();
 				alert("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		statusCode: {
@@ -305,6 +321,7 @@ var idSesion = -1;									//Sesion cerrada
 var unUsuario={};										//Usuario GLOBAL
 /** ----- BUSCAR USUARIO POR MAIL ----- **/
 function autenticar(mail,pass){
+	mostrarLoading();
 	var encontro = false;
 	console.log("A punto de buscar usuario por mail...");
 	$.ajax({
@@ -313,6 +330,7 @@ function autenticar(mail,pass){
 		dataType: "json",
 		url: "/rampas/Usuarios/mail/" + mail,
 		success: function (usuario) {
+			ocultarLoading();
 			encontro = (usuario.contraseña == pass);//Esto se deberia hacer en dentro del query
 			idSesion=usuario.id;					//identificador Usuario para poder Modificar
 			unUsuario = usuario;
@@ -326,6 +344,7 @@ function autenticar(mail,pass){
 return encontro;
 }
 function existeUsuarioRegistrado(mail,idUsuario){
+	mostrarLoading();
 	var encontro = false;
 	console.log("A punto de buscar usuario por mail...");
 	$.ajax({
@@ -334,6 +353,7 @@ function existeUsuarioRegistrado(mail,idUsuario){
 		dataType: "json",
 		url: "/rampas/Usuarios/mail/" + mail,
 		success: function (usuario) {
+			ocultarLoading();
 			encontro=(usuario.id != idUsuario);//true Existe usuario (registrar)|(modificar) NO se puede usar
 		},
 		statusCode: {
@@ -383,6 +403,7 @@ function buscarUsuarioPorMail(mail){
 /** ----- MODIFICAR USUARIO ----- **/
 
 function modificarUsuarioMail(usuario){
+	mostrarLoading();
 	console.log("A punto de modificar un usuario...");
 	$.ajax({
 		type: "PUT",
@@ -390,6 +411,7 @@ function modificarUsuarioMail(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+			ocultarLoading();
 			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete: function (jqXHR, textStatus) {
@@ -408,6 +430,7 @@ function modificarUsuarioMail(usuario){
 
 /** ----- BUSCAR USUARIO POR FACEBOOK ----- **/
 function buscarUsuarioFacebook(facebook){
+	mostrarLoading();
 	var encontro = false;
 	console.log("A punto de buscar usuario por facebook...");
 	$.ajax({
@@ -416,6 +439,7 @@ function buscarUsuarioFacebook(facebook){
 		dataType: "json",
 		url: "/rampas/Usuarios/facebook/" + facebook,
 		success: function (usuario) {
+			ocultarLoading();
 			unUsuario = usuario;	//GLOBAL
 			encontro = true;
 		},
@@ -429,6 +453,7 @@ function buscarUsuarioFacebook(facebook){
 }
 /** ----- MODIFICAR USUARIO POR FACEBOOK ----- **/
 function modificarUsuarioFacebook(usuario){
+	mostrarLoading();
 	console.log("A punto de modificar un usuario por facebook...");
 	$.ajax({
 		type: "PUT",
@@ -436,6 +461,7 @@ function modificarUsuarioFacebook(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+			ocultarLoading();
 			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		statusCode: {
@@ -448,7 +474,7 @@ function modificarUsuarioFacebook(usuario){
 /** ----- BUSCAR USUARIOS ----- **/
 
 function buscarUsuarios(){
-
+	mostrarLoading();
 	console.log("A punto de buscar usuarios...");
 	$.ajax({
 			async:false, //Si no lo hago sincronico resulve mal
@@ -456,6 +482,7 @@ function buscarUsuarios(){
 		dataType: "json",
 		url: "/rampas/Usuarios/usuarios",
 		success: function (usuarios) {
+			ocultarLoading();
 			listarUsuarios(usuarios);
 			$('#resultadoBuscarUsuarios').html(JSON.stringify(usuarios));
 		},
@@ -468,6 +495,7 @@ function buscarUsuarios(){
 }
 /** ----- BORRAR USUARIO ----- **/
 function borrarUsuario(usuario){
+	mostrarLoading();
 	console.log("A punto de borrar un usuario ...");
 	$.ajax({
 		type: "DELETE",
@@ -475,6 +503,7 @@ function borrarUsuario(usuario){
 		data: JSON.stringify(usuario),
 		url: "/rampas/Usuarios",
 		success: function (data) {
+			ocultarLoading();
 			alert("Se borro el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		statusCode: {

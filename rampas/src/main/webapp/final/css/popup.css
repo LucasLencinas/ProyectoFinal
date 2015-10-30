@@ -199,12 +199,18 @@ input[type="checkbox"]:disabled + label {
 	color:#666666;
 }
 #dlgboxBienvenidos{
-		padding: 30px 30px 30px 30px;
-		left: 50%;
-		top:50%;
+	padding: 30px 30px 30px 30px;
+	left: 50%;
+	top:50%;
 }
 #dlgboxBienvenidos p{
-		font-weight:bold;
+	font-weight:bold;
+}
+#loading{
+	position:absolute;
+	left:calc(350px + (100% - 350px)/2 );
+	top:calc(50px + (100% - 50px)/2 );
+	z-index: 9999;
 }
 @media screen and (max-width:500px){
 	.dlgbox{
@@ -214,7 +220,9 @@ input[type="checkbox"]:disabled + label {
 		left: 0;
 		top:50%;
 	}
-
+	#loading{
+	left:calc(150px + (100% - 150px)/2 );
+	}
 }
 @media screen and (max-height:400px){
 	.dlgbox{
@@ -223,6 +231,9 @@ input[type="checkbox"]:disabled + label {
 	#dlgboxBienvenidos{
 		left: 0;
 		top:50%;
+	}
+	#loading{
+	left:calc(150px + (100% - 150px)/2 );
 	}
 }
 
