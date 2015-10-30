@@ -45,7 +45,7 @@ public class BarriosBD {
 						          punto.getBuenEstado(),
 						          punto.getCrucesAccesibles(),
 						          punto.getReportada(),
-						          "Nueva");
+						          "[{\"autor\":\"Mas Rampas\",\"rampa\":{\"tieneRampas\":false,\"crucesAccesibles\":false,\"buenEstado\":false},\"modificada\":false,\"comentario\":\"Nueva\"}]");
 				estado = HandlerDS.saveRampa(rampa);
 				if (estado != "OK") {
 					return Response.serverError().entity("Agregar Rampa: Error - " + estado).build();

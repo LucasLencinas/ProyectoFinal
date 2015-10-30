@@ -14,8 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-
+import com.utn.frba.rampas.domain.BarrioBD;
 import com.utn.frba.rampas.domain.Rampa;
+import com.utn.frba.rampas.domain.Usuario;
 import com.utn.frba.rampas.utils.HandlerDS;
 import com.utn.frba.rampas.utils.Setup;
 
@@ -33,13 +34,30 @@ public class Rampas {
 	@GET 
 	@Path("/admin/deleteAll")
 	@Produces("application/json")
-	public Response BorrarTodo() {
-		if (Setup.deleteAll()){
-			return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+	public Response deleteAll() {
+		String estado;
+		ArrayList<BarrioBD> barrios = HandlerDS.getBarrios();
+		if (barrios != null){
+			estado = HandlerDS.deleteBarrios(barrios);
+			if (estado != "OK") {
+				return Response.serverError().entity("Eliminar Barrios: Error").build();
+			} 
 		}
-		else {
-			return Response.serverError().entity("Eliminar Todo: Error").build();
+		ArrayList<Rampa> rampas = HandlerDS.getRampas();
+		if (rampas != null){
+			estado = HandlerDS.deleteRampas(rampas);
+			if (estado != "OK") {
+				return Response.serverError().entity("Eliminar Rampas: Error").build();
+			} 
 		}
+		ArrayList<Usuario> usuarios = HandlerDS.getUsuarios();
+		if (usuarios != null){
+			estado = HandlerDS.deleteUsuarios(usuarios);
+			if (estado != "OK") {
+				return Response.serverError().entity("Eliminar Usuarios: Error").build();
+			} 
+		}
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
 	}
 	
 	@POST

@@ -358,7 +358,7 @@ function marcadoresIncluidos(poligonos,subconjuntoDeMarcadores){
 	$.each(subconjuntoDeMarcadores, function(index,latlng){
 
 		function poligonoContienePunto(poligono, indice,array){
-			return google.maps.geometry.poly.containsLocation(tempLatLng, poligono);
+			return google.maps.geometry.poly.containsLocation(latlng, poligono);
 		}
 		//Otra negrada porque a esta funcion le llega un subconjuntoDeMarcadores que pueden ser
 		//Los que llegan de la BD o de un analisis que no tiene los mismo campos.

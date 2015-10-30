@@ -2,8 +2,6 @@ package com.utn.frba.rampas.utils;
 
 import java.net.URI;
 
-import java.util.ArrayList;
-
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
@@ -26,37 +24,6 @@ public class Setup {
 		ObjectifyService.register(BarrioBD.class);
 		ObjectifyService.register(Rampa.class);
 		ObjectifyService.register(Usuario.class);
-	}
-	
-	public static boolean deleteAll(){
-		
-		String estado;
-		
-		ArrayList<BarrioBD> barrios = HandlerDS.getBarrios();
-		if (barrios != null){
-			estado = HandlerDS.deleteBarrios(barrios);
-			if (estado != "OK") {
-				return false;
-			} 
-		}
-		
-		ArrayList<Rampa> rampas = HandlerDS.getRampas();
-		if (rampas != null){
-			estado = HandlerDS.deleteRampas(rampas);
-			if (estado != "OK") {
-				return false;
-			} 
-		}
-		
-		ArrayList<Usuario> usuarios = HandlerDS.getUsuarios();
-		if (usuarios != null){
-			estado = HandlerDS.deleteUsuarios(usuarios);
-			if (estado != "OK") {
-				return false;
-			} 
-		}
-		
-		return true;
 	}
 	
 	/*--------------For testing--------------*/

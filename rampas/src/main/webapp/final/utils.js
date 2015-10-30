@@ -415,20 +415,20 @@ function boolASiNo(valor){
 function colorDePolilinea(polilinea){
 	var porcentaje, puntajeCamino = 0;
 	function puntajeRampa(marcador){
-		if(marcador.tieneInformacion == false)
-			return	colores.GRIS;
-		if(marcador.reportada == true)
-			return colores.AZUL;
-		if(marcador.tieneRampas == false)
-			return colores.VIOLETA;
-		if(marcador.buenEstado == false && marcador.crucesAccesibles == false)
+		if(punto.reportada == true)
+			return colores.GRIS;
+		if(punto.tieneInformacion == false)
+			return	colores.ROJO;
+		if(punto.tieneRampas == false)
 			return colores.ROJO;
-		if(marcador.buenEstado == false && marcador.crucesAccesibles == true)
+		if(punto.buenEstado == false && punto.crucesAccesibles == false)
+			return colores.ROJO;
+		if(punto.buenEstado == false && punto.crucesAccesibles == true)
 			return colores.NARANJA;
-		if(marcador.buenEstado == true && marcador.crucesAccesibles == false)
+		if(punto.buenEstado == true && punto.crucesAccesibles == false)
 			return colores.AMARILLO;
-		if(marcador.buenEstado == true && marcador.crucesAccesibles == true)
-			return colores.VERDE;
+		if(punto.buenEstado == true && punto.crucesAccesibles == true)
+			return colores.VERDE;	
 	}
 	
 	$.each(polilinea.marcadores, function(index,marcador){
@@ -448,11 +448,10 @@ function colorDePolilinea(polilinea){
 }
 
 function calcularColorSegunRampa(punto){
-
-	if(punto.tieneInformacion == false)
-		return	colores.ROJO;
 	if(punto.reportada == true)
 		return colores.GRIS;
+	if(punto.tieneInformacion == false)
+		return	colores.ROJO;
 	if(punto.tieneRampas == false)
 		return colores.ROJO;
 	if(punto.buenEstado == false && punto.crucesAccesibles == false)
@@ -464,7 +463,6 @@ function calcularColorSegunRampa(punto){
 	if(punto.buenEstado == true && punto.crucesAccesibles == true)
 		return colores.VERDE;
 }
-
 
 /**Funcion para saber el grupo de poligonos que encierran una ruta**/
 

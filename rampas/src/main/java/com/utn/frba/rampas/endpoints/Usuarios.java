@@ -36,6 +36,20 @@ public class Usuarios {
 		}				
 	}
 	
+	@GET 
+	@Path("/admin/borrado")
+	@Produces("application/json")
+	public Response borradoUsuarios() {
+		ArrayList<Usuario> usuarios = HandlerDS.getUsuarios();
+		if (usuarios != null){
+			String estado = HandlerDS.deleteUsuarios(usuarios);
+			if (estado != "OK") {
+				return Response.serverError().entity("Borrar Usuarios: Error - " + estado).build();
+			} 
+		}
+		return Response.ok("{}",MediaType.APPLICATION_JSON).build();
+	}
+	
 	@POST
 	@Consumes("application/json")
 	public Response saveUsuario(String usuario_json) {
