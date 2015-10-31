@@ -295,46 +295,44 @@ function iniciarSesion(){
 }
 //Registrar Mail
 function registrarMail(){
-	if (document.getElementById("pass1R").value != document.getElementById("pass2R").value)
-		{alert("Las contraseñas no coinciden");}
-		else{
-			var mail = document.getElementById("emailR").value;
-			if (existeUsuarioRegistrado(mail,idSesion))
-			{alert("Ya existe un usuario Registrado con esa Direccion Email");}
-			else{
-				var usuario = {};
-				usuario.nombre = document.getElementById("nombreR").value;
-				usuario.apellido = document.getElementById("apellidoR").value;
-				usuario.mail = document.getElementById("emailR").value;
-				usuario.contraseña = document.getElementById("pass1R").value;
-				unUsuario=usuario;
-				cerrarTodoM();
-				nuevoUsuarioMail(usuario.nombre);
-				mostrarMensajeBienvenida(unUsuario.nombre);
-				cerrarTodo();
-				//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto
-			}
-		}
+	var nombre = document.getElementById("nombreR").value;
+	var apellido = document.getElementById("apellidoR").value;
+	var mail = document.getElementById("emailR").value;
+	var pass1 = document.getElementById("pass1R").value;
+	var pass2 = document.getElementById("pass2R").value;
+
+	if (validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion)){
+		var usuario = {};
+		usuario.nombre = nombre;
+		usuario.apellido = apellido;
+		usuario.mail = mail;
+		usuario.contraseña = pass1;
+		unUsuario=usuario; //GLOBAL
+		cerrarTodoM();
+		nuevoUsuarioMail(usuario.nombre);
+		mostrarMensajeBienvenida(unUsuario.nombre);
+		cerrarTodo();
+		//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto
+	}
 }
 function modificarMail(){
-	if (document.getElementById("pass1M").value != document.getElementById("pass2M").value)
-		{alert("Las contraseñas no coinciden");}
-		else{
-			var mail = document.getElementById("emailM").value;
-			if (existeUsuarioRegistrado(mail,idSesion))
-			{alert("Ya existe un usuario Registrado con esa Direccion Email");}
-			else{
+	var nombre = document.getElementById("nombreM").value;
+	var apellido = document.getElementById("apellidoM").value;
+	var mail = document.getElementById("emailM").value;
+	var pass1 = document.getElementById("pass1M").value;
+	var pass2 = document.getElementById("pass2M").value;
+	
+	if (validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion)){
 				var usuario = {};
-				usuario.id = idSesion;
-				usuario.nombre = document.getElementById("nombreM").value;
-				usuario.apellido = document.getElementById("apellidoM").value;
-				usuario.mail = document.getElementById("emailM").value;
-				usuario.contraseña = document.getElementById("pass1M").value;
+				usuario.id = idSesion; //GLOBAL
+				usuario.nombre = nombre;
+				usuario.apellido = apellido;
+				usuario.mail = mail;
+				usuario.contraseña = pass1;
 				unUsuario=usuario;			//GLOBAL
 				modificarUsuarioMail(usuario);
 				cerrarTodo();
-			}
-		}
+	}
 }
 function autocompletarModificar(usuario){
 	document.getElementById("nombreM").value = usuario.nombre ;
@@ -362,4 +360,57 @@ function mostrarLoading(){
 }
 function ocultarLoading(){
 	$('#loading').html('');
+}
+function verificarMail(mail){
+	var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return expr.test(mail); 
+}
+function verificarContraseña(pass){
+	var expr = /^[0-9A-Za-z]+$/;
+	var e =  false;
+    if (pass.length >= 8 && pass.length <= 50)
+		e = expr.test(pass); 
+	return e;
+}
+function verificarNombre(nombre){
+	var expr = /^[A-Za-z]+$/;
+	var e =  false;
+    if (nombre.length >= 3 && nombre.length <= 30)
+		e = expr.test(nombre); 
+	return e;
+}
+function verificarApellido(nombre){//Que son los caracteres especiales para le apellido
+	var expr = /^[A-Za-z]+$/;
+	var e =  false;
+    if (nombre.length >= 3 && nombre.length <= 30)
+		e = expr.test(nombre); 
+	return e;
+}
+function verificarContraseña2(pass1,pass2){
+	var e = false;
+	if (pass1 == pass2){
+		e = true;
+	}else{
+		alert("Las contraseñas no coinciden");
+	}
+	return e;
+}
+function verificarUsuarioRegistrado(mail,idSesion){
+	var ur = false;
+	if (!existeUsuarioRegistrado(mail,idSesion)){
+		ur=true;
+	}else{
+		alert("Ya existe un usuario Registrado con esa Direccion Email");
+	}
+	return ur;
+}
+function validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion){
+	var registro = false;
+	registro = verificarNombre(nombre);
+	registro = (verificarApellido(apellido) && registro);
+	registro = (verificarMail(mail) && registro);
+	registro = (verificarContraseña(pass1) && registro);
+	registro = (verificarContraseña2(pass1,pass2) && registro);
+	registro = (verificarUsuarioRegistrado(mail,idSesion) && registro);
+	return registro;
 }
