@@ -165,7 +165,7 @@ function cerrarTodoM(){
 var cerrar=document.createElement('li');
 var configuracion=document.createElement('li');
 var admin=document.createElement('li');
-var reportes=document.createElement('li');
+var reportadas=document.createElement('li');
 
 var loguear = document.getElementById("loguear");
 var registrar = document.getElementById("registrar");
@@ -173,17 +173,17 @@ var registrar = document.getElementById("registrar");
 cerrar.id='cerrar';
 configuracion.id='configuracion';
 admin.id='admin';
-reportes.id='reportes';
+reportadas.id='reportadas';
 
 cerrar.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxCerrarSesion()'>Cerrar Sesión</a>";
 configuracion.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxModificarUsuario()'>Configuración</a>";
 admin.innerHTML="<a href='#' onclick='hideSesion(); showdlgboxeliminarUsuarios()'>Usuarios</a>";
-reportes.innerHTML="<a href='#' onclick='hideSesion(); buscarRampasReportadas()'>Reportadas</a>";
+reportadas.innerHTML="<a href='#' onclick='hideSesion(); buscarRampasReportadas()'>Reportadas</a>";
 
 document.getElementById("lista").appendChild(configuracion);
 if(unUsuario.administrador)
 	{document.getElementById("lista").appendChild(admin);
-	document.getElementById("lista").appendChild(reportes);}
+	document.getElementById("lista").appendChild(reportadas);}
 
 document.getElementById("lista").appendChild(cerrar);
 document.getElementById("lista").removeChild(loguear);
@@ -211,8 +211,8 @@ document.getElementById("lista").removeChild(configuracion);
 if(unUsuario.administrador){
 	var admin = document.getElementById("admin");
 	document.getElementById("lista").removeChild(admin);
-	var reportes = document.getElementById("reportes");
-	document.getElementById("lista").removeChild(reportes);
+	var reportadas = document.getElementById("reportadas");
+	document.getElementById("lista").removeChild(reportadas);
 	}
 
 	document.getElementById("sesion").innerHTML = 'Sesión';
