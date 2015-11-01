@@ -363,27 +363,42 @@ function ocultarLoading(){
 }
 function verificarMail(mail){
 	var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return expr.test(mail); 
+    var e = false;
+	if(expr.test(mail)){
+		e=true;
+	}else{
+		alert("El Email es invalido");
+	}
+	return e;
 }
 function verificarContraseña(pass){
 	var expr = /^[0-9A-Za-z]+$/;
 	var e =  false;
-    if (pass.length >= 8 && pass.length <= 50)
-		e = expr.test(pass); 
+    if (pass.length >= 8 && pass.length <= 50 && expr.test(pass)){
+		e = true; 
+	}else{
+		alert("La contraseña debe contener solo caracteres alfanumericos entre 8 y 50");
+	}
 	return e;
 }
 function verificarNombre(nombre){
 	var expr = /^[A-Za-z]+$/;
 	var e =  false;
-    if (nombre.length >= 3 && nombre.length <= 30)
+    if (nombre.length >= 3 && nombre.length <= 30){
 		e = expr.test(nombre); 
+	}else{
+		alert("El nombre debe contener solo caracteres alfabeticos entre 3 y 30");
+	}
 	return e;
 }
 function verificarApellido(nombre){//Que son los caracteres especiales para le apellido
 	var expr = /^[A-Za-z]+$/;
 	var e =  false;
-    if (nombre.length >= 3 && nombre.length <= 30)
+    if (nombre.length >= 3 && nombre.length <= 30){
 		e = expr.test(nombre); 
+	}else{
+		alert("El apellido debe contener solo caracteres alfabeticos y especiales (?) y entre 3 y 30");
+	}
 	return e;
 }
 function verificarContraseña2(pass1,pass2){
