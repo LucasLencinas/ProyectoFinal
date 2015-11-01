@@ -491,8 +491,8 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 
 /*Antes de ver las rampas cercanas o crar una nueva ruta, se ejecuta esto para que no se superponga nada*/
 function borrarRutasPrevias(){
-	$("#inputHasta").val("");
-	$("#inputDesde").val("");
+//	$("#inputHasta").val("");
+//	$("#inputDesde").val("");
 	destinationMarker.setMap(null);
 	originMarker.setMap(null);
 	
