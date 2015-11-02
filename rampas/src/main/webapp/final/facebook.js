@@ -60,7 +60,7 @@ function sincronizarDatosConFacebook(){
 		var id = response.authResponse.userID;
 		var uf={};
 		FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
-			uf.id=unUsuario;
+			uf.id=unUsuario.id;
 			uf.nombre=response.first_name;	//GLOBAL
 			uf.apellido=response.last_name
 			uf.facebook=id;
