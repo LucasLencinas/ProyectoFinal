@@ -309,7 +309,7 @@ function registrarMail(){
 		usuario.contraseña = pass1;
 		unUsuario=usuario; //GLOBAL
 		cerrarTodoM();
-		nuevoUsuarioMail(usuario.nombre);
+		nuevoUsuarioMail(usuario);
 		mostrarMensajeBienvenida(unUsuario.nombre);
 		cerrarTodo();
 		//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto

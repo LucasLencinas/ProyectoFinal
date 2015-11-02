@@ -187,6 +187,7 @@ function mostraMarcadoresDelBarrio(stringCoordenadas, rampasDelBarrio){
 	new google.maps.Polyline({
 		path:coordenadasBarrioElegido
 	});
+	borrarInputDesdeHasta();
 	borrarRutasPrevias();
 	ocultarRampasCercanas();
 	borrarBarriosPrevios();
@@ -490,7 +491,10 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 	});
 }
 
-
+function borrarInputDesdeHasta(){
+	$("#inputHasta").val("");
+	$("#inputDesde").val("");
+}
 /*Antes de ver las rampas cercanas o crar una nueva ruta, se ejecuta esto para que no se superponga nada*/
 function borrarRutasPrevias(){
 //	$("#inputHasta").val("");
