@@ -41,6 +41,7 @@ function buscarUsuarioPorFacebook(response){
 	var uf={};
 	if(buscarUsuarioFacebook(id)){//Esta registrado
 		cerrarTodoM();
+		mostrarMensajeBienvenida(unUsuario.nombre);
 		}
 		else{//No esta registrado en la BD
 			FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
