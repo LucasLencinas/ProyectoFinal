@@ -119,7 +119,7 @@ function llenarSelectOptions(){
 						barriosDelSelect.push({id: value.id, nombre:value.nombre, limites: value.limites});
 					});
 					ordenarSelect('selectBarrios');
-					$("#selectBarrios").selectedIndex="1";
+					document.getElementById("selectBarrios").selectedIndex = "0";
 					barriosDelSelect.sort(SortByNombre);
 				},
 				404: function () { 
