@@ -580,3 +580,16 @@ function calcularRutas() {
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function limpiarMapa(){
+	borrarInputDesdeHasta();
+	borrarRutasPrevias();
+	ocultarRampasCercanas();
+	borrarBarriosPrevios();
+//Centrar Mapa	
+		var latlngbounds = new google.maps.LatLngBounds();//Para centrar (1)
+		latlngbounds.extend(new google.maps.LatLng(-34.549427, -58.363947));//Para centrar (2)
+		latlngbounds.extend(  new google.maps.LatLng(-34.650316, -58.533205));//Para centrar (2)
+		map.setCenter(latlngbounds.getCenter());//Zoom para centrar (3)
+		map.setZoom(12);//Zoom
+}

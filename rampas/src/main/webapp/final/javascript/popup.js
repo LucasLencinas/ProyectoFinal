@@ -220,6 +220,7 @@ if(unUsuario.administrador){
 		logoutFacebook();
 	unUsuario={};
 	idSesion=-1;//GLOBAL Sesion
+	limpiarMapa();
 }
 /**********************************************************************************************/
 function centrar (box){
