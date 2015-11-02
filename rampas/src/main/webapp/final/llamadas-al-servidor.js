@@ -36,6 +36,9 @@ function nuevaRampa(rampa){
 			ocultarLoading();
 			alerta("La Rampa se dio de Alta correctamente");
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			409: function () { 
 					alerta("Hubo un error al grabar la rampa en la base de datos.");
@@ -80,6 +83,9 @@ function modificarRampaa(rampa){
 		success: function (data) {
 			ocultarLoading();
 			alerta("Se modifico la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
@@ -131,6 +137,9 @@ function reportarRampaa(rampa){
 			ocultarLoading();
 			alerta("Se reporto la rampa Correctamente.","Exito");			
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			409: function () { 
 				alerta("Hubo un error al reportar la rampa en la base de datos.");
@@ -152,6 +161,9 @@ function bru(latitud, longitud){
 		success: function (rampa) {
 			ocultarLoading();
 			r=rampa;
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			404: function () { alert("Rampa eeror");
@@ -175,6 +187,9 @@ function borrarRampa(rampa){
 		success: function (data) {
 			ocultarLoading();
 			alert("Se borro la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
@@ -212,6 +227,9 @@ function buscarRampasReportadas(){
 		success: function(rampas){
 			ocultarLoading();
 			mostraMarcadoresReportados(rampas);
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			404: function () { 
@@ -308,6 +326,9 @@ function nuevoUsuarioFacebook(usuario){
 				ocultarLoading();
 				mostrarMensajeBienvenidaRegistro();
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			409: function () { 
 				ocultarLoading();
@@ -334,6 +355,9 @@ function autenticar(mail,pass){
 			idSesion=usuario.id;					//identificador Usuario para poder Modificar
 			unUsuario = usuario;
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			404: function () { 
 			ocultarLoading();
@@ -354,6 +378,9 @@ function existeUsuarioRegistrado(mail,idUsuario){
 		success: function (usuario) {
 			ocultarLoading();
 			encontro=(usuario.id != idUsuario);//true Existe usuario (registrar)|(modificar) NO se puede usar
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			404: function () { 
@@ -442,6 +469,9 @@ function buscarUsuarioFacebook(facebook){
 			unUsuario = usuario;	//GLOBAL
 			encontro = true;
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			404: function () { 
 				
@@ -462,6 +492,9 @@ function modificarUsuarioFacebook(usuario){
 		success: function (data) {
 			ocultarLoading();
 			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
@@ -485,6 +518,9 @@ function buscarUsuarios(){
 			listarUsuarios(usuarios);
 			$('#resultadoBuscarUsuarios').html(JSON.stringify(usuarios));
 		},
+		complete:function (){
+			ocultarLoading();
+		},
 		statusCode: {
 			404: function () { 
 				$('#resultadoBuscarUsuarios').html("No se ha encontrado ningun usuario.");
@@ -504,6 +540,9 @@ function borrarUsuario(usuario){
 		success: function (data) {
 			ocultarLoading();
 			alert("Se borro el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+		},
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 

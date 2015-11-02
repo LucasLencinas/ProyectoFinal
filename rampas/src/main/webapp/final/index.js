@@ -164,6 +164,9 @@ function buscarRampasPorBarrio(){
 			  ocultarLoading();
 		      mostraMarcadoresDelBarrio(barriosDelSelect[barrioElegido].limites,rampas);
 		    },
+			complete:function (){
+				ocultarLoading();
+			},
 		    statusCode: {
 		      404: function () { 
 		        alert("No se ha podido buscar las rampas de ese barrio");
@@ -481,6 +484,9 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 				$.each(polilineas,function(index, unaPoly){
 					habilitarBotonDeRuta(index);	
 				});
+				ocultarLoading();
+			},
+			complete:function (){
 				ocultarLoading();
 			},
 			404: function () { 
