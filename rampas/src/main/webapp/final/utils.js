@@ -414,7 +414,7 @@ function boolASiNo(valor){
 //function colorDePolilinea(marcadores){
 function colorDePolilinea(polilinea){
 	var porcentaje, puntajeCamino = 0;
-	function puntajeRampa(marcador){
+	function puntajeRampa(punto){
 		if(punto.reportada == true)
 			return colores.GRIS;
 		if(punto.tieneInformacion == false)
