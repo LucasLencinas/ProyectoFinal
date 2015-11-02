@@ -301,7 +301,7 @@ function registrarMail(){
 	var pass1 = document.getElementById("pass1R").value;
 	var pass2 = document.getElementById("pass2R").value;
 
-	if (validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion)){
+	if (validarRegistro(mail,nombre,apellido,pass1,pass2,-1)){//(-1 idSesion)
 		var usuario = {};
 		usuario.nombre = nombre;
 		usuario.apellido = apellido;
@@ -348,12 +348,23 @@ function ordenarSelect(id_componente){ //codigo copiado
 		return a.text === b.text ? 0 : a.text < b.text ? -1 : 1;
 	})).val(optionActual);
 }
+
+function SortByNombre(x,y) {//ordenar Array Json barrios
+		return ((x.nombre == y.nombre) ? 0 : ((x.nombre > y.nombre) ? 1 : -1 ));
+}
+
 function mostrarMensajeBienvenida(nombre){
 	var dlgboxBienvenidos = document.getElementById("dlgboxBienvenidos");
 	var textoBienvenidos = document.getElementById("textoBienvenidos");
 	textoBienvenidos.innerHTML="Hola "+ nombre + "... Bienvenido a Mas Rampas";
 	dlgboxBienvenidos.style.display = "block";
 	setTimeout(function(){dlgboxBienvenidos.style.display = "none";}, 2000);
+}
+function mostrarMensajeBienvenidaRegistro(){
+	var dlgboxBienvenidosRegistro = document.getElementById("dlgboxBienvenidosRegistro");
+	var textoBienvenidos = document.getElementById("textoBienvenidos");
+	dlgboxBienvenidosRegistro.style.display = "block";
+	setTimeout(function(){dlgboxBienvenidosRegistro.style.display = "none";}, 2000);
 }
 function mostrarLoading(){
 	$('#loading').html('<img src="imagen/ajax-loader.gif"><br> cargando...');

@@ -119,6 +119,8 @@ function llenarSelectOptions(){
 						barriosDelSelect.push({id: value.id, nombre:value.nombre, limites: value.limites});
 					});
 					ordenarSelect('selectBarrios');
+					$("#selectBarrios").selectedIndex="1";
+					barriosDelSelect.sort(SortByNombre);
 				},
 				404: function () { 
 					alert("Hubo un problema al buscar los barrios en el sistema.");

@@ -281,16 +281,14 @@ function nuevoUsuarioMail(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 			ocultarLoading();
-			alert("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+			mostrarMensajeBienvenidaRegistro();
 		},
-		complete: function (jqXHR, textStatus) {
-			var resultado = "Complete - Nuevo Usuario. ";
-			resultado += "Contenido jqHR:" + jqXHR + ". ";
-			resultado += "Contenido textStatus:" + textStatus + ". ";
-			alert(resultado);
+		complete:function (){
+			ocultarLoading();
 		},
 		statusCode: {
-			409: function () { 
+			409: function () {
+			ocultarLoading();
 				alert("Hubo un error al grabar el usuario en la base de datos.");
 			}
 		}
@@ -308,10 +306,11 @@ function nuevoUsuarioFacebook(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 				ocultarLoading();
-				alert("Se dio de alta el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+				mostrarMensajeBienvenidaRegistro();
 		},
 		statusCode: {
 			409: function () { 
+				ocultarLoading();
 				alert("Hubo un error al guardar el usuario en la base de datos.");
 			}
 		}
@@ -337,7 +336,7 @@ function autenticar(mail,pass){
 		},
 		statusCode: {
 			404: function () { 
-			
+			ocultarLoading();
 			}
 		}
 	});
