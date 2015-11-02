@@ -198,12 +198,12 @@
 input[type="checkbox"]:disabled + label {
 	color:#666666;
 }
-#dlgboxBienvenidos{
+#dlgboxBienvenidos,#dlgboxBienvenidosRegistro{
 	padding: 30px 30px 30px 30px;
 	left: 50%;
 	top:50%;
 }
-#dlgboxBienvenidos p{
+#dlgboxBienvenidosRegistro p, #dlgboxBienvenidos p{
 	font-weight:bold;
 }
 #loading{
@@ -216,7 +216,7 @@ input[type="checkbox"]:disabled + label {
 	.dlgbox{
 		width:100%;
 	}
-	#dlgboxBienvenidos{
+	#dlgboxBienvenidosRegistro, #dlgboxBienvenidos{
 		left: 0;
 		top:50%;
 	}
@@ -228,7 +228,7 @@ input[type="checkbox"]:disabled + label {
 	.dlgbox{
 		width:100%;
 	}
-	#dlgboxBienvenidos{
+	#dlgboxBienvenidosRegistro, #dlgboxBienvenidos{
 		left: 0;
 		top:50%;
 	}
