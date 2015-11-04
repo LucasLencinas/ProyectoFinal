@@ -68,6 +68,7 @@ function echo(){
 
 
 function initialize() {
+	abrirSesionGuardada();
 	
 	echo();
 	geocoder = new google.maps.Geocoder();
@@ -99,7 +100,7 @@ function initialize() {
 	originMarker = crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/disability2.png",null,null,null,new google.maps.Size(28, 32)),null);
 	destinationMarker= crearMarcadorConColor(new google.maps.LatLng(0, 0), new google.maps.MarkerImage("imagen/finish.png",null,null,null,new google.maps.Size(28, 32)),null);
 	google.maps.event.addListener(contextMenu, 'menu_item_selected', setearListenerParaContextMenu);
-		
+	
 }//Fin initialize
 
 function llenarSelectOptions(){

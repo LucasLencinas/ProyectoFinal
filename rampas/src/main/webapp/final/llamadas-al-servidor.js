@@ -377,6 +377,7 @@ function existeUsuarioRegistrado(mail,idUsuario){
 		url: "/rampas/Usuarios/mail/" + mail,
 		success: function (usuario) {
 			ocultarLoading();
+			unUsuario =  usuario;
 			encontro=(usuario.id != idUsuario);//true Existe usuario (registrar)|(modificar) NO se puede usar
 		},
 		complete:function (){

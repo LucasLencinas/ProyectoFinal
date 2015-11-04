@@ -36,12 +36,20 @@ function statusChangeCallback(response) {
   }
 }
 
+function verificarConectadoFacebook(idFacebook){
+	var r = false;
+	var userIdFB = FB.getUserID();
+	r = (userIdFB == idFacebook)
+	return r;
+}
+
 function buscarUsuarioPorFacebook(response){
 	var id = response.authResponse.userID;
 	var uf={};
 	if(buscarUsuarioFacebook(id)){//Esta registrado
 		cerrarTodoM();
 		mostrarMensajeBienvenida(unUsuario.nombre);
+		guardarSesion(unUsuario);
 		}
 		else{//No esta registrado en la BD
 			FB.api( '/me',{fields: 'first_name,last_name,email'}, function(response) {
@@ -50,6 +58,7 @@ function buscarUsuarioPorFacebook(response){
 			uf.facebook=id;
 			unUsuario=uf;
 			cerrarTodoM();
+			guardarSesion(unUsuario);
 			nuevoUsuarioFacebook(uf);
 			});
 		}

@@ -222,6 +222,7 @@ if(unUsuario.administrador){
 	idSesion=-1;//GLOBAL Sesion
 	limpiarTextbox();
 	limpiarMapa();
+	cerrarSesionGuardada();
 }
 /**********************************************************************************************/
 function centrar (box){
@@ -292,6 +293,7 @@ function iniciarSesion(){
 	if(autenticar(nombre,pass)){
 		cerrarTodoM();
 		mostrarMensajeBienvenida(unUsuario.nombre);
+		guardarSesion(unUsuario);
 	}
 		else alerta("El Email o la contraseña es invalida","Error Autenticación");
 }
@@ -324,9 +326,9 @@ function modificarMail(){
 	var pass1 = document.getElementById("pass1M").value;
 	var pass2 = document.getElementById("pass2M").value;
 	
-	if (validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion)){
+	if (validarRegistro(mail,nombre,apellido,pass1,pass2,unUsuario.id)){
 				var usuario = {};
-				usuario.id = idSesion; //GLOBAL
+				usuario.id = unUsuario.id; //GLOBAL
 				usuario.nombre = nombre;
 				usuario.apellido = apellido;
 				usuario.mail = mail;
@@ -334,6 +336,7 @@ function modificarMail(){
 				unUsuario=usuario;			//GLOBAL
 				modificarUsuarioMail(usuario);
 				cerrarTodo();
+				document.getElementById("sesion").innerHTML = unUsuario.nombre;	
 	}
 }
 function autocompletarModificar(usuario){
@@ -457,4 +460,47 @@ function limpiarTextbox(){
 	
 	document.getElementById("nombre").value = "";
 	document.getElementById("pass").value = "";
+}
+function guardarSesion(usuario){
+	var user = JSON.stringify(usuario);
+//	$.session.set("nombreSesion",user);
+crearCookie("nombreSesion", user, 30);
+}
+function abrirSesionGuardada(){
+//	var user = $.session.get("nombreSesion");
+var user = obtenerCookie("nombreSesion");
+	if (user != null && user != "undefined"){
+			unUsuario = JSON.parse(user);
+			if(typeof(unUsuario.facebook)=="undefined"){
+				if (existeUsuarioRegistrado(unUsuario.mail,unUsuario.idUsuario))//Que siga registrado en el sistema
+					cerrarTodoM();
+				else
+					cerrarSesionGuardada();
+			}else{
+				if (buscarUsuarioFacebook(unUsuario.facebook) )//&& verificarConectadoFacebook(unUsuario.facebook) ) //Que siga registrado en el sistema y conectado a facebook
+					cerrarTodoM();
+				else
+					cerrarSesionGuardada();
+			}
+	}
+}
+function cerrarSesionGuardada(){
+	crearCookie("nombreSesion",null, -1);
+}
+function crearCookie(clave, valor, diasexpiracion) {
+    var d = new Date();
+    d.setTime(d.getTime() + (diasexpiracion*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = clave + "=" + valor + "; " + expires;
+}
+ 
+function obtenerCookie(clave) {
+    var name = clave + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return null;
 }
