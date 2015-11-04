@@ -353,7 +353,7 @@ function modificarRampa(marcador){
 
 function eliminarRampa(marcador){
 if (confirm("ELIMINAR RAMPA")){
-	borrarRampa(bru(marcador.getPosition().lat(),marcador.getPosition().lng()));
+	bru2(marcador.getPosition().lat(),marcador.getPosition().lng());
 	marcador.setMap(null);
 	}
 }

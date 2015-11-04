@@ -173,6 +173,28 @@ function bru(latitud, longitud){
 	});
 	return r;
 }
+function bru2(latitud, longitud){
+	mostrarLoading();
+	var r={};
+	console.log("A punto de buscar rampas por ubicacion...");
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
+		success: function (rampa) {
+			borrarRampa(rampa);
+		},
+		complete:function (){
+			ocultarLoading();
+		},
+		statusCode: {
+			404: function () { alert("Rampa eeror");
+			 
+			}
+		}
+	});
+	return r;
+}
 
 
 /** ----- BORRAR RAMPA ----- **/
