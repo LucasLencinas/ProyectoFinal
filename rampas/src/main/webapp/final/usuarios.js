@@ -15,18 +15,20 @@ function listarUsuarios(usuarios){
 		var tabla = document.getElementById("usEliminar");
 		limpiarTabla(tabla);
 		$.each(usuarios, function(k,v){
-			var fila = tabla.insertRow(tabla.rows.length);
-			var columnaCheck = fila.insertCell(0);
-			var columnaNombre = fila.insertCell(1);
-			var columnaApellido = fila.insertCell(2);
-			var columnaId = fila.insertCell(3);
-			var check = document.createElement("input");
-			check.type = "checkbox";
-			columnaCheck.appendChild(check);
-			columnaNombre.innerHTML=v.nombre;
-			columnaApellido.innerHTML=v.apellido;
-			columnaId.innerHTML=v.id;
-			columnaId.style.display="none";
+			if(!v.administrador){
+				var fila = tabla.insertRow(tabla.rows.length);
+				var columnaCheck = fila.insertCell(0);
+				var columnaNombre = fila.insertCell(1);
+				var columnaApellido = fila.insertCell(2);
+				var columnaId = fila.insertCell(3);
+				var check = document.createElement("input");
+				check.type = "checkbox";
+				columnaCheck.appendChild(check);
+				columnaNombre.innerHTML=v.nombre;
+				columnaApellido.innerHTML=v.apellido;
+				columnaId.innerHTML=v.id;
+				columnaId.style.display="none";
+			}
 		});			
 	}
 }
