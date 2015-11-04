@@ -220,6 +220,7 @@ if(unUsuario.administrador){
 		logoutFacebook();
 	unUsuario={};
 	idSesion=-1;//GLOBAL Sesion
+	limpiarTextbox();
 	limpiarMapa();
 }
 /**********************************************************************************************/
@@ -440,4 +441,20 @@ function validarRegistro(mail,nombre,apellido,pass1,pass2,idSesion){
 	registro = (verificarContraseña2(pass1,pass2) && registro);
 	registro = (verificarUsuarioRegistrado(mail,idSesion) && registro);
 	return registro;
+}
+function limpiarTextbox(){
+	document.getElementById("nombreM").value = "";
+	document.getElementById("apellidoM").value = "";
+	document.getElementById("emailM").value = "";
+	document.getElementById("pass1M").value = "";
+	document.getElementById("pass2M").value = "";
+	
+	document.getElementById("nombreR").value = "";
+	document.getElementById("apellidoR").value = "";
+	document.getElementById("emailR").value = "";
+	document.getElementById("pass1R").value = "";
+	document.getElementById("pass2R").value = "";
+	
+	document.getElementById("nombre").value = "";
+	document.getElementById("pass").value = "";
 }
