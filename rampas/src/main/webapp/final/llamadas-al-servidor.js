@@ -16,7 +16,10 @@ function altaRampa(){
 	rampa.tieneRampas = document.getElementById("tieneRampaA").checked;
 	rampa.buenEstado = document.getElementById("buenEstadoA").checked;
 	rampa.crucesAccesibles = document.getElementById("crucesAccesiblesA").checked;
-	rampa.reportada = true;
+	if (!unUsuario.administrador)
+		rampa.reportada = true;
+	else
+		rampa.reportada = false;
 	//rampa.reportes = "Nueva";
 	var autor = unUsuario.nombre + " " + unUsuario.apellido;
 	var reportes = [{"autor": autor,"rampa": {"tieneRampas":rampa.tieneRampas,"crucesAccesibles":rampa.crucesAccesibles,"buenEstado":rampa.buenEstado},"modificada": false,"comentario":"Nueva" }];

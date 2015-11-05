@@ -230,11 +230,12 @@ function mostrarRampasCercanasConInfoDelServidor(poligonos, minimo, maximo){
 				});
 				ocultarLoading();
 			},
-			complete:function (){
-				ocultarLoading();
-			},
 			404: function () { 
 				console.log("Hubo un error al tratar de encontrar las rampas cercanas");
+				ocultarLoading();
+			},
+			complete:function (){
+				ocultarLoading();
 			}
 		}
 	});
