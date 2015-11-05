@@ -1,15 +1,244 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Pagina Principal - Rampas</title>
-	<script src="jquery-2.1.4.min.js"></script>
-  </head>
-  <body>
-	<h2>Pagina Principal - Rampas</h2></br>  
-	<a href="disenio.html">Pruebas de diseño de pagina</a></br>
-	<a href="main.html">Pruebas de consultas al servidor(Java)</a></br>
-  </body>
-</html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>Mas Rampas</title>
+		<link rel="shortcut icon" type="image/x-icon" href="imagen/favicon.ico">
+		<!--<link rel="stylesheet" href="css/contextmenu.css">-->
+		<!--<link rel="stylesheet" type="text/css" href="css/estilos.css">-->
+		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/popup.css"/>
+		<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>-->
+		<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
+		<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>-->
+		<!--<script src="barrios.js"></script> POR AHORA LO SACO. Lo cargo cuando lo pido al servidor.-->
+		<script src="javascript/contextmenu.js"></script>
+		<script src="javascript/facebook.js"></script>
+		<script src="javascript/index.js"></script>
+		<script src="javascript/jquery-2.1.4.min.js"></script>
+		<script src="javascript/jquery-ui.min.js"></script>
+		<script src="javascript/jquery.sprintf.js"></script>
+		<!--<script type="text/javascript" src="javascript/popup.js"> </script>-->
+		<script src="javascript/popup.js"> </script>
+		<script src="javascript/rampas.js"></script>
+		<script src="javascript/usuarios.js"></script>
+		<script src="javascript/utils.js"></script>
+	</head>
+		<body>
+			<header>
+				<div id="subheader">
+					<div class="barra_menu no_seleccion">
+						<div class="senitag">
+							<p><img src="imagen/LogoMasRampas.png"/></br></p>
+						</div>
+						<div class="xbotones" >
+							<ul>
+								<li ><a id="sesion" href="#" onclick="showSesion()"   >Sesión</a>
+									<ul id="lista"  >
+										<li id="loguear"><a href="#" onclick="hideSesion(); showdlgboxIniciar()">Loguear</a></li>
+										<li id="registrar"><a href="#" onclick="hideSesion(); showdlgboxRegistro()">Registrar</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="detalle no_seleccion">
+						<form>
+							<input class="autocomplete" id="inputDesde" type="text" placeholder="Desde:" ></input>
+							<input class="autocomplete" id="inputHasta" type="text" placeholder="Hasta:"></input>
+							<input onclick="calcularRutas()" type="button" style="cursor:pointer" value="Consultar"></input> 
+						</form>
+						<div class="textarea">
+							<select id="selectBarrios"></select>
+							<button onclick="buscarRampasPorBarrio()">Buscar</button>
+							<div id="checkboxes"></div>
+						</div>
+					</div>
+				</div>
+			</header>	
+			<div class="mapa_google">
+				<div id="map-canvas" style="cursor:pointer !important; "></div>
+			</div>
 
+
+
+<!--POP UP-->
+<div id="white-background"></div>
+<div id="dlgboxIniciar" class="dlgbox dlgboxIniciar no_seleccion">
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxIniciar');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Iniciar Sesión</p></div>
+    <div class="dlg-footerRegistro">
+        <button class="email" onclick="showdlgboxIniciarMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+	</div>
+</div>
+<div id="dlgboxRegistro" class="dlgbox dlgboxRegistro no_seleccion">
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistro');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
+    <div class="dlg-footerRegistro">
+        <button class="email" onclick="showdlgboxRegistroMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
+	</div>
+</div>
+<div id="dlgboxRegistroMail" class="dlgbox dlgboxRegistroMail no_seleccion" >
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistroMail');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
+    <div class="dlg-body dlg-bodyRegistroMail">
+		<form class="etiqueta">
+			<label>Nombre:</label>
+			<label>Apellido:</label>
+			<label>Email:</label>
+			<label>Contraseña:</label>
+			<label>Confirmar<br>Contraseña:</label>			
+		</form>
+		<form>
+			<input id="nombreR" type="text" name="nombre" placeholder="Nombre" ></input>
+			<input id="apellidoR" type="text" name="apellido" placeholder="Apellido" ></input>
+			<input id="emailR" type="email" name="email" placeholder="Email" ></input>
+			<input id="pass1R" type="password" placeholder="Contraseña" ></input>
+			<input id="pass2R" type="password" placeholder="Contraseña" ></input>			
+		</form>
+	</div>
+    <div class="dlg-footer">
+        <button onclick="registrarMail()">Registrar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxIniciarMail" class="dlgbox dlgboxIniciarMail no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxIniciarMail');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Iniciar Sesion</p></div>
+    <div class="dlg-bodyIniciarMail">
+		<form class="etiqueta">
+			<label>Email:</label>
+			<label>Contraseña:</label>	
+		</form>
+		<form>
+			<input id="nombre" type="email" name="email" placeholder="Email" ></input>
+			<input id="pass" type="password" placeholder="Contraseña" ></input>		
+		</form>
+	</div>
+    <div class="dlg-footer dlg-footerIniciarMail">
+        <button onclick="iniciarSesion()">Iniciar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxCerrarSesion" class="dlgbox dlgboxCerrarSesion no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxCerrarSesion');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Cerrar Sesion</p></div>
+    <div class="dlg-bodyCerrarSesion" align="center">
+	<p>¿Está seguro que <br>desea Cerrar Sesión?</p>
+	</div>
+    <div class="dlg-footer dlg-footerCerrarSesion">
+        <button class="CerrarSesionSi" onclick="cerrarSesion()">SI</button>
+        <button class="CerrarSesionNo" onclick="cerrarTodo()">NO</button>
+	</div>
+</div>
+<div id="dlgboxeliminarUsuarios" class="dlgbox dlgboxeliminarUsuarios no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxeliminarUsuarios');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Eliminar Usuarios</p></div>
+    <div class="dlg-bodyeliminarUsuarios dlg-body">
+		<form id="f1" name="f1">
+			<table id="usEliminar">
+			</table>
+		</form>	
+	</div>
+	<div class="dlg-footer dlg-footereliminarUsuarios">
+        <button onclick="eliminar()">Eliminar</button>
+        <button onclick="cerrarTodo()">Cancelar</button>
+    </div>
+</div>
+<div id="dlgboxNuevaRampa" class="dlgbox dlgboxNuevaRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Nueva Rampa</p></div>
+    <div class="dlg-bodyNuevaRampa dlg-body">
+		<form>
+			<input id="tieneRampaA" type="checkbox" onChange="tieneRampaCheck('A') "><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoA" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesA" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+
+		</form>	
+	</div>
+    <div class="dlg-footer dlg-footerNuevaRampa">
+		<button onclick="altaRampa()">Agregar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxModificarRampa" class="dlgbox dlgboxModificarRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Modificar Rampa</p></div>
+    <div class="dlg-bodyModificarRampa dlg-body">
+		<form>
+			<input id="tieneRampaM" type="checkbox" onChange="tieneRampaCheck('M') "><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoM" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesM" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+		</form>	
+	</div>
+    <div class="dlg-footer dlg-footerModificarRampa">
+		<button onclick="modRampa()">Modificar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxReportarRampa" class="dlgbox dlgboxReportarRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Reportar Rampa</p></div>
+    <div class="dlg-bodyReportarRampa dlg-body">
+		<form>
+			<input id="tieneRampaR" type="checkbox" onChange="tieneRampaCheck('R') "><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoR" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesR" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+		</form>	
+			<label>Motivo: </label><select  id="selectMotivo" onChange="activarPersonalizada()"></select><br>
+			<input id="motivoPersonalizado"  type="text" placeholder="Otro motivo:" style="display:none"></input>
+	</div>
+    <div class="dlg-footer dlg-footerReportarRampa">
+		<button onclick="repRampa()">Reportar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxAlerta" class="dlgbox dlgboxAlerta no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxAlerta');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrardlgboxAlerta()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p id="tituloAlerta" align="center"></p></div>
+    <div class="dlg-bodyAlerta dlg-body" style="width:200px;">
+		<p id="textAlerta"></P>
+	</div>
+    <div class="dlg-footer dlg-footerAlerta">
+		<button onclick="cerrardlgboxAlerta()">Aceptar</button>
+	</div>
+</div>
+<div id="dlgboxModificarUsuario" class="dlgbox dlgboxModificarUsuario no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarUsuario');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Modificar</p></div>
+    <div class="dlg-body dlg-ModificarUsuario ">
+		<form class="etiqueta">
+			<label>Nombre:</label>
+			<label>Apellido:</label>
+			<label>Email:</label>
+			<label>Contraseña:</label>
+			<label>Confirmar<br>Contraseña:</label>			
+		</form>
+		<form>
+			<input id="nombreM" type="text" name="nombre" placeholder="Nombre" ></input>
+			<input id="apellidoM" type="text" name="apellido" placeholder="Apellido" ></input>
+			<input id="emailM" type="email" name="email" placeholder="Email" disabled="true"></input>
+			<input id="pass1M" type="password" placeholder="Contraseña" ></input>
+			<input id="pass2M" type="password" placeholder="Contraseña" ></input>			
+		</form>
+	</div>
+    <div class="dlg-footer dlg-footerModificarUsuario">
+		<button onclick="modificarMail()">Modificar</button>
+		<button onclick="cerrarTodo()">Cancelar</button>
+	</div>
+</div>
+<div id="dlgboxBienvenidos" class="dlgboxBienvenidos dlgbox no_seleccion" >
+    <div>
+		<p id="textoBienvenidos">Hola... Bienvenido a Mas Rampas</p>
+	</div>
+</div>
+<div id="dlgboxBienvenidosRegistro" class="dlgboxBienvenidos dlgbox no_seleccion" >
+    <div>
+		<p id="textoBienvenidos">Gracias por registrarse en Mas Rampas</p>
+	</div>
+</div>
+<div id="loading" class="no_seleccion"></div>
+<div id="dlgboxReportes"  class="dlgbox">
+<table id="reportes"></table>
+</div>
+		</body>
+  
+  <script>
+  window.onload = function() {
+  //calcularRutas();
+};
+  </script>
+
+</html>

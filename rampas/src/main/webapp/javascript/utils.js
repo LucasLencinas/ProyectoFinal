@@ -154,7 +154,7 @@ function setearListenerParaContextMenu(latLng, eventName){
 
 
 function  obtenerBarrioDeUnaNuevaRampa(latlng){
-
+	var nombre = null;
 	var coordenadasBarrioElegido, poligonoBarrioElegido;
 	//barriosDelSelect--> Cada item es {id, nombre, limites}
 	$.each(barriosDelSelect, function(indice,barrio){
@@ -163,9 +163,9 @@ function  obtenerBarrioDeUnaNuevaRampa(latlng){
 			paths: coordenadasBarrioElegido
 		});
 		if(google.maps.geometry.poly.containsLocation(latlng, poligonoBarrioElegido))
-			return barrio.nombre;
+			nombre = barrio.nombre;
 	});
-	return null;
+	return nombre;
 }
 
 
