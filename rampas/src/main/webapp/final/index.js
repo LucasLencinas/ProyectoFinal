@@ -124,7 +124,7 @@ function llenarSelectOptions(){
 					barriosDelSelect.sort(SortByNombre);
 				},
 				404: function () { 
-					alert("Hubo un problema al buscar los barrios en el sistema.");
+					alerta("Hubo un problema al buscar los barrios en el sistema.");
 				}
 			},
       complete: function (jqXHR, textStatus) {
@@ -170,7 +170,7 @@ function buscarRampasPorBarrio(){
 			},
 		    statusCode: {
 		      404: function () { 
-		        alert("No se ha podido buscar las rampas de ese barrio");
+		        alerta("No se ha podido buscar las rampas de ese barrio");
 		      }
 		    }
 		});		
@@ -572,15 +572,15 @@ function calcularRutas() {
 							map.setZoom(map.getZoom()-1); 
 						}
 						else{
-							alert('Error al dibujar las rutas: ' + status);
+							alerta('Error al dibujar las rutas.');// + status);
 						}
 					});
 				} else {
-				  alert('La direccion no se pudo encontrar: ' + status);
+				  alert('La direccion no se pudo encontrar.');// + status);
 				}
 			});
 		} else {
-		  alert('La direccion no se pudo encontrar: ' + status);
+		  alert('La direccion no se pudo encontrar.');// + status);
 		}
 	});
 }

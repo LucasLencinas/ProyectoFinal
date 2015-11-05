@@ -92,3 +92,12 @@ function logoutFacebook(){
 	 FB.logout(function(response) {
     });
 }
+
+function compartirFacebook(){
+FB.ui({
+  method: 'feed',
+  caption: 'An example caption',
+  link:'https://developers.facebook.com/docs/',
+  description:'He dado de alta una rampa',
+}, function(response){});
+}

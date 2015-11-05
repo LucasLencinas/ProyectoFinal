@@ -82,7 +82,7 @@ function modificarRampaa(rampa){
 		url: "/rampas/Rampas",
 		success: function (data) {
 			ocultarLoading();
-			alerta("Se modifico la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+			alerta("Se modifico la rampa correctamente.");// + JSON.stringify(rampa) + "-- " + data.toString());
 		},
 		complete:function (){
 			ocultarLoading();
@@ -166,7 +166,7 @@ function bru(latitud, longitud){
 			ocultarLoading();
 		},
 		statusCode: {
-			404: function () { alert("Rampa eeror");
+			404: function () { alerta("Hubo un error al buscar la rampa");
 			 
 			}
 		}
@@ -210,14 +210,14 @@ function borrarRampa(rampa){
 		url: "/rampas/Rampas",
 		success: function (data) {
 			ocultarLoading();
-			alert("Se borro la rampa: " + JSON.stringify(rampa) + "-- " + data.toString());
+			alerta("Se elimino la rampa correctamente.");// + JSON.stringify(rampa) + "-- " + data.toString());
 		},
 		complete:function (){
 			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
-				alert("Hubo un error al desreportar la rampa en la base de datos.");
+				alerta("Hubo un error al eliminar la rampa en la base de datos.");
 			}
 		}
 	});
@@ -257,7 +257,7 @@ function buscarRampasReportadas(){
 		},
 		statusCode: {
 			404: function () { 
-			alert("No se ha encontrado ninguna rampa REPORTADA.");
+			alerta("No se ha encontrado ninguna rampa reportada.");
 			}
 		}
 	});
@@ -331,7 +331,7 @@ function nuevoUsuarioMail(usuario){
 		statusCode: {
 			409: function () {
 			ocultarLoading();
-				alert("Hubo un error al grabar el usuario en la base de datos.");
+				alerta("Hubo un error al registrar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -356,7 +356,7 @@ function nuevoUsuarioFacebook(usuario){
 		statusCode: {
 			409: function () { 
 				ocultarLoading();
-				alert("Hubo un error al guardar el usuario en la base de datos.");
+				alerta("Hubo un error al registrar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -463,17 +463,17 @@ function modificarUsuarioMail(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 			ocultarLoading();
-			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+			alerta("Se modifico el usuario correctamente.");// + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete: function (jqXHR, textStatus) {
-			var resultado = "Complete - Modificar Usuario. ";
-			resultado += "Contenido jqHR:" + jqXHR.toString() + ". ";
-			resultado += "Contenido textStatus:" + textStatus + ". ";
-			alert(resultado);
+//			var resultado = "Complete - Modificar Usuario. ";
+//			resultado += "Contenido jqHR:" + jqXHR.toString() + ". ";
+//			resultado += "Contenido textStatus:" + textStatus + ". ";
+			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
-				alert("Hubo un error al modificar el usuario en la base de datos.");
+				alerta("Hubo un error al modificar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -516,14 +516,14 @@ function modificarUsuarioFacebook(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 			ocultarLoading();
-			alert("Se modifico el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+			alerta("Se modifico el usuario correctamente.");// + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete:function (){
 			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
-				alert("Hubo un error al modificar el usuario en la base de datos.");
+				alerta("Hubo un error al modificar el usuario en la base de datos.");
 			}
 		}
 	});
@@ -564,14 +564,14 @@ function borrarUsuario(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 			ocultarLoading();
-			alert("Se borro el usuario: " + JSON.stringify(usuario) + "-- " + data.toString());
+			alerta("Se elimino el usuario correctamente.");// + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete:function (){
 			ocultarLoading();
 		},
 		statusCode: {
 			409: function () { 
-				alert("Hubo un error al borrar el usuario en la base de datos.");
+				alerta("Hubo un error al borrar el usuario en la base de datos.");
 			}
 		}
 	});

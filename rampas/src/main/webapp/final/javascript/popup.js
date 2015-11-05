@@ -238,9 +238,7 @@ function centrar (box){
 		box.style.top = (y + (window.innerHeight - y )/2 - box.scrollHeight/2)  + "px";
 	}
 }
-function pan(){
-alert(window.innerWidth 	);
-}
+
 function carga()
 {
 	posicion=0; elMovimiento=null;

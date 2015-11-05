@@ -11,7 +11,7 @@
 var ubicacion;	
 function listarUsuarios(usuarios){
 	if($("#servidorHabilitado").is(':checked')){
-		alert("No estoy conectado con el servidor todavia.");
+		//alert("No estoy conectado con el servidor todavia.");
 	}else{
 		var tabla = document.getElementById("usEliminar");
 		limpiarTabla(tabla);
@@ -55,6 +55,6 @@ function eliminar(){
 			j++;
 		}
 	}
-	alert(ue);
+//	alert(ue);
 }
 
