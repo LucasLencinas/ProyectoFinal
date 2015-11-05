@@ -1,5 +1,6 @@
 ﻿var usuarios = 
 	[
+		{"nombre": "Administrador", "apellido": "Administrador", "mail": "admin", "contraseña": "admin", "administrador": "true"},
 		{"nombre": "Federico", "apellido": "Diaz", "mail": "fedee_vpc@hotmail.com", "contraseña": "federico", "administrador": "true"},
 		{"nombre": "Matias", "apellido": "Dionisi", "mail": "matiasdionisi22@hotmail.com", "contraseña" : "matias", "administrador": "true"},
 		{"nombre": "Lucas", "apellido": "Lencinas", "mail": "lllencinas@gmail.com", "contraseña": "lucas", "administrador": "true"},
@@ -43,15 +44,17 @@ function eliminar(){
 	var tabla = document.getElementById("usEliminar");
 	var ue =[];
 	var usEl={};
-		for (var j=i=0; i<tabla.rows.length;i++ ){
-			if(tabla.rows[i].cells[0].childNodes[0].checked)
-				{ue[j] = tabla.rows[i].cells[3].innerHTML;
+	for (var j=i=0; i<tabla.rows.length;i++ ){
+		if(tabla.rows[i].cells[0].childNodes[0].checked){
+			ue[j] = tabla.rows[i].cells[3].innerHTML;
 			usEl.id=tabla.rows[i].cells[3].innerHTML;
-			borrarUsuario(usEl);
-				tabla.deleteRow(i);
-				i--;
-				j++;}
+//			borrarUsuario(usEl);
+			borrarUsuarioPorId(usEl.id)
+			tabla.deleteRow(i);
+			i--;
+			j++;
 		}
-		alert(ue);
+	}
+	alert(ue);
 }
 

@@ -127,6 +127,26 @@ public class Rampas {
 			return Response.ok(new Gson().toJson(unaRampa),MediaType.APPLICATION_JSON).build();		
 		}
 	}
+	
+	@DELETE
+	@Path("/latlng/{lat}/{lng}")
+	@Produces("application/json")
+	public Response deleteRampaByLatLng(@PathParam("lat") String lat, @PathParam("lng") String lng) {
+		Rampa unaRampa = HandlerDS.getRampaByLatitudLongitud(Double.parseDouble(lat),Double.parseDouble(lng));
+		if (unaRampa == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			String estado = HandlerDS.deleteRampa(unaRampa);
+			if (estado == "OK") {
+//				return Response.status(Response.Status.OK).build();
+				return Response.ok("{}",MediaType.APPLICATION_JSON).build();	
+			} 
+			else {
+				return Response.serverError().entity("Eliminar Rampa: Error - " + estado).build();	
+			}
+		}
+	}
 		
 	@GET 
 	@Path("/ruta/{latmin}/{lngmin}/{latmax}/{lngmax}")

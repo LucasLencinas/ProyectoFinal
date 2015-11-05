@@ -173,27 +173,29 @@ function bru(latitud, longitud){
 	});
 	return r;
 }
-function bru2(latitud, longitud){
+
+function borrarRampaPorUbicacion(latitud, longitud){
 	mostrarLoading();
-	var r={};
-	console.log("A punto de buscar rampas por ubicacion...");
+	console.log("A punto de borrar rampa por ubicacion...");
 	$.ajax({
-		type: "GET",
+		type: "DELETE",
 		dataType: "json",
-		url: "/rampas/Rampas/latlng/"+ latitud + "/" + longitud,
-		success: function (rampa) {
-			borrarRampa(rampa);
-		},
-		complete:function (){
-			ocultarLoading();
-		},
+		url: "/rampas/Rampas/latlng/" + latitud + "/" + longitud,
 		statusCode: {
-			404: function () { alert("Rampa eeror");
-			 
+    		200: function (){
+				console.log("Borrar Rampa: Success");	
+				ocultarLoading();
+    		},
+			404: function () { 
+				console.log("Borrar Rampa: No existe");	
+				ocultarLoading();
 			}
-		}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("Borrar Rampa: Hubo un error en el servidor");
+	    	console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " + JSON.stringify(errorThrown));
+	    }
 	});
-	return r;
 }
 
 
@@ -572,5 +574,29 @@ function borrarUsuario(usuario){
 				alert("Hubo un error al borrar el usuario en la base de datos.");
 			}
 		}
+	});
+}
+
+function borrarUsuarioPorId(id){
+	mostrarLoading();
+	console.log("A punto de borrar usuario por id...");
+	$.ajax({
+		type: "DELETE",
+		dataType: "json",
+		url: "/rampas/Usuarios/id/" + id,
+		statusCode: {
+    		200: function (){
+				console.log("Borrar Usuario: Success");	
+				ocultarLoading();
+    		},
+			404: function () { 
+				console.log("Borrar Usuario: No existe");	
+				ocultarLoading();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("Borrar Usuario: Hubo un error en el servidor");
+	    	console.log(JSON.stringify(jqXHR) + ". " + JSON.stringify(textStatus) + ". " + JSON.stringify(errorThrown));
+	    }
 	});
 }

@@ -345,6 +345,26 @@ public class HandlerDS {
 			return usuarios;
 		}
 	}
+
+	public static Usuario getUsuarioById(Long id) {
+		System.out.print("Buscar Usuario por Id: ");
+		Usuario unUsuario;
+		try {
+		  unUsuario = ofy().load().type(Usuario.class).id(id).now();
+		} 
+		catch(Exception ex) {
+			System.out.println("Error - " + ex.getLocalizedMessage()); 
+			return null;
+		}
+		if (unUsuario == null) {
+			System.out.println("No existe");
+			return null;
+		}
+		else {
+			System.out.println("OK");
+			return unUsuario;
+		}
+	}
 	
 	public static Usuario getUsuarioByMail(String mail) {
 		System.out.print("Buscar Usuario por Mail: ");

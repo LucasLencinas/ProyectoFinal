@@ -110,8 +110,7 @@ public class Usuarios {
 	@Path("/mail/{mail}")
 	@Produces("application/json")
 	public Response loadUsuarioByMail(@PathParam("mail") String mail) {
-		Usuario unUsuario;
-		unUsuario = HandlerDS.getUsuarioByMail(mail);
+		Usuario unUsuario = HandlerDS.getUsuarioByMail(mail);
 		if (unUsuario == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
@@ -124,8 +123,7 @@ public class Usuarios {
 	@Path("/facebook/{facebook}")
 	@Produces("application/json")
 	public Response loadUsuarioByFacebook(@PathParam("facebook") String facebook) {
-		Usuario unUsuario;
-		unUsuario = HandlerDS.getUsuarioByFacebook(facebook);
+		Usuario unUsuario = HandlerDS.getUsuarioByFacebook(facebook);
 		if (unUsuario == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();		
 		}
@@ -134,4 +132,23 @@ public class Usuarios {
 		}
 	}
 
+	@DELETE
+	@Path("/id/{id}")
+	@Produces("application/json")
+	public Response deleteRampaByLatLng(@PathParam("id") String id) {
+		Usuario unUsuario = HandlerDS.getUsuarioById(Long.parseLong(id));
+		if (unUsuario == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();		
+		}
+		else {
+			String estado = HandlerDS.deleteUsuario(unUsuario);
+			if (estado == "OK") {
+//				return Response.status(Response.Status.OK).build();
+				return Response.ok("{}",MediaType.APPLICATION_JSON).build();	
+			} 
+			else {
+				return Response.serverError().entity("Eliminar Usuario: Error - " + estado).build();	
+			}
+		}
+	}
 }
