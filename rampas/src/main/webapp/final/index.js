@@ -491,6 +491,7 @@ function armarRutaConDatosDelServidor(respuesta, minimo,maximo){
 				ocultarLoading();
 			},
 			404: function () { 
+				ocultarLoading();
 				limpiarHTML();
 				$('#resultadoBuscarRampaPorUbicacion').html("No se ha encontrado ninguna rampa en esa ubicacion.");
 			}
@@ -573,14 +574,17 @@ function calcularRutas() {
 						}
 						else{
 							alerta('Error al dibujar las rutas.');// + status);
+							ocultarLoading();
 						}
 					});
 				} else {
-				  alert('La direccion no se pudo encontrar.');// + status);
+				  alerta('La direccion no se pudo encontrar.');// + status);
+				  ocultarLoading();
 				}
 			});
 		} else {
-		  alert('La direccion no se pudo encontrar.');// + status);
+		  alerta('La direccion no se pudo encontrar.');// + status);
+		  ocultarLoading();
 		}
 	});
 }
