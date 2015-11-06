@@ -154,18 +154,21 @@ function setearListenerParaContextMenu(latLng, eventName){
 
 
 function  obtenerBarrioDeUnaNuevaRampa(latlng){
-	var nombre = null;
 	var coordenadasBarrioElegido, poligonoBarrioElegido;
 	//barriosDelSelect--> Cada item es {id, nombre, limites}
-	$.each(barriosDelSelect, function(indice,barrio){
-		coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barrio.limites);
+
+	for (var i = 0; i < barriosDelSelect.length; i++) {
+		coordenadasBarrioElegido = coordenadasDesdeStringDeBarrio(barriosDelSelect[i].limites);
 		poligonoBarrioElegido= new google.maps.Polygon({
 			paths: coordenadasBarrioElegido
 		});
-		if(google.maps.geometry.poly.containsLocation(latlng, poligonoBarrioElegido))
-			nombre = barrio.nombre;
-	});
-	return nombre;
+		if(google.maps.geometry.poly.containsLocation(latlng, poligonoBarrioElegido)){
+			console.log("Esa rampa pertenece a: " + barriosDelSelect[i].nombre);
+			return barriosDelSelect[i].nombre;
+		}
+	}
+	console.log("Esa rampa no pertenece a ningun barrio");
+	return null;
 }
 
 
@@ -273,7 +276,7 @@ Armaria el contenido del infowindows antes de preguntarle a google por la direcc
 y eso lo agrego a lo ultimo. PENSARLO
 */
 function rellenarInfoWindow(unInfoWindow, marcador){
-
+	console.log(marcador.getPosition());
 	geocoder.geocode({'latLng': marcador.getPosition()}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[0]) {
