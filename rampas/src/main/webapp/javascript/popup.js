@@ -352,11 +352,13 @@ function registrarMail(){
 		usuario.apellido = apellido;
 		usuario.mail = mail;
 		usuario.contraseña = pass1;
+		usuario.administrador = false;
 		unUsuario=usuario; //GLOBAL
 		cerrarTodoM();
 		nuevoUsuarioMail(usuario);
 		mostrarMensajeBienvenida(unUsuario.nombre);
 		cerrarTodo();
+		unUsuario.id = -2;// Id fantasma hasta que se genera y persiste
 		//autenticar(document.getElementById("emailR").value,document.getElementById("pass1R").value);cerrarTodoM(); No funciona, pide el logueo antes de la persistencia que tarda como 1 minuto
 	}
 }
@@ -374,6 +376,7 @@ function modificarMail(){
 				usuario.apellido = apellido;
 				usuario.mail = mail;
 				usuario.contraseña = pass1;
+				usuario.administrador=unUsuario.administrador;
 				unUsuario=usuario;			//GLOBAL
 				modificarUsuarioMail(usuario);
 				cerrarTodo();

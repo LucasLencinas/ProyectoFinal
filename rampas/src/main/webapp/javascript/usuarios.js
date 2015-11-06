@@ -152,6 +152,9 @@ function existeUsuarioRegistrado(mail,idUsuario){
 			ocultarLoading();
 			unUsuario =  usuario;
 			encontro=(usuario.id != idUsuario);//true Existe usuario (registrar)|(modificar) NO se puede usar
+			if (idUsuario == -2){//si modifica no mas se registra
+				encontro = false;
+			}
 		},
 		complete:function (){
 			ocultarLoading();
