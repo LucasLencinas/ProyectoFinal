@@ -250,8 +250,12 @@
 	</div>
 </div>
 <div id="loading" class="no_seleccion"></div>
-<div id="dlgboxReportes"  class="dlgbox">
-<table id="reportes"></table>
+<div id="dlgboxReportes" class="dlgbox dlgboxReportes no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportes');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarReporte()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Reportes</p></div>
+    <div class="dlg-bodyReportes">
+		<table id="reportes"></table>
+	</div>
+	<div><br></div>
 </div>
 		</body>
   

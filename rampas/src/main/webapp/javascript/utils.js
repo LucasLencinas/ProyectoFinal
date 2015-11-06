@@ -353,7 +353,7 @@ function modificarRampa(marcador){
 }
 
 function eliminarRampa(marcador){
-	showdlgboxEliminarRampa();
+	showdlgboxEliminarRampa(marcador);
 }
 
 var reporteRampa = [];
@@ -368,8 +368,12 @@ var repote = bru(marcador.getPosition().lat(),marcador.getPosition().lng());
 		else dlgboxReportes.style.display = "block";
 	var elemento =document.getElementById("reportes");
 	mostrarReporte(reporteRampa,elemento)
+	centrar(dlgboxReportes);
 }
-
+function cerrarReporte(){
+	var dlgboxReportes =document.getElementById("dlgboxReportes");
+	dlgboxReportes.style.display = "none";
+}
 
 function mostrarReporte(reporte,elemento){
 	var tabla = elemento;

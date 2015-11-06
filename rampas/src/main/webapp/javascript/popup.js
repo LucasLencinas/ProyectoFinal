@@ -24,6 +24,7 @@
 	dlgboxModificarUsuario.style.display = "none";
 	dlgboxReportarRampa.style.display = "none";
 	dlgboxEliminarRampa.style.display = "none";
+	cerrarReporte();
 }
 function showdlgboxIniciar(){
 	var whitebg = document.getElementById("white-background");
