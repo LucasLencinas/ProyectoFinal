@@ -10,6 +10,7 @@
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	var dlgboxModificarUsuario =  document.getElementById("dlgboxModificarUsuario");
 	var dlgboxReportarRampa =  document.getElementById("dlgboxReportarRampa");
+	var dlgboxEliminarRampa =  document.getElementById("dlgboxEliminarRampa");
 	whitebg.style.display = "none";
 	dlgboxRegistro.style.display = "none";
 	dlgboxRegistroMail.style.display = "none";
@@ -22,6 +23,7 @@
 	dlgboxAlerta.style.display = "none";
 	dlgboxModificarUsuario.style.display = "none";
 	dlgboxReportarRampa.style.display = "none";
+	dlgboxEliminarRampa.style.display = "none";
 }
 function showdlgboxIniciar(){
 	var whitebg = document.getElementById("white-background");
@@ -62,9 +64,14 @@ function showdlgboxeliminarUsuarios(){
 	var whitebg = document.getElementById("white-background");
 	var dlgboxeliminarUsuarios = document.getElementById("dlgboxeliminarUsuarios");
 	buscarUsuarios();
-	whitebg.style.display = "block";
-	dlgboxeliminarUsuarios.style.display = "block";
-	centrar(dlgboxeliminarUsuarios);
+	var tabla = document.getElementById("usEliminar");
+	if(!tabla.rows.length){
+			alerta("No hay ningun usuario comun para eliminar.");
+	}else{
+		whitebg.style.display = "block";
+		dlgboxeliminarUsuarios.style.display = "block";
+		centrar(dlgboxeliminarUsuarios);
+	}
 }
 function showdlgboxNuevaRampa(latLng){
 	document.getElementById("tieneRampaA").checked=false;
@@ -104,6 +111,24 @@ function cerrardlgboxAlerta(){
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	dlgboxAlerta.style.display = "none";
 }
+function showdlgboxAlertaCompartir(mensaje,titulo){
+	var tituloAlerta = document.getElementById("tituloAlertaCompartir");
+	if(typeof titulo == 'undefined')
+		tituloAlerta.innerHTML = "Alerta";
+		else tituloAlerta.innerHTML = titulo;
+	var textAlerta = document.getElementById("textAlertaCompartir");
+	textAlerta.innerHTML="</br>" + mensaje;
+	var dlgboxAlerta = document.getElementById("dlgboxAlertaCompartir");
+	dlgboxAlerta.style.display = "block";
+	centrar(dlgboxAlerta);
+}
+function alertaCompartir(mensaje,titulo){
+	showdlgboxAlertaCompartir(mensaje,titulo);
+}
+function cerrardlgboxAlertaCompartir(){
+	var dlgboxAlerta = document.getElementById("dlgboxAlertaCompartir");
+	dlgboxAlerta.style.display = "none";
+}
 function showdlgboxModificarUsuario(){
 	if(typeof(unUsuario.facebook)=="undefined"){
 		var whitebg = document.getElementById("white-background");
@@ -113,10 +138,27 @@ function showdlgboxModificarUsuario(){
 		autocompletarModificar(unUsuario);	//GLOBAL
 		centrar(dlgboxModificarUsuario);
 	}else{
-		if (confirm("sincronizar Datos Con Facebook?"))
+		//if (confirm("sincronizar Datos Con Facebook?"))
 			sincronizarDatosConFacebook();
 			
 	}
+}
+function showdlgboxEliminarRampa(marcador){
+	var whitebg = document.getElementById("white-background");
+	var dlgboxEliminarRampa = document.getElementById("dlgboxEliminarRampa");
+	whitebg.style.display = "block";
+	dlgboxEliminarRampa.style.display = "block";
+	centrar(dlgboxEliminarRampa);
+	ubicacion=marcador;	//GLOBAL
+}
+function botonEliminarRampa(){
+	var marcador = ubicacion;//GLOBAL
+	var dlgboxEliminarRampa =  document.getElementById("dlgboxEliminarRampa");
+	var whitebg = document.getElementById("white-background");
+	whitebg.style.display = "none";
+	dlgboxEliminarRampa.style.display = "none";
+	borrarRampaPorUbicacion(marcador.getPosition().lat(),marcador.getPosition().lng());
+	marcador.setMap(null);
 }
 function showdlgboxReportarRampa(marcador){
 var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]

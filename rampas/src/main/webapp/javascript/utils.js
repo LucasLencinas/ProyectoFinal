@@ -353,10 +353,7 @@ function modificarRampa(marcador){
 }
 
 function eliminarRampa(marcador){
-if (confirm("ELIMINAR RAMPA")){
-	borrarRampaPorUbicacion(marcador.getPosition().lat(),marcador.getPosition().lng());
-	marcador.setMap(null);
-	}
+	showdlgboxEliminarRampa();
 }
 
 var reporteRampa = [];

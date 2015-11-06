@@ -184,11 +184,29 @@
 	display:inline-block;
 	margin: 8px 20px 8px 5px;
 }
+/*--Eliminar Rampa--*/
+.dlgboxEliminarRampa{
+	width: 250px;
+}
+.dlg-bodyEliminarRamp{
+	font-weight:bold;
+}
+.dlg-footerEliminarRampa button{
+	position:relative;
+	left:-05%;
+	width:45%;
+}
 /*--Informacion Rampa--*/
 .dlg-bodyNuevaRampa input,.dlg-bodyModificarRampa input,.dlg-bodyReportarRampa input, .dlg-bodyReportarRampa select{
 	display:inline-block;
 	margin: 8px 20px 8px 5px;
 }
+/*--Alerta Compartir--*/
+.dlg-footerAlerta .facebook {
+	color:white;
+	background-color:#3b5999;
+	font-family:"Tahoma";
+	}
 .imagens{
 	position:absolute;
 

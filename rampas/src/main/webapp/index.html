@@ -187,6 +187,16 @@
 		<button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
+<div id="dlgboxEliminarRampa" class="dlgbox dlgboxEliminarRampa no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxEliminarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Eliminar Rampa</p></div>
+    <div class="dlg-bodyEliminarRampa" align="center">
+	<p>¿Está seguro que <br>desea eliminar la Rampa?</p>
+	</div>
+    <div class="dlg-footer dlg-footerEliminarRampa">
+        <button onclick="botonEliminarRampa()">SI</button>
+        <button onclick="cerrarTodo()">NO</button>
+	</div>
+</div>
 <div id="dlgboxAlerta" class="dlgbox dlgboxAlerta no_seleccion" >
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxAlerta');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrardlgboxAlerta()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p id="tituloAlerta" align="center"></p></div>
     <div class="dlg-bodyAlerta dlg-body" style="width:200px;">
@@ -194,6 +204,16 @@
 	</div>
     <div class="dlg-footer dlg-footerAlerta">
 		<button onclick="cerrardlgboxAlerta()">Aceptar</button>
+	</div>
+</div>
+<div id="dlgboxAlertaCompartir" class="dlgbox dlgboxAlerta no_seleccion" >
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxAlertaCompartir');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrardlgboxAlertaCompartir()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p id="tituloAlertaCompartir" align="center"></p></div>
+    <div class="dlg-bodyAlerta dlg-body" style="width:200px;">
+		<p id="textAlertaCompartir"></P>
+	</div>
+    <div class="dlg-footer dlg-footerAlerta">
+		<button class="facebook" onclick="compartirFacebook()">Compartir</button>
+		<button onclick="cerrardlgboxAlertaCompartir()">Aceptar</button>
 	</div>
 </div>
 <div id="dlgboxModificarUsuario" class="dlgbox dlgboxModificarUsuario no_seleccion" >

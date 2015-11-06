@@ -37,7 +37,7 @@ function nuevaRampa(rampa){
 		url: "/rampas/Rampas",
 		success: function (data) {
 			ocultarLoading();
-			alerta("La Rampa se dio de Alta correctamente");
+			alertaCompartir("La Rampa se dio de Alta correctamente");
 		},
 		complete:function (){
 			ocultarLoading();
@@ -131,7 +131,7 @@ function reportarRampaa(rampa){
 		url: "/rampas/Rampas",
 		success: function (data) {
 			ocultarLoading();
-			alerta("Se reporto la rampa Correctamente.","Exito");			
+			alertaCompartir("Se reporto la rampa Correctamente.","Exito");
 		},
 		complete:function (){
 			ocultarLoading();

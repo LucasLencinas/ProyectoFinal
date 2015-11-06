@@ -11,10 +11,6 @@
 var ubicacion;
 	
 function listarUsuarios(usuarios){
-//	if($("#servidorHabilitado").is(':checked')){
-		//alert("No estoy conectado con el servidor todavia.");
-//	}
-//	else{
 		var tabla = document.getElementById("usEliminar");
 		limpiarTabla(tabla);
 		$.each(usuarios, function(k,v){
@@ -32,8 +28,7 @@ function listarUsuarios(usuarios){
 				columnaId.innerHTML=v.id;
 				columnaId.style.display="none";
 			}
-		});			
-//	}
+		});	
 }
 
 function limpiarTabla(tabla){
@@ -57,7 +52,10 @@ function eliminar(){
 			j++;
 		}
 	}
-//	alert(ue);
+	if(!tabla.rows.length){
+		cerrarTodo();
+		alerta("No hay ningun usuario comun para eliminar.");
+	}
 }
 
 /** ----- NUEVO USUARIO POR MAIL ----- **/
@@ -269,7 +267,7 @@ function modificarUsuarioFacebook(usuario){
 		url: "/rampas/Usuarios",
 		success: function (data) {
 			ocultarLoading();
-			alerta("Se modifico el usuario correctamente.");// + JSON.stringify(usuario) + "-- " + data.toString());
+			alerta("Se modifico el usuario correctamente según su cuenta en Facebook.");// + JSON.stringify(usuario) + "-- " + data.toString());
 		},
 		complete:function (){
 			ocultarLoading();
@@ -340,6 +338,7 @@ function borrarUsuarioPorId(id){
 		url: "/rampas/Usuarios/id/" + id,
 		statusCode: {
     		200: function (){
+				alerta("Se elimino el usuario correctamente.");
 				console.log("Borrar Usuario: Success");	
 				ocultarLoading();
     		},
