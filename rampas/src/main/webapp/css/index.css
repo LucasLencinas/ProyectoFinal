@@ -1,4 +1,4 @@
-/*--Reiniciar CSS--*/
+﻿/*--Reiniciar CSS--*/
 * {
 	padding:0;
 	margin:0;
@@ -134,7 +134,66 @@ header .detalle{
 	padding:10px 0px 0px 10px;
 	overflow: auto;
 }
+#selectBarrios {
+    padding:3px;
+    margin: 0;
+    border-radius:4px;
+    box-shadow: inset 2px 2px 2px #000000;
+    background: #f8f8f8;
+    color:#888;
+    display: inline-block;
+    cursor:pointer;
+	width:calc(90% - 50px);
+}
+#buttonBarrios {
+	border-radius:5px;
+	box-shadow:2px 2px 2px #000000;
+	background:#549e18;
+	border:0px;
+	font-size:17px;
+	padding: 0px 10px;
+	height:25px;
+}
+	/*--Estilo checkbox--*/
+#checkboxes input[type=checkbox]:not(old){
+  width     : 2em;
+  margin    : 0;
+  padding   : 0;
+  font-size : 1em;
+  opacity   : 0;
+}
 
+#checkboxes input[type=checkbox]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -2em;
+  line-height  : 1.5em;
+}
+
+#checkboxes input[type=checkbox]:not(old) + label > span{
+  display          : inline-block;
+  width            : 0.875em;
+  height           : 0.875em;
+  margin           : 0.25em 0.5em 0.25em 0.25em;
+  border           : 0.0625em solid rgb(120,120,120);
+  border-radius    : 0.25em;
+  background       : rgb(224,224,224);
+  vertical-align   : bottom;
+}
+
+
+
+#checkboxes input[type=checkbox]:not(old):checked + label > span:before{
+  content     : '✓';
+  display     : block;
+  width       : 1em;
+  color       : rgb(153,204,102);
+  font-size   : 0.875em;
+  line-height : 1em;
+  text-align  : center;
+  text-shadow : 0 0 0.0714em rgb(115,153,77);
+  font-weight : bold;
+}
+	/*--Fin Estilo radio*/
 /*--Fin_BarraLateral--*/
 /*--Mapa--*/
 .mapa_google {
@@ -176,6 +235,16 @@ header .detalle{
 	.accesosRapidos a{
 	margin:0 5px;
 	}
+/*--BarraLateral--*/
+#selectBarrios {
+	width:90%;
+}
+#buttonBarrios {
+	width:90%;
+	margin-top:5px;
+	padding: 0px 5px;
+}
+/*--Fin_BarraLateral--*/
 }
 @media screen and (max-height:400px){
 /*--BarraLateral--*/
@@ -193,7 +262,14 @@ header .detalle{
 	min-height:calc(100% - 175px);
 	max-height:calc(100% - 175px);
 }
-
+#selectBarrios {
+	width:90%;
+}
+#buttonBarrios {
+	width:90%;
+	margin-top:5px;
+	padding: 0px 5px;
+}
 /*--Fin_BarraLateral--*/
 }
 

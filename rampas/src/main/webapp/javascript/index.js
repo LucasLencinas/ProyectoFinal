@@ -345,6 +345,7 @@ function habilitarBotonDeRuta(idRuta){
 
 	$("#checkboxes").append('<label>Ruta ' + (idRuta+1) + ':</label>');
 	$("#checkboxes").append(checkbox);
+	$("#checkboxes").append("<label for='checkRuta" + (idRuta) + "'><span></span></label>");
 	$("#checkboxes").append("</br>");
 	if(idRuta == 0){
 		checkbox.prop('checked', true);
