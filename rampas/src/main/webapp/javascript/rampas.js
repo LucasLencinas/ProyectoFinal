@@ -179,7 +179,8 @@ function borrarRampaPorUbicacion(latitud, longitud){
 		url: "/rampas/Rampas/latlng/" + latitud + "/" + longitud,
 		statusCode: {
     		200: function (){
-				console.log("Borrar Rampa: Success");	
+				console.log("Borrar Rampa: Success");
+				alerta("Se elimino la rampa correctamente.");
 				ocultarLoading();
     		},
 			404: function () { 

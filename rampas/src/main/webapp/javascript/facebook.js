@@ -1,4 +1,4 @@
-var appID = '1506210606355968'; //tire asi de prueba
+﻿var appID = '1506210606355968'; //tire asi de prueba
 
 (function(d, s, id){
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -93,10 +93,12 @@ function iniciarSesionFacebook(){
 }
 
 function compartirFacebook(){
+	cerrardlgboxAlertaCompartir();
 	FB.ui({
 		method: 'feed',
-		caption: 'An example caption',
-		link:'https://developers.facebook.com/docs/',
-		description:'He dado de alta una rampa',
+		picture:'https://raw.githubusercontent.com/LucasLencinas/Rampas/master/rampas/src/main/webapp/imagen/logo.png',
+		caption:'Senitag Desarrollos Informáticos.',
+		description:'Una aplicación colaborativa para el uso de rampas con sillas de ruedas.',
+		link:'http://masrampas.appspot.com/',
 	}, function(response){});
 }
