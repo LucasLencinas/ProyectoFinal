@@ -145,7 +145,7 @@
     </div>
 </div>
 <div id="dlgboxNuevaRampa" class="dlgbox dlgboxNuevaRampa no_seleccion" >
-    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Nueva Rampa</p></div>
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarDlgboxNuevaRampa()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Nueva Rampa</p></div>
     <div class="dlg-bodyNuevaRampa dlg-body">
 		<form>
 			<input id="tieneRampaA" type="checkbox" onChange="tieneRampaCheck('A') "><label>Tiene Rampa.</label></input><br>
@@ -156,7 +156,7 @@
 	</div>
     <div class="dlg-footer dlg-footerNuevaRampa">
 		<button onclick="altaRampa()">Agregar</button>
-		<button onclick="cerrarTodo()">Cancelar</button>
+		<button onclick="cerrarDlgboxNuevaRampa()">Cancelar</button>
 	</div>
 </div>
 <div id="dlgboxModificarRampa" class="dlgbox dlgboxModificarRampa no_seleccion" >

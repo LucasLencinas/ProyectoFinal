@@ -84,6 +84,10 @@ ubicacion=latLng;
 	dlgboxNuevaRampa.style.display = "block";
 	centrar(dlgboxNuevaRampa);
 }
+function cerrarDlgboxNuevaRampa(){
+	cerrarTodo();
+	marcardorNuevaRampa(unMarcadorNuevaRampa,null,true);
+}
 function showdlgboxModificarRampa(marcador){
 	var dlgboxModificarRampa = document.getElementById("dlgboxModificarRampa");
 	document.getElementById("tieneRampaM").checked=marcador.tieneRampas;

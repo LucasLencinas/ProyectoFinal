@@ -146,12 +146,42 @@ function setearListenerParaContextMenu(latLng, eventName){
 		case 'nueva_rampa_click':
 			/*MARTINCITO --> Aca tendrias que poner la ventana para dar de alta una nueva Rampa, para saber la ubicacion del click
 			esta la variable latLng que viene como parametro.*/
+			var latlngAnt = map.getCenter();//Medio sucio, pero es para que cuando tengo un cierto zoom, no cambiar el centro del mapa
+			rampasCercanas(latLng);
+			centrarMapaIzquierda(latLng,latlngAnt);//Centra Mapa con Zoom
 			showdlgboxNuevaRampa(latLng);
+			marcardorNuevaRampa(unMarcadorNuevaRampa,latLng,false);
 			break;
 	}
 
 }
+function marcardorNuevaRampa(unMarcadorNuevaRampa,latLng,borrar){
+	var unMarcador;
+	if(!(typeof unMarcadorNuevaRampa[0] == 'undefined'))
+		unMarcadorNuevaRampa[0].setMap(null);
+	if (!borrar){
+		unMarcador = crearMarcadorConColor(latLng, colores['VIOLETA'].icono, null);
+		unMarcador.setMap(map);
+		unMarcadorNuevaRampa[0]=unMarcador;
+	}
+}
 
+function centrarMapaIzquierda(latlng,latlngAnt){
+	var perimetro = [];
+	if (map.getZoom() < 15){
+		perimetro.push(new google.maps.LatLng(latlng.lat() - 0.003,latlng.lng() + 0.004));
+		perimetro.push(new google.maps.LatLng(latlng.lat() + 0.003,latlng.lng() + 0.006));
+		
+		var latlngbounds = new google.maps.LatLngBounds();
+		latlngbounds.extend(perimetro[0]);
+		latlngbounds.extend(perimetro[1]);
+		map.setCenter(latlngbounds.getCenter());
+
+		map.setZoom(16);
+	}else{
+		map.setCenter(latlngAnt);
+	}
+}
 
 function  obtenerBarrioDeUnaNuevaRampa(latlng){
 	var coordenadasBarrioElegido, poligonoBarrioElegido;

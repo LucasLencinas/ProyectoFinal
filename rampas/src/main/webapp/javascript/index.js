@@ -1,4 +1,5 @@
 
+var unMarcadorNuevaRampa=[];
 var directionsService = new google.maps.DirectionsService();
 var map;
 var panorama;
@@ -276,7 +277,11 @@ function crearContextMenu(){
 			
 		if(arrayRampasCercanas.length == 0){
 			$('#ocultar_rampas_cercanas_item').hide();
-			$('#nueva_rampa_item').hide();
+			if(unUsuario.id){//Si esta logueado
+				$('#nueva_rampa_item').show();
+			}else{
+				$('#nueva_rampa_item').hide();
+			}
 		}
 		else{
 			$('#ocultar_rampas_cercanas_item').show();
