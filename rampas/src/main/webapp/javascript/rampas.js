@@ -5,26 +5,29 @@ function altaRampa(){
 	rampa.latitud = ubicacion.lat();
 	rampa.longitud = ubicacion.lng();
 	rampa.barrio = obtenerBarrioDeUnaNuevaRampa(ubicacion);
-	/*
-	if (rampa.barrio == null)
-	MARTINCITO --> No se que se deberia hacer aca. 
-	Que funcion se tendria que llamar para cancelar todo?
-	 o este chequeo se tendria que hacer antes?
-	*/
-	rampa.tieneInformacion = true;
-	rampa.tieneRampas = document.getElementById("tieneRampaA").checked;
-	rampa.buenEstado = document.getElementById("buenEstadoA").checked;
-	rampa.crucesAccesibles = document.getElementById("crucesAccesiblesA").checked;
-	if (!unUsuario.administrador)
-		rampa.reportada = true;
-	else
-		rampa.reportada = false;
-	//rampa.reportes = "Nueva";
-	var autor = unUsuario.nombre + " " + unUsuario.apellido;
-	var reportes = [{"autor": autor,"rampa": {"tieneRampas":rampa.tieneRampas,"crucesAccesibles":rampa.crucesAccesibles,"buenEstado":rampa.buenEstado},"modificada": false,"comentario":"Nueva" }];
-	rampa.reportes = JSON.stringify(reportes);
-	nuevaRampa(rampa);
-	actualizarMarcadorRampa(ubicacion,rampa,false);
+	if (rampa.barrio == null){
+		alerta("Por el momento Más Rampas funciona únicamente en el ámbito de la Ciudad de Buenos Aires. Próximamente se ampliará la cobertura del sistema.","Disculpe");
+	}else{
+		/*
+		MARTINCITO --> No se que se deberia hacer aca. 
+		Que funcion se tendria que llamar para cancelar todo?
+		 o este chequeo se tendria que hacer antes?
+		*/
+		rampa.tieneInformacion = true;
+		rampa.tieneRampas = document.getElementById("tieneRampaA").checked;
+		rampa.buenEstado = document.getElementById("buenEstadoA").checked;
+		rampa.crucesAccesibles = document.getElementById("crucesAccesiblesA").checked;
+		if (!unUsuario.administrador)
+			rampa.reportada = true;
+		else
+			rampa.reportada = false;
+		//rampa.reportes = "Nueva";
+		var autor = unUsuario.nombre + " " + unUsuario.apellido;
+		var reportes = [{"autor": autor,"rampa": {"tieneRampas":rampa.tieneRampas,"crucesAccesibles":rampa.crucesAccesibles,"buenEstado":rampa.buenEstado},"modificada": false,"comentario":"Nueva" }];
+		rampa.reportes = JSON.stringify(reportes);
+		nuevaRampa(rampa);
+		actualizarMarcadorRampa(ubicacion,rampa,false);
+	}
 }
 
 function nuevaRampa(rampa){
