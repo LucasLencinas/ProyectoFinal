@@ -1,6 +1,7 @@
 ﻿/** ----- NUEVA RAMPA ----- **/
 function altaRampa(){
 	cerrarTodo();
+	marcardorNuevaRampa(unMarcadorNuevaRampa,null,true);
 	var rampa = {};
 	rampa.latitud = ubicacion.lat();
 	rampa.longitud = ubicacion.lng();
