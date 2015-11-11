@@ -166,7 +166,7 @@ function botonEliminarRampa(){
 	marcador.setMap(null);
 }
 function showdlgboxReportarRampa(marcador){
-var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]
+var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"No existe rampa"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]
 	var dlgboxReportarRampa = document.getElementById("dlgboxReportarRampa");
 					if(!document.getElementById("selectMotivo").length)
 					$.each(motivos, function (index, value) {
@@ -176,11 +176,12 @@ var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"Obstacu
 					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
 				});
 	dlgboxReportarRampa.style.display = "block";
-	document.getElementById("tieneRampaR").checked=marcador.tieneRampas;
-	document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
-	document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
-	tieneRampaCheck('R');
+//	document.getElementById("tieneRampaR").checked=marcador.tieneRampas;
+//	document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
+//	document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
+//	tieneRampaCheck('R');
 	ubicacion=marcador;	//GLOBAL
+	document.getElementById("motivoPersonalizado").value = "";
 	centrar(dlgboxReportarRampa);
 }
 function activarPersonalizada(){

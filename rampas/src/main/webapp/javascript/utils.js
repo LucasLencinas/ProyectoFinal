@@ -413,11 +413,11 @@ function mostrarReporte(reporte,elemento){
 	limpiarTabla(tabla);
 	var unReporte = tabla.insertRow(tabla.rows.length);
 	var autor = unReporte.insertCell(0);
-	var rampa  = unReporte.insertCell(1);
-	var comentario = unReporte.insertCell(2);
+//	var rampa  = unReporte.insertCell(1);
+	var comentario = unReporte.insertCell(1);
 	unReporte.classList.add('centrado');
 	autor.innerHTML = "Autor";
-	rampa.innerHTML = "Reporte";
+//	rampa.innerHTML = "Reporte";
 	comentario.innerHTML = "Comentario";
 	unReporte.style.background = "#000";
 	unReporte.style.color = "#FAFAFA";
@@ -425,13 +425,13 @@ function mostrarReporte(reporte,elemento){
 	reporte.forEach( function(v,k){
 		unReporte = tabla.insertRow(tabla.rows.length);
 		autor = unReporte.insertCell(0);
-		rampa  = unReporte.insertCell(1);
-		comentario = unReporte.insertCell(2);
+//		rampa  = unReporte.insertCell(1);
+		comentario = unReporte.insertCell(1);
 		autor.innerHTML=v.autor;
-		rampa.innerHTML=	"Tiene Rampa: <b>"+ boolASiNo(v.rampa.tieneRampas)+
+/*		rampa.innerHTML=	"Tiene Rampa: <b>"+ boolASiNo(v.rampa.tieneRampas)+
 						"</b><br>Rampas en Buen estado: <b>"+  boolASiNo(v.rampa.crucesAccesibles)+
 						"</b><br>Rampas en todas las esquinas: <b>"+  boolASiNo(v.rampa.buenEstado) + "</b>";
-		if (k % 2 == 0)
+*/		if (k % 2 == 0)
 			unReporte.style.background="#EFF8FB";
 			else unReporte.style.background = "#CEECF5";
 		if (v.modificada)

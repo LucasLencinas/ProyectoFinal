@@ -112,9 +112,9 @@ function repRampa(){
 		mt = $("#motivoPersonalizado").prop("value");
 	if (mt=="")
 		mt="Sin Comentarios";
-	var tieneRampas = document.getElementById("tieneRampaR").checked;
-	var crucesAccesibles = document.getElementById("crucesAccesiblesR").checked;
-	var buenEstado = document.getElementById("buenEstadoR").checked;
+	var tieneRampas = false; //document.getElementById("tieneRampaR").checked;
+	var crucesAccesibles = false; //document.getElementById("crucesAccesiblesR").checked;
+	var buenEstado = false; //document.getElementById("buenEstadoR").checked;
 	var autor = unUsuario.nombre + " " + unUsuario.apellido;
 	var reportes = JSON.parse(rampa.reportes);
 	reportes[reportes.length]={"autor": autor,"rampa": {"tieneRampas":tieneRampas,"crucesAccesibles":crucesAccesibles,"buenEstado":buenEstado},"modificada": false,"comentario":mt };
