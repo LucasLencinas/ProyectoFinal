@@ -341,7 +341,15 @@ function iniciarSesion(){
 		mostrarMensajeBienvenida(unUsuario.nombre);
 		guardarSesion(unUsuario);
 	}
-		else alerta("El Email o la contraseña es invalida","Error Autenticación");
+		else {
+			alerta("El Email o la contraseña es invalida","Error Autenticación");
+			document.getElementById("pass").value = "";
+		}
+}
+function cerrarDlgboxIniciarMail(){
+	cerrarTodo();
+	document.getElementById("nombre").value = "";
+	document.getElementById("pass").value = "";
 }
 //Registrar Mail
 function registrarMail(){
