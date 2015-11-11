@@ -434,13 +434,38 @@ function mostrarLoading(){
 function ocultarLoading(){
 	$('#loading').html('');
 }
+function cerrarRegistrar(){
+	cerrarTodo();
+	registroModificacionErrores=false;
+	if ( $('#formRegistro').jVal({style:'pod',padding:3,border:1,wrap:true}) ) 
+		;
+}
+function cerrarModificar(){
+	cerrarTodo();
+	registroModificacionErrores=false;
+	if ( $('#formModificar').jVal({style:'pod',padding:3,border:1,wrap:true}) ) 
+		;
+}
+function validacionMail(mail,idSesion){
+	var r = "Incorrecto";
+	if(verificarMail(mail)){
+		if (verificarUsuarioRegistrado(mail,idSesion)){
+			r = "";
+		} else {
+			r = "Ya existe un usuario Registrado con esa Direccion Email";
+		}
+	}else{
+		r = "El Email es invalido";
+	}
+	return r;
+}
 function verificarMail(mail){
 	var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     var e = false;
 	if(expr.test(mail)){
 		e=true;
 	}else{
-		alert("El Email es invalido");
+//		alert("El Email es invalido");
 	}
 	return e;
 }
@@ -450,7 +475,7 @@ function verificarContraseña(pass){
     if (pass.length >= 8 && pass.length <= 50 && expr.test(pass)){
 		e = true; 
 	}else{
-		alert("La contraseña debe contener solo caracteres alfanumericos entre 8 y 50");
+//		alert("La contraseña debe contener solo caracteres alfanumericos entre 8 y 50");
 	}
 	return e;
 }
@@ -460,7 +485,7 @@ function verificarNombre(nombre){
     if (nombre.length >= 3 && nombre.length <= 30){
 		e = expr.test(nombre); 
 	}else{
-		alert("El nombre debe contener solo caracteres alfabeticos entre 3 y 30");
+//		alert("El nombre debe contener solo caracteres alfabeticos entre 3 y 30");
 	}
 	return e;
 }
@@ -470,7 +495,7 @@ function verificarApellido(nombre){//Que son los caracteres especiales para le a
     if (nombre.length >= 3 && nombre.length <= 30){
 		e = expr.test(nombre); 
 	}else{
-		alert("El apellido debe contener solo caracteres alfabeticos y especiales (?) y entre 3 y 30");
+//		alert("El apellido debe contener solo caracteres alfabeticos y especiales (?) y entre 3 y 30");
 	}
 	return e;
 }
@@ -479,7 +504,7 @@ function verificarContraseña2(pass1,pass2){
 	if (pass1 == pass2){
 		e = true;
 	}else{
-		alert("Las contraseñas no coinciden");
+//		alert("Las contraseñas no coinciden");
 	}
 	return e;
 }
@@ -488,7 +513,7 @@ function verificarUsuarioRegistrado(mail,idSesion){
 	if (!existeUsuarioRegistrado(mail,idSesion)){
 		ur=true;
 	}else{
-		alert("Ya existe un usuario Registrado con esa Direccion Email");
+//		alert("Ya existe un usuario Registrado con esa Direccion Email");
 	}
 	return ur;
 }

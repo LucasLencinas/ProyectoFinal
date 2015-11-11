@@ -11,6 +11,7 @@
 		<!--<link rel="stylesheet" type="text/css" href="css/estilos.css">-->
 		<link rel="stylesheet" href="css/index.css">
 		<link rel="stylesheet" href="css/popup.css"/>
+		<link rel="stylesheet" type="text/css" href="css/val.css">
 		<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>-->
 		<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
 		<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>-->
@@ -26,6 +27,7 @@
 		<script src="javascript/rampas.js"></script>
 		<script src="javascript/usuarios.js"></script>
 		<script src="javascript/utils.js"></script>
+		<script type="text/javascript" src="javascript/val.js"></script>		
 	</head>
 		<body>
 			<header>
@@ -82,26 +84,31 @@
 	</div>
 </div>
 <div id="dlgboxRegistroMail" class="dlgbox dlgboxRegistroMail no_seleccion" >
-    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistroMail');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
+    <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistroMail');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarRegistrar()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
     <div class="dlg-body dlg-bodyRegistroMail">
-		<form class="etiqueta">
-			<label>Nombre:</label>
-			<label>Apellido:</label>
-			<label>Email:</label>
-			<label>Contraseña:</label>
-			<label>Confirmar<br>Contraseña:</label>			
-		</form>
-		<form>
-			<input id="nombreR" type="text" name="nombre" placeholder="Nombre" ></input>
-			<input id="apellidoR" type="text" name="apellido" placeholder="Apellido" ></input>
-			<input id="emailR" type="email" name="email" placeholder="Email" ></input>
-			<input id="pass1R" type="password" placeholder="Contraseña" ></input>
-			<input id="pass2R" type="password" placeholder="Contraseña" ></input>			
-		</form>
+		<table class="etiqueta">
+			<tr><td><label>Nombre:</label></td></tr>
+			<tr><td><label>Apellido:</label></td></tr>
+			<tr><td><label>Email:</label></td></tr>
+			<tr><td><label>Contraseña:</label></td></tr>
+			<tr><td><label>Confirmar<br>Contraseña:</label></td></tr>
+		</table>
+		<table id="formRegistro">
+			 <tr><td><input id="nombreR" type="text" name="nombre" placeholder="Nombre"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarNombre(val)) return 'El nombre es invalido'; else return ''; }}"></input></td></tr>      
+			<tr><td><input id="apellidoR" type="text" name="apellido" placeholder="Apellido"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarApellido(val)) return 'El apellido es invalido'; else return ''; }}"></input></td></tr>
+			 <tr><td><input id="emailR" type="email" name="email" placeholder="Email"
+				jVal="{valid:function (val) { if (registroModificacionErrores) return validacionMail(val,-1); else return '';}}"></input></td></tr>
+			 <tr><td><input id="pass1R" type="password" placeholder="Contraseña"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña(val)) return false; else return true;}, message: 'La contraseña debe tener minimo 8 caracteres'}"></input></td></tr>
+			 <tr><td><input id="pass2R" type="password" placeholder="Contraseña"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña2(val, eval('$(\'#pass1R\').val()') )) return 'Las contraseñas no coinciden'; else return ''; }}"></input></td></tr>		
+		</table>
 	</div>
     <div class="dlg-footer">
-        <button onclick="registrarMail()">Registrar</button>
-        <button onclick="cerrarTodo()">Cancelar</button>
+        <button onclick="registroModificacionErrores=true; if ( $('#formRegistro').jVal({style:'pod',padding:3,border:1,wrap:true}) ) registrarMail();">Registrar</button>
+        <button onclick="cerrarRegistrar()">Cancelar</button>
 	</div>
 </div>
 <div id="dlgboxIniciarMail" class="dlgbox dlgboxIniciarMail no_seleccion" >
@@ -219,26 +226,31 @@
 	</div>
 </div>
 <div id="dlgboxModificarUsuario" class="dlgbox dlgboxModificarUsuario no_seleccion" >
-    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarUsuario');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Modificar</p></div>
+    <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarUsuario');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarModificar()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Modificar</p></div>
     <div class="dlg-body dlg-ModificarUsuario ">
-		<form class="etiqueta">
-			<label>Nombre:</label>
-			<label>Apellido:</label>
-			<label>Email:</label>
-			<label>Contraseña:</label>
-			<label>Confirmar<br>Contraseña:</label>			
-		</form>
-		<form>
-			<input id="nombreM" type="text" name="nombre" placeholder="Nombre" ></input>
-			<input id="apellidoM" type="text" name="apellido" placeholder="Apellido" ></input>
-			<input id="emailM" type="email" name="email" placeholder="Email" disabled="true"></input>
-			<input id="pass1M" type="password" placeholder="Contraseña" ></input>
-			<input id="pass2M" type="password" placeholder="Contraseña" ></input>			
-		</form>
+		<table class="etiqueta">
+			<tr><td><label>Nombre:</label></td></tr>
+			<tr><td><label>Apellido:</label></td></tr>
+			<tr><td><label>Email:</label></td></tr>
+			<tr><td><label>Contraseña:</label></td></tr>
+			<tr><td><label>Confirmar<br>Contraseña:</label></td></tr>
+		</table>
+		<table id="formModificar">
+			 <tr><td><input id="nombreM" type="text" name="nombre" placeholder="Nombre"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarNombre(val)) return 'El nombre es invalido'; else return ''; }}"></input></td></tr>      
+			<tr><td><input id="apellidoM" type="text" name="apellido" placeholder="Apellido"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarApellido(val)) return 'El apellido es invalido'; else return ''; }}"></input></td></tr>
+			 <tr><td><input id="emailM" type="email" name="email" placeholder="Email"  disabled="true"
+				jVal="{valid:function (val) { if (registroModificacionErrores) return validacionMail(val,unUsuario.id); else return '';}}"></input></td></tr>
+			 <tr><td><input id="pass1M" type="password" placeholder="Contraseña"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña(val)) return false; else return true;}, message: 'La contraseña debe tener minimo 8 caracteres'}"></input></td></tr>
+			 <tr><td><input id="pass2M" type="password" placeholder="Contraseña"
+				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña2(val, eval('$(\'#pass1M\').val()') )) return 'Las contraseñas no coinciden'; else return ''; }}"></input></td></tr>		
+		</table>
 	</div>
     <div class="dlg-footer dlg-footerModificarUsuario">
-		<button onclick="modificarMail()">Modificar</button>
-		<button onclick="cerrarTodo()">Cancelar</button>
+		<button onclick="registroModificacionErrores=true; if ( $('#formModificar').jVal({style:'pod',padding:3,border:1,wrap:true}) ) modificarMail();">Modificar</button>
+		<button onclick="cerrarModificar()">Cancelar</button>
 	</div>
 </div>
 <div id="dlgboxBienvenidos" class="dlgboxBienvenidos dlgbox no_seleccion" >

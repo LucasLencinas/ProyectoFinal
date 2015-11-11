@@ -1,5 +1,6 @@
 
 var unMarcadorNuevaRampa=[];
+var registroModificacionErrores = false;
 var directionsService = new google.maps.DirectionsService();
 var map;
 var panorama;
