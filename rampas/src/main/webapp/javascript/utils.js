@@ -327,12 +327,14 @@ function armarContenidoDelInfoWindows(marcador){
 	
 	var contenido, estado = "Rampas en buen Estado: ", accesibilidad = "Rampas en todas las esquinas: ", 
 	tieneInformacion = "Tiene Informacion: ", tieneRampas = "Tiene Rampa: ",reportada= "Reportada: ",botonStreetView= "",botonModificar = "",botonReportar = "",botonEliminar = "",botonVerReportes = "";
+	var si= "<img src='../imagen/si.png'/>";
+	var no= "<img src='../imagen/no.png'/>";
 	
-	tieneInformacion += marcador.tieneInformacion? "Si" : "No";
-	tieneRampas += marcador.tieneRampas? "Si" : "No";
-	estado += marcador.buenEstado? "Si" : "No" ;	//Se podria cambiar por un tilde y una cruz mas adelante
-	accesibilidad += marcador.crucesAccesibles? "Si" : "No";
-	reportada += marcador.reportada? "Si" : "No";
+	tieneInformacion += marcador.tieneInformacion? si : no;
+	tieneRampas += marcador.tieneRampas? si : no;
+	estado += marcador.buenEstado? si : no ;	//Se podria cambiar por un tilde y una cruz mas adelante
+	accesibilidad += marcador.crucesAccesibles? si : no;
+	reportada += marcador.reportada? si : no;
 	
 	var coordenada = String(marcador.getPosition());
 	coordenada=coordenada.substring(1, coordenada.length-1);
@@ -348,26 +350,26 @@ function armarContenidoDelInfoWindows(marcador){
 	
 	if(unUsuario.id){
 		if(unUsuario.administrador){
-			botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' "+
+			botonModificar = "<input type='button' id='botonModificarRampa' value='Modificar' class='botonInfoWindows'"+
 				"onclick='modificarRampa(marcadorActual)' style='width:75px'>";
 			
-			botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' "+
+			botonEliminar = "<input type='button' id='botonEliminarRampa' value='Eliminar' class='botonInfoWindows'"+
 				"onclick='eliminarRampa(marcadorActual)' style='width:75px'>";
 		}else{
-			botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' "+
+			botonReportar = "<input type='button' id='botonReportarRampa' value='Reportar' class='botonInfoWindows'"+
 				"onclick='reportarRampa(marcadorActual)' style='width:75px'>";
 		}
 		if(marcador.reportada){	
-			botonVerReportes = "<input type='button' id='botonVerReportesRampa' value='Ver Reportes' "+
+			botonVerReportes = "<input type='button' id='botonVerReportesRampa' value='Ver Reportes' class='botonInfoWindows'"+
 					"onclick='verReportesRampa(marcadorActual)' style='width:75px'>";
 		}
 	}
 	var contenido = '';
 	if(marcador.tieneInformacion){
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br>%s</br>%s</br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+	contenido = $.sprintf( "<div id='iw-container'><div class='iw-title'>%s</div>%s</br>%s</br>%s</br>%s</br>%s%s%s</br>%s%s%s</div>", marcador.stringDireccion, 
 		reportada, tieneRampas, estado ,accesibilidad,botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}else{
-	contenido = $.sprintf( "<div>Direccion: %s</br>%s</br>%s</br></br></br>%s %s %s</br>%s%s%s</div>", marcador.stringDireccion, 
+	contenido = $.sprintf( "<div id='iw-container'><div class='iw-title'>%s</div>%s</br>%s</br></br></br>%s%s%s</br>%s%s%s</div>", marcador.stringDireccion, 
 		tieneInformacion,reportada, botonStreetView,botonReportar,botonModificar,botonEliminar,botonVerReportes,imagen);
 	}
 	return contenido;
