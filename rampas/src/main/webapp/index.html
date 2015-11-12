@@ -50,8 +50,8 @@
 					<div class="detalle no_seleccion">
 						<form>
 							<input class="autocomplete" id="inputDesde" type="text" placeholder="Desde:" ></input>
-							<input class="autocomplete" id="inputHasta" type="text" placeholder="Hasta:"></input>
-							<input onclick="calcularRutas()" type="button" style="cursor:pointer" value="Consultar"></input> 
+							<input class="autocomplete" id="inputHasta" type="text" placeholder="Hasta:" onkeypress="apretarEnter(event,'idBotonCalcularRutas','idBotonCalcularRutas')"></input>
+							<input id="idBotonCalcularRutas" onclick="calcularRutas()" type="button" style="cursor:pointer" value="Consultar"></input> 
 						</form>
 						<div class="textarea">
 							<select id="selectBarrios"></select>
@@ -72,14 +72,14 @@
 <div id="dlgboxIniciar" class="dlgbox dlgboxIniciar no_seleccion">
     <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxIniciar');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Iniciar Sesión</p></div>
     <div class="dlg-footerRegistro">
-        <button class="email" onclick="showdlgboxIniciarMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button id="idBotonIniciarMail" class="email" onclick="showdlgboxIniciarMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
         <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
 	</div>
 </div>
 <div id="dlgboxRegistro" class="dlgbox dlgboxRegistro no_seleccion">
     <div class="dlg-header" onmousedown="comienzoMovimiento(event, 'dlgboxRegistro');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Registro</p></div>
     <div class="dlg-footerRegistro">
-        <button class="email" onclick="showdlgboxRegistroMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
+        <button id="idBotonRegistrarMail" class="email" onclick="showdlgboxRegistroMail()"><img src="imagen/mail-icon.png"/>E-Mail</button>
         <button class="facebook" onclick="iniciarSesionFacebook()"><img src="imagen/logoFacebook.jpg"/><p align="center">facebook</p></button>
 	</div>
 </div>
@@ -94,20 +94,20 @@
 			<tr><td><label>Confirmar<br>Contraseña:</label></td></tr>
 		</table>
 		<table id="formRegistro">
-			 <tr><td><input id="nombreR" type="text" name="nombre" placeholder="Nombre"
+			 <tr><td><input id="nombreR" type="text" name="nombre" placeholder="Nombre" onkeypress="apretarEnter(event,'idBotonRegistrar','apellidoR')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarNombre(val)) return 'El nombre es invalido'; else return ''; }}"></input></td></tr>      
-			<tr><td><input id="apellidoR" type="text" name="apellido" placeholder="Apellido"
+			<tr><td><input id="apellidoR" type="text" name="apellido" placeholder="Apellido" onkeypress="apretarEnter(event,'idBotonRegistrar','emailR')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarApellido(val)) return 'El apellido es invalido'; else return ''; }}"></input></td></tr>
-			 <tr><td><input id="emailR" type="email" name="email" placeholder="Email"
+			 <tr><td><input id="emailR" type="email" name="email" placeholder="Email" onkeypress="apretarEnter(event,'idBotonRegistrar','pass1R')"
 				jVal="{valid:function (val) { if (registroModificacionErrores) return validacionMail(val,-1); else return '';}}"></input></td></tr>
-			 <tr><td><input id="pass1R" type="password" placeholder="Contraseña"
+			 <tr><td><input id="pass1R" type="password" placeholder="Contraseña" onkeypress="apretarEnter(event,'idBotonRegistrar','pass2R')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña(val)) return false; else return true;}, message: 'La contraseña debe tener minimo 8 caracteres'}"></input></td></tr>
-			 <tr><td><input id="pass2R" type="password" placeholder="Contraseña"
+			 <tr><td><input id="pass2R" type="password" placeholder="Contraseña" onkeypress="apretarEnter(event,'idBotonRegistrar','nombreR')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña2(val, eval('$(\'#pass1R\').val()') )) return 'Las contraseñas no coinciden'; else return ''; }}"></input></td></tr>		
 		</table>
 	</div>
     <div class="dlg-footer">
-        <button onclick="registroModificacionErrores=true; if ( $('#formRegistro').jVal({style:'pod',padding:3,border:1,wrap:true}) ) registrarMail();">Registrar</button>
+        <button id="idBotonRegistrar" onclick="registroModificacionErrores=true; if ( $('#formRegistro').jVal({style:'pod',padding:3,border:1,wrap:true}) ) registrarMail();">Registrar</button>
         <button onclick="cerrarRegistrar()">Cancelar</button>
 	</div>
 </div>
@@ -120,11 +120,11 @@
 		</form>
 		<form>
 			<input id="nombre" type="email" name="email" placeholder="Email" ></input>
-			<input id="pass" type="password" placeholder="Contraseña" ></input>		
+			<input id="pass" type="password" placeholder="Contraseña" onkeypress="apretarEnter(event,'idBotonLoggin','sesion')"></input>		
 		</form>
 	</div>
     <div class="dlg-footer dlg-footerIniciarMail">
-        <button id="iniciarSesion2" onclick="iniciarSesion()">Iniciar</button>
+        <button id="idBotonLoggin" onclick="iniciarSesion()">Iniciar</button>
         <button onclick="cerrarDlgboxIniciarMail()">Cancelar</button>
 	</div>
 </div>
@@ -134,7 +134,7 @@
 	<p>¿Está seguro que <br>desea Cerrar Sesión?</p>
 	</div>
     <div class="dlg-footer dlg-footerCerrarSesion">
-        <button class="CerrarSesionSi" onclick="cerrarSesion()">SI</button>
+        <button id="idBotonCerrarSesionSi" class="CerrarSesionSi" onclick="cerrarSesion()">SI</button>
         <button class="CerrarSesionNo" onclick="cerrarTodo()">NO</button>
 	</div>
 </div>
@@ -155,14 +155,14 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxNuevaRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarDlgboxNuevaRampa()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Nueva Rampa</p></div>
     <div class="dlg-bodyNuevaRampa dlg-body">
 		<form>
-			<input id="tieneRampaA" type="checkbox" onChange="tieneRampaCheck('A') "><label>Tiene Rampa.</label></input><br>
-			<input id="buenEstadoA" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
-			<input id="crucesAccesiblesA" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+			<input id="tieneRampaA" type="checkbox" onChange="tieneRampaCheck('A') " onkeypress="apretarEnter(event,'idBotonAltaRampa','buenEstadoA')"><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoA" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonAltaRampa','crucesAccesiblesA')"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesA" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonAltaRampa','sesion')"><label>Rampas en todas las esquinas.</label></input><br>
 
 		</form>	
 	</div>
     <div class="dlg-footer dlg-footerNuevaRampa">
-		<button onclick="altaRampa()">Agregar</button>
+		<button id="idBotonAltaRampa" onclick="altaRampa()">Agregar</button>
 		<button onclick="cerrarDlgboxNuevaRampa()">Cancelar</button>
 	</div>
 </div>
@@ -170,13 +170,13 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxModificarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Modificar Rampa</p></div>
     <div class="dlg-bodyModificarRampa dlg-body">
 		<form>
-			<input id="tieneRampaM" type="checkbox" onChange="tieneRampaCheck('M') "><label>Tiene Rampa.</label></input><br>
-			<input id="buenEstadoM" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
-			<input id="crucesAccesiblesM" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+			<input id="tieneRampaM" type="checkbox" onChange="tieneRampaCheck('M') " onkeypress="apretarEnter(event,'idBotonModificarRampa','buenEstadoM')"><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoM" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonModificarRampa','crucesAccesiblesM')"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesM" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonModificarRampa','sesion')"><label>Rampas en todas las esquinas.</label></input><br>
 		</form>	
 	</div>
     <div class="dlg-footer dlg-footerModificarRampa">
-		<button onclick="modRampa()">Modificar</button>
+		<button id="idBotonModificarRampa" onclick="modRampa()">Modificar</button>
 		<button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
@@ -184,15 +184,15 @@
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Reportar Rampa</p></div>
     <div class="dlg-bodyReportarRampa dlg-body">
 	<form>
-			<input id="tieneRampaR" type="checkbox" onChange="tieneRampaCheck('R') "><label>Tiene Rampa.</label></input><br>
-			<input id="buenEstadoR" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
-			<input id="crucesAccesiblesR" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
+			<input id="tieneRampaR" type="checkbox" onChange="tieneRampaCheck('R') " onkeypress="apretarEnter(event,'idBotonReportarRampa','buenEstadoR')"><label>Tiene Rampa.</label></input><br>
+			<input id="buenEstadoR" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonReportarRampa','crucesAccesiblesR')"><label>Rampas en Buen estado.</label></input><br>
+			<input id="crucesAccesiblesR" type="checkbox" disabled="true" onkeypress="apretarEnter(event,'idBotonReportarRampa','sesion')"><label>Rampas en todas las esquinas.</label></input><br>
 		</form>	
 			<label>Motivo: </label>
 			<input id="motivoPersonalizado"  type="text" placeholder="Descripcion" ></input>
 	</div>
     <div class="dlg-footer dlg-footerReportarRampa">
-		<button onclick="repRampa()">Reportar</button>
+		<button id="idBotonReportarRampa" onclick="repRampa()">Reportar</button>
 		<button onclick="cerrarTodo()">Cancelar</button>
 	</div>
 </div>
@@ -202,7 +202,7 @@
 	<p>¿Está seguro que <br>desea eliminar la Rampa?</p>
 	</div>
     <div class="dlg-footer dlg-footerEliminarRampa">
-        <button onclick="botonEliminarRampa()">SI</button>
+        <button id="idBotonEliminarRampa" onclick="botonEliminarRampa()">SI</button>
         <button onclick="cerrarTodo()">NO</button>
 	</div>
 </div>
@@ -212,7 +212,7 @@
 		<p id="textAlerta"></P>
 	</div>
     <div class="dlg-footer dlg-footerAlerta">
-		<button onclick="cerrardlgboxAlerta()">Aceptar</button>
+		<button id="idBotonAlerta" onclick="cerrardlgboxAlerta()">Aceptar</button>
 	</div>
 </div>
 <div id="dlgboxAlertaCompartir" class="dlgbox dlgboxAlerta no_seleccion" >
@@ -221,7 +221,7 @@
 		<p id="textAlertaCompartir"></P>
 	</div>
     <div class="dlg-footer dlg-footerAlerta">
-		<button class="facebook" onclick="compartirFacebook()">Compartir</button>
+		<button id="idBotonAlertaCompartir" class="facebook" onclick="compartirFacebook()">Compartir</button>
 		<button onclick="cerrardlgboxAlertaCompartir()">Aceptar</button>
 	</div>
 </div>
@@ -236,20 +236,20 @@
 			<tr><td><label>Confirmar<br>Contraseña:</label></td></tr>
 		</table>
 		<table id="formModificar">
-			 <tr><td><input id="nombreM" type="text" name="nombre" placeholder="Nombre"
+			 <tr><td><input id="nombreM" type="text" name="nombre" placeholder="Nombre" onkeypress="apretarEnter(event,'idBotonModificar','apellidoM')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarNombre(val)) return 'El nombre es invalido'; else return ''; }}"></input></td></tr>      
-			<tr><td><input id="apellidoM" type="text" name="apellido" placeholder="Apellido"
+			<tr><td><input id="apellidoM" type="text" name="apellido" placeholder="Apellido" onkeypress="apretarEnter(event,'idBotonModificar','pass1M')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarApellido(val)) return 'El apellido es invalido'; else return ''; }}"></input></td></tr>
 			 <tr><td><input id="emailM" type="email" name="email" placeholder="Email"  disabled="true"
 				jVal="{valid:function (val) { if (registroModificacionErrores) return validacionMail(val,unUsuario.id); else return '';}}"></input></td></tr>
-			 <tr><td><input id="pass1M" type="password" placeholder="Contraseña"
+			 <tr><td><input id="pass1M" type="password" placeholder="Contraseña" onkeypress="apretarEnter(event,'idBotonModificar','pass2M')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña(val)) return false; else return true;}, message: 'La contraseña debe tener minimo 8 caracteres'}"></input></td></tr>
-			 <tr><td><input id="pass2M" type="password" placeholder="Contraseña"
+			 <tr><td><input id="pass2M" type="password" placeholder="Contraseña" onkeypress="apretarEnter(event,'idBotonModificar','nombreM')"
 				jVal="{valid:function (val) { if (registroModificacionErrores && !verificarContraseña2(val, eval('$(\'#pass1M\').val()') )) return 'Las contraseñas no coinciden'; else return ''; }}"></input></td></tr>		
 		</table>
 	</div>
     <div class="dlg-footer dlg-footerModificarUsuario">
-		<button onclick="registroModificacionErrores=true; if ( $('#formModificar').jVal({style:'pod',padding:3,border:1,wrap:true}) ) modificarMail();">Modificar</button>
+		<button id="idBotonModificar" onclick="registroModificacionErrores=true; if ( $('#formModificar').jVal({style:'pod',padding:3,border:1,wrap:true}) ) modificarMail();">Modificar</button>
 		<button onclick="cerrarModificar()">Cancelar</button>
 	</div>
 </div>

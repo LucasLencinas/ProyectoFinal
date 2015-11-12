@@ -31,6 +31,7 @@ function showdlgboxIniciar(){
 	var dlgboxIniciar = document.getElementById("dlgboxIniciar");
 	whitebg.style.display = "block";
 	dlgboxIniciar.style.display = "block";
+	document.getElementById("idBotonIniciarMail").focus();
 	centrar(dlgboxIniciar);
 }
 function showdlgboxRegistro(){
@@ -38,6 +39,7 @@ function showdlgboxRegistro(){
 	var dlgboxRegistro = document.getElementById("dlgboxRegistro");
 	whitebg.style.display = "block";
 	dlgboxRegistro.style.display = "block";
+	document.getElementById("idBotonRegistrarMail").focus();
 	centrar(dlgboxRegistro);
 }
 function showdlgboxRegistroMail(){
@@ -45,6 +47,7 @@ function showdlgboxRegistroMail(){
 	var dlgboxRegistroMail = document.getElementById("dlgboxRegistroMail");
 	dlgboxRegistro.style.display = "none";
 	dlgboxRegistroMail.style.display = "block";
+	document.getElementById("nombreR").focus();
 	centrar(dlgboxRegistroMail);
 }
 function showdlgboxIniciarMail(){
@@ -52,6 +55,7 @@ function showdlgboxIniciarMail(){
 	var dlgboxIniciarMail = document.getElementById("dlgboxIniciarMail");
 	dlgboxIniciar.style.display = "none";
 	dlgboxIniciarMail.style.display = "block";
+	document.getElementById("nombre").focus();
 	centrar(dlgboxIniciarMail);
 }
 function showdlgboxCerrarSesion(){
@@ -59,6 +63,7 @@ function showdlgboxCerrarSesion(){
 	var dlgboxCerrarSesion = document.getElementById("dlgboxCerrarSesion");
 	whitebg.style.display = "block";
 	dlgboxCerrarSesion.style.display = "block";
+	document.getElementById("idBotonCerrarSesionSi").focus();
 	centrar(dlgboxCerrarSesion);
 }
 function showdlgboxeliminarUsuarios(){
@@ -82,6 +87,7 @@ function showdlgboxNuevaRampa(latLng){
 	var dlgboxNuevaRampa = document.getElementById("dlgboxNuevaRampa");
 ubicacion=latLng;	
 	dlgboxNuevaRampa.style.display = "block";
+	document.getElementById("tieneRampaA").focus();
 	centrar(dlgboxNuevaRampa);
 }
 function cerrarDlgboxNuevaRampa(){
@@ -96,6 +102,7 @@ function showdlgboxModificarRampa(marcador){
 	tieneRampaCheck('M');
 ubicacion=marcador;	//GLOBAL
 	dlgboxModificarRampa.style.display = "block";
+	document.getElementById("tieneRampaM").focus();
 	centrar(dlgboxModificarRampa);
 }
 function showdlgboxAlerta(mensaje,titulo){
@@ -108,6 +115,7 @@ function showdlgboxAlerta(mensaje,titulo){
 	var dlgboxAlerta = document.getElementById("dlgboxAlerta");
 	dlgboxAlerta.style.display = "block";
 	centrar(dlgboxAlerta);
+	setTimeout(function(){document.getElementById("idBotonAlerta").focus();}, 100);//Para esperar a que cargue lo otro primero
 }
 function alerta(mensaje,titulo){
 	showdlgboxAlerta(mensaje,titulo);
@@ -126,6 +134,7 @@ function showdlgboxAlertaCompartir(mensaje,titulo){
 	var dlgboxAlerta = document.getElementById("dlgboxAlertaCompartir");
 	dlgboxAlerta.style.display = "block";
 	centrar(dlgboxAlerta);
+		document.getElementById("idBotonAlertaCompartir").focus();
 }
 function alertaCompartir(mensaje,titulo){
 	showdlgboxAlertaCompartir(mensaje,titulo);
@@ -153,6 +162,7 @@ function showdlgboxEliminarRampa(marcador){
 	var dlgboxEliminarRampa = document.getElementById("dlgboxEliminarRampa");
 	whitebg.style.display = "block";
 	dlgboxEliminarRampa.style.display = "block";
+	document.getElementById("idBotonEliminarRampa").focus();
 	centrar(dlgboxEliminarRampa);
 	ubicacion=marcador;	//GLOBAL
 }
@@ -174,6 +184,7 @@ function showdlgboxReportarRampa(marcador){
 	tieneRampaCheck('R');
 	ubicacion=marcador;	//GLOBAL
 	document.getElementById("motivoPersonalizado").value = "";
+	document.getElementById("tieneRampaR").focus();
 	centrar(dlgboxReportarRampa);
 }
 /*
@@ -608,3 +619,11 @@ google.maps.event.addListener(infowindow, 'domready', function() {//Elimina elem
 		$(this).css({opacity: '1'});
 	});
 });
+/*-----------------Enter--------------------------*/
+function apretarEnter(event,idboton,proximoIdFocus) {
+    var char = event.which || event.keyCode;
+    if (char == 13){
+		document.getElementById(idboton).click();
+		document.getElementById(proximoIdFocus).focus();// esto es para que este activado para el enter otro boton
+		}	
+}
