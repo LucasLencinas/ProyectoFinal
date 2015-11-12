@@ -102,25 +102,31 @@ function modificarRampaa(rampa){
 
 /** ----- REPORTAR RAMPA ----- **/
 function repRampa(){
-	cerrarTodo();
 	var rampa = {};
 	var marcador = ubicacion;
 	rampa = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
 	if(rampa.reportes=="Nueva")//ESTO SE DEBERIA HACER CUANDO SE CARGA EN LA BASE DE DATOS
 		rampa.reportes=JSON.stringify([{"autor": "Mas Rampas","rampa": {"tieneRampas":false,"crucesAccesibles":false,"buenEstado":false},"modificada": false,"comentario":"Nueva" }]);	
 	var mt = $("#motivoPersonalizado").prop("value");
-	if (mt=="")
-		mt="Sin Comentarios";
 	var tieneRampas = document.getElementById("tieneRampaR").checked;
 	var crucesAccesibles = document.getElementById("crucesAccesiblesR").checked;
 	var buenEstado = document.getElementById("buenEstadoR").checked;
 	var autor = unUsuario.nombre + " " + unUsuario.apellido;
-	var reportes = JSON.parse(rampa.reportes);
-	reportes[reportes.length]={"autor": autor,"rampa": {"tieneRampas":tieneRampas,"crucesAccesibles":crucesAccesibles,"buenEstado":buenEstado},"modificada": false,"comentario":mt };
-	rampa.reportes = JSON.stringify(reportes);
-	rampa.reportada = true;
-	reportarRampaa(rampa);
-	actualizarMarcadorRampa(marcador,rampa,true);
+	if(tieneRampas ||(mt!="")){
+		if (mt=="")
+			mt="Sin Comentarios";
+		cerrarTodo();
+		var reportes = JSON.parse(rampa.reportes);
+		reportes[reportes.length]={"autor": autor,"rampa": {"tieneRampas":tieneRampas,"crucesAccesibles":crucesAccesibles,"buenEstado":buenEstado},"modificada": false,"comentario":mt };
+		rampa.reportes = JSON.stringify(reportes);
+		rampa.reportada = true;
+		reportarRampaa(rampa);
+		actualizarMarcadorRampa(marcador,rampa,true);
+	}
+	else {
+		alerta("Por favor marque alguna opción y/o complete el motivo del reporte","Disculpe");
+	}
+	
 }
 
 function reportarRampaa(rampa){
