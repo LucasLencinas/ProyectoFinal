@@ -166,30 +166,24 @@ function botonEliminarRampa(){
 	marcador.setMap(null);
 }
 function showdlgboxReportarRampa(marcador){
-var motivos= [{"nombre":"Rampa Rota"},{"nombre":"Mal estado"},{"nombre":"No existe rampa"},{"nombre":"Obstaculo"},{"nombre":"Otros"}]
-	var dlgboxReportarRampa = document.getElementById("dlgboxReportarRampa");
-					if(!document.getElementById("selectMotivo").length)
-					$.each(motivos, function (index, value) {
-					$("#selectMotivo").append($('<option/>', { 
-						value: value.nombre,
-						text : value.nombre 
-					}).data("stringCoordenadas", value.limites)/*Una negrada para asociarle el limite al option de cada select.*/);
-				});
+	var dlgboxReportarRampa = document.getElementById("dlgboxReportarRampa");					
 	dlgboxReportarRampa.style.display = "block";
-//	document.getElementById("tieneRampaR").checked=marcador.tieneRampas;
-//	document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
-//	document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
-//	tieneRampaCheck('R');
+	document.getElementById("tieneRampaR").checked=marcador.tieneRampas;
+	document.getElementById("crucesAccesiblesR").checked=marcador.crucesAccesibles;
+	document.getElementById("buenEstadoR").checked=checked=marcador.buenEstado;
+	tieneRampaCheck('R');
 	ubicacion=marcador;	//GLOBAL
 	document.getElementById("motivoPersonalizado").value = "";
 	centrar(dlgboxReportarRampa);
 }
+/*
 function activarPersonalizada(){
 	var motivoPersonalizado = document.getElementById("motivoPersonalizado");
 	if($("#selectMotivo").prop("value")=="Otros")
 		motivoPersonalizado.style.display="block"
 		else motivoPersonalizado.style.display="none";
 }
+*/
 function tieneRampaCheck(accion){ //Modificar(M) Alta(A) Reportar(R)
 	var crucesAccesibles = document.getElementById("crucesAccesibles"+accion);
 	var buenEstado = document.getElementById("buenEstado"+accion);
@@ -324,6 +318,7 @@ function finMovimiento(event){
 }
 //Esto es para hacer click con el celular y que se muestre/oculte.. 
 function  showSesion() {
+
 	var lista = document.getElementById("lista");
 	if (	lista.style.display == "block")
 		lista.style.display = "";
@@ -334,6 +329,7 @@ function hideSesion(){
 }
 //Iniciar Sesion
 function iniciarSesion(){
+	console.log("adentro de iniciar sesion");
 	var nombre = document.getElementById("nombre").value;
 	var pass = document.getElementById("pass").value;
 	if(autenticar(nombre,pass)){

@@ -124,7 +124,7 @@
 		</form>
 	</div>
     <div class="dlg-footer dlg-footerIniciarMail">
-        <button onclick="iniciarSesion()">Iniciar</button>
+        <button id="iniciarSesion2" onclick="iniciarSesion()">Iniciar</button>
         <button onclick="cerrarDlgboxIniciarMail()">Cancelar</button>
 	</div>
 </div>
@@ -183,13 +183,13 @@
 <div id="dlgboxReportarRampa" class="dlgbox dlgboxReportarRampa no_seleccion" >
     <div class="dlg-header"onmousedown="comienzoMovimiento(event, 'dlgboxReportarRampa');" onMouseOver="this.style.cursor='move'"><a href="#close" onclick="cerrarTodo()"><img src="imagen/cerrar.png"/ onmouseover="this.src='imagen/cerrar_hover.png'" onmouseout="this.src='imagen/cerrar.png'"></a><p align="center">Reportar Rampa</p></div>
     <div class="dlg-bodyReportarRampa dlg-body">
-<!--	<form>
+	<form>
 			<input id="tieneRampaR" type="checkbox" onChange="tieneRampaCheck('R') "><label>Tiene Rampa.</label></input><br>
 			<input id="buenEstadoR" type="checkbox" disabled="true"><label>Rampas en Buen estado.</label></input><br>
 			<input id="crucesAccesiblesR" type="checkbox" disabled="true"><label>Rampas en todas las esquinas.</label></input><br>
 		</form>	
--->			<label>Motivo: </label><select  id="selectMotivo" onChange="activarPersonalizada()"></select><br>
-			<input id="motivoPersonalizado"  type="text" placeholder="Otro motivo:" style="display:none"></input>
+			<label>Motivo: </label>
+			<input id="motivoPersonalizado"  type="text" placeholder="Descripcion" ></input>
 	</div>
     <div class="dlg-footer dlg-footerReportarRampa">
 		<button onclick="repRampa()">Reportar</button>

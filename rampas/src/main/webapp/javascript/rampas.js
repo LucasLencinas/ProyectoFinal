@@ -108,14 +108,12 @@ function repRampa(){
 	rampa = bru(ubicacion.getPosition().lat(),ubicacion.getPosition().lng()); //Esto es variable Global ID
 	if(rampa.reportes=="Nueva")//ESTO SE DEBERIA HACER CUANDO SE CARGA EN LA BASE DE DATOS
 		rampa.reportes=JSON.stringify([{"autor": "Mas Rampas","rampa": {"tieneRampas":false,"crucesAccesibles":false,"buenEstado":false},"modificada": false,"comentario":"Nueva" }]);	
-	var mt =$("#selectMotivo").prop("value");
-	if (mt=="Otros")
-		mt = $("#motivoPersonalizado").prop("value");
+	var mt = $("#motivoPersonalizado").prop("value");
 	if (mt=="")
 		mt="Sin Comentarios";
-	var tieneRampas = false; //document.getElementById("tieneRampaR").checked;
-	var crucesAccesibles = false; //document.getElementById("crucesAccesiblesR").checked;
-	var buenEstado = false; //document.getElementById("buenEstadoR").checked;
+	var tieneRampas = document.getElementById("tieneRampaR").checked;
+	var crucesAccesibles = document.getElementById("crucesAccesiblesR").checked;
+	var buenEstado = document.getElementById("buenEstadoR").checked;
 	var autor = unUsuario.nombre + " " + unUsuario.apellido;
 	var reportes = JSON.parse(rampa.reportes);
 	reportes[reportes.length]={"autor": autor,"rampa": {"tieneRampas":tieneRampas,"crucesAccesibles":crucesAccesibles,"buenEstado":buenEstado},"modificada": false,"comentario":mt };
