@@ -103,10 +103,10 @@ function setearListenerParaContextMenu(latLng, eventName){
 				  if (results[0]) {
 					$("#inputDesde").val(results[0].formatted_address);
 				  } else {
-					window.alert('No results found');
+					alerta("No se encontraron resultados","Sin Resultados");
 				  }
 				} else {
-				  window.alert('Geocoder failed due to: ' + status);
+				  alerta("Hubo un fallo en los mapas de Google","Falla");
 				}
 			});
 
@@ -121,10 +121,10 @@ function setearListenerParaContextMenu(latLng, eventName){
 				  if (results[0]) {
 					$("#inputHasta").val(results[0].formatted_address);
 				  } else {
-					window.alert('No results found');
+					alerta("No se encontraron resultados","Sin Resultados");
 				  }
 				} else {
-				  window.alert('Geocoder failed due to: ' + status);
+				  alerta("Hubo un fallo en los mapas de Google","Falla");
 				}
 			});
 			
@@ -313,10 +313,10 @@ function rellenarInfoWindow(unInfoWindow, marcador){
         marcador.stringDireccion = results[0].formatted_address;
 		unInfoWindow.setContent(armarContenidoDelInfoWindows(marcador));
       } else {
-        alert('No results found');
+        alerta("No se encontraron resultados","Sin Resultados");
       }
     } else {
-      alert('Geocoder failed due to: ' + status);
+      alerta("Hubo un fallo en los mapas de Google","Falla");
     }
   });
 }
