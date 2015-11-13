@@ -167,7 +167,7 @@
 	background:#549e18;
 }
 .dlg-footerCerrarSesion .CerrarSesionNo{
-	background:#fe0000;
+	background:rgba(255,0,0,0.5);
 }
 /*--AdmTask--*/
 .dlgboxeliminarUsuarios{

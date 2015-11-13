@@ -128,11 +128,14 @@ header .detalle{
 	background:#d5d5d5;
 	border:0px;
 	font-size:17px;
-	margin:55px 0 0 5%;
+	margin:5px 0 10px 5%;
 	width:87%;
-	height:calc(100% - 290px);
+	height:calc(80px);
 	padding:10px 0px 0px 10px;
 	overflow: auto;
+}
+.textareaBarrios{
+	margin:15px 18px;
 }
 #selectBarrios {
     padding:3px;
@@ -235,6 +238,9 @@ header .detalle{
 	.accesosRapidos a{
 	margin:0 5px;
 	}
+	.textarea{
+	width:83%;
+	}
 /*--BarraLateral--*/
 #selectBarrios {
 	width:90%;
@@ -244,23 +250,26 @@ header .detalle{
 	margin-top:5px;
 	padding: 0px 5px;
 }
+.textareaBarrios{
+	margin:15px 10px;
+}
 /*--Fin_BarraLateral--*/
 }
-@media screen and (max-height:400px){
+@media screen and (max-height:468px){
 /*--BarraLateral--*/
 .detalle  #inputDesde,.detalle #inputHasta{
-	margin:15px auto;
+	margin:10px auto;
 	width:90%;
-	height:30px;
+	height:25px;
 }
 .detalle input[type="submit"]{
 	height:25px;
 }
-.textarea{
-	margin:15px 0 0 5%;
-	width:87%;
-	min-height:calc(100% - 175px);
-	max-height:calc(100% - 175px);
+#idBotonCalcularRutas{
+	margin:5px auto;
+}
+.textareaBarrios{
+	margin:3px 15px;
 }
 #selectBarrios {
 	width:90%;
@@ -271,6 +280,11 @@ header .detalle{
 	padding: 0px 5px;
 }
 /*--Fin_BarraLateral--*/
+}
+@media screen and (max-height:350px){
+	.textareaBarrios  {
+		display:none;
+	}
 }
 
 form input{

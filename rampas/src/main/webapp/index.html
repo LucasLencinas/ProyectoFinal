@@ -54,9 +54,14 @@
 							<input id="idBotonCalcularRutas" onclick="calcularRutas()" type="button" style="cursor:pointer" value="Consultar"></input> 
 						</form>
 						<div class="textarea">
-							<select id="selectBarrios"></select>
-							<button id="buttonBarrios"onclick="buscarRampasPorBarrio()">Buscar</button>
 							<div id="checkboxes"></div>
+						</div>
+						<hr style="color: #000000;">
+						<div class="textareaBarrios">
+							<label>Rampas por Barrios</label>
+							<br>
+							<select id="selectBarrios" onChange="cambiarBotonBuscar()"></select>
+							<button id="buttonBarrios"onclick="buscarRampasPorBarrio()">Buscar</button>
 						</div>
 					</div>
 				</div>

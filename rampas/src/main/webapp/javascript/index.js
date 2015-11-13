@@ -166,6 +166,8 @@ function buscarRampasPorBarrio(){
 		    success: function(rampas){
 			  ocultarLoading();
 		      mostraMarcadoresDelBarrio(barriosDelSelect[barrioElegido].limites,rampas);
+			  document.getElementById('buttonBarrios').onclick =limpiarMapaBarrios;
+			  document.getElementById('buttonBarrios').innerHTML = "Limpiar";
 		    },
 			complete:function (){
 				ocultarLoading();
@@ -610,4 +612,13 @@ function limpiarMapa(){
 		latlngbounds.extend(  new google.maps.LatLng(-34.650316, -58.533205));//Para centrar (2)
 		map.setCenter(latlngbounds.getCenter());//Zoom para centrar (3)
 		map.setZoom(12);//Zoom
+}
+function limpiarMapaBarrios(){
+	limpiarMapa();
+	document.getElementById('buttonBarrios').onclick =buscarRampasPorBarrio;
+	document.getElementById('buttonBarrios').innerHTML = "Buscar";
+}
+function cambiarBotonBuscar(){
+	document.getElementById('buttonBarrios').onclick =buscarRampasPorBarrio;
+	document.getElementById('buttonBarrios').innerHTML = "Buscar";
 }
