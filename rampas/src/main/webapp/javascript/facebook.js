@@ -96,7 +96,7 @@ function compartirFacebook(){
 	cerrardlgboxAlertaCompartir();
 	FB.ui({
 		method: 'feed',
-		picture:'https://raw.githubusercontent.com/LucasLencinas/Rampas/master/rampas/src/main/webapp/imagen/logo.png',
+		picture:'https://raw.githubusercontent.com/LucasLencinas/Rampas/master/rampas/src/main/webapp/imagen/logo.jpg',
 		caption:'Senitag Desarrollos Informáticos.',
 		description:'Una aplicación colaborativa para el uso de rampas con sillas de ruedas.',
 		link:'http://masrampas.appspot.com/',
