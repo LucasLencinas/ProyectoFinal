@@ -15,7 +15,7 @@ Web Application in which people in wheelchair could locate curb ramps on a map a
  - Gson
  - jUnit
  - jQuery
- - HTML/jQuery
+ - HTML/CSS
  - Bootstrap
  - Google Maps API
  - Facebook API
