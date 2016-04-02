@@ -1,5 +1,5 @@
 ## [masrampas](http://masrampas.appspot.com) - University Project
-> Final Project - System Engineer Degree.
+> Final Project - Systems Engineering degree.
 
 Web Application in which people in wheelchair could locate curb ramps on a map and then ask for a route from one place to another depending on their existence along a possible way. 
 
